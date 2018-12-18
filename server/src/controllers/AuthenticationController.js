@@ -1,5 +1,13 @@
 // Model
-let User = require('../models/User')
+const User = require('../models/User')
+const jwt = require('jsonwebtoken')
+
+function jwtSignUser(user) {
+    const ONE_WEEK = 60 * 60 * 24 * 7
+    return jwt.sign(user, process.env.JWT_SECRET || 'secret', {
+        expiresIn: ONE_WEEK
+    })
+}
 
 module.exports = {
     login(req, res) {
@@ -7,10 +15,11 @@ module.exports = {
             // success
             .then(user =>
                 res.send({
-                    user: user
+                    user: user,
+                    token: jwtSignUser(user)
                 }))
             // error
-            .catch(err => res.status(400).send({error: err}))
+            .catch(err => res.status(400).send({error: "Invalid username or password"}))
     },
     register(req, res) {
         // create user
@@ -21,6 +30,6 @@ module.exports = {
                     user: user
                 }))
             // error
-            .catch(err => res.status(400).send({error: err}))
+            .catch(err => res.status(400).send({error : "Username is already taken"}))
     }
 }

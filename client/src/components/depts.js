@@ -1,0 +1,1 @@
+export default ["CS", "ME", "BIOL", "PHYS", "CHEM", "COMM", "CE"]

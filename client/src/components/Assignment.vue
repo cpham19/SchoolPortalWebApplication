@@ -8,7 +8,6 @@
 <script>
 import AssignmentService from "@/services/AssignmentService";
 import Router from "vue-router";
-import {store} from '../store/store.js'
 
 export default {
   name: "Assignment",
@@ -18,12 +17,18 @@ export default {
     };
   },
   mounted() {
-     this.fetchAssignment();
+     this.fetchAssignment(),
+     this.checkLoggedIn()
   },
   methods: {
     async fetchAssignment() {
       const response = await AssignmentService.fetchAssignment();
       this.status = response.data;
+    },
+    checkLoggedIn() {
+      if (!(this.$store.state.isUserLoggedIn)) {
+        this.$router.push("/")
+      }
     }
   }
 };

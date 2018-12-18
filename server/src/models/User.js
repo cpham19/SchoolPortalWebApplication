@@ -1,5 +1,4 @@
-const
-    Mongoose = require('mongoose'),
+const Mongoose = require('mongoose'),
     { generateHash, validatePassword } = require('./validate')
 
 // Schema for User 

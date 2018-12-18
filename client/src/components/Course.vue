@@ -1,30 +1,35 @@
 <template>
   <div>
     <h1>Course Page</h1>
-    {{ status }}
+    <course-drawer />
   </div>
 </template>
 
 <script>
 import CourseService from "@/services/CourseService";
 import Router from "vue-router";
-import {store} from '../store/store.js'
+
+import CourseDrawer from "@/components/CourseDrawer.vue";
 
 export default {
   name: "Course",
   data() {
     return {
-      status: ""
+      
     };
   },
   mounted() {
-     this.fetchCourse();
+    this.checkLoggedIn()
   },
   methods: {
-    async fetchCourse() {
-      const response = await CourseService.fetchCourse();
-      this.status = response.data;
+    checkLoggedIn() {
+      if (!this.$store.state.isUserLoggedIn) {
+        this.$router.push("/");
+      }
     }
+  },
+  components: {
+    "course-drawer": CourseDrawer
   }
 };
 </script>

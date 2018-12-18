@@ -28,7 +28,7 @@ module.exports = {
                     })
                     break
                 case 'lastName':
-                    res.send({
+                    res.status(400).send({
                         error: 'You must provide a valid last name'
                     })
                     break
