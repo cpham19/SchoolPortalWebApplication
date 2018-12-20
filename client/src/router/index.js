@@ -3,13 +3,19 @@ import Router from 'vue-router'
 import Login from '@/components/Login'
 import Register from '@/components/Register'
 import Home from '@/components/Home'
-import Course from '@/components/Course'
-import CourseSearch from '@/components/CourseSearch'
-import CourseAdd from '@/components/CourseAdd'
-import CourseRemove from '@/components/CourseRemove'
-import CourseEdit from '@/components/CourseEdit'
-import CourseDrop from '@/components/CourseDrop'
-import Assignment from '@/components/Assignment'
+
+import Course from '@/components/course/Course'
+import CourseSearch from '@/components/course/CourseSearch'
+import CourseAdd from '@/components/course/CourseAdd'
+import CourseRemove from '@/components/course/CourseRemove'
+import CourseEdit from '@/components/course/CourseEdit'
+import CourseToEdit from '@/components/course/CourseToEdit'
+import CourseDrop from '@/components/course/CourseDrop'
+
+import Assignment from '@/components/assignment/Assignment'
+import AssignmentAdd from '@/components/assignment/AssignmentAdd'
+import AssignmentView from '@/components/assignment/AssignmentView'
+import AssignmentEdit from '@/components/assignment/AssignmentEdit'
 
 Vue.use(Router)
 
@@ -57,6 +63,11 @@ export default new Router({
             component: CourseEdit
         },
         {
+            path: '/course/edit/:courseId',
+            name: 'CourseToEdit',
+            component: CourseToEdit
+        },
+        {
             path: '/course/drop',
             name: 'CourseDrop',
             component: CourseDrop
@@ -65,6 +76,21 @@ export default new Router({
             path: '/assignment',
             name: 'Assignment',
             component: Assignment
-        }
+        },
+        {
+            path: '/assignment/add/:courseId',
+            name: 'AssignmentAdd',
+            component: AssignmentAdd
+        },
+        {
+            path: '/assignment/:assignmentId',
+            name: 'AssignmentView',
+            component: AssignmentView
+        },
+        {
+            path: '/assignment/edit/:assignmentId',
+            name: 'AssignmentEdit',
+            component: AssignmentEdit
+        },
     ]
 })

@@ -10,10 +10,6 @@ export default new Vuex.Store({
         user: null,
         token: null,
         isUserLoggedIn: false,
-        courses: null,
-        assignments: null,
-        threads: null,
-        replies: null,
     },
     mutations: {
         setUser(state, user) {
@@ -22,6 +18,15 @@ export default new Vuex.Store({
         setToken(state, token) {
             state.token = token
             state.isUserLoggedIn = !!(token)
+        },
+        enrollCourse(state, courseId) {
+            state.user.courses.push(courseId)
+        },
+        removeCourse(state, courseId) {
+            state.user.courses = state.user.courses.filter(id => !(id === courseId))
+        },
+        dropCourse(state, courseId) {
+            state.user.courses = state.user.courses.filter(id => !(id === courseId))
         }
     },
     actions: {
@@ -31,6 +36,15 @@ export default new Vuex.Store({
         setToken({commit}, token) {
             // Call setToken and pass token object
             commit('setToken', token)
+        },
+        enrollCourse({commit}, courseId) {
+            commit("enrollCourse", courseId)
+        },
+        removeCourse({commit}, courseId) {
+            commit("removeCourse", courseId)
+        },
+        dropCourse({commit}, courseId) {
+            commit("dropCourse", courseId)
         }
     }
 })

@@ -6,14 +6,14 @@
     <v-layout column>
       <v-flex xs3 offset>
         <v-form>
-          <v-select :items="depts" v-model="courseDept" label="department" outline></v-select>
-          <v-text-field v-model="courseName" label="course name" type="text" outline></v-text-field>
-          <v-text-field v-model="courseNumber" label="course number" type="text" outline></v-text-field>
-          <v-text-field v-model="courseSection" label="course section" type="text" outline></v-text-field>
-          <v-text-field v-model="courseDescription" label="course description" type="text" outline></v-text-field>
-          <v-text-field v-model="courseUnit" label="course unit" type="text" outline></v-text-field>
-          <v-text-field v-model="courseProf" label="course professor" type="text" outline></v-text-field>
-          <v-text-field v-model="courseRoom" label="course room" type="text" outline></v-text-field>
+          <v-select :items="depts" v-model="courseDept" label="department" required :rules="[required]" outline></v-select>
+          <v-text-field v-model="courseName" label="course name" type="text" required :rules="[required]" outline></v-text-field>
+          <v-text-field v-model="courseNumber" label="course number" type="text" required :rules="[required]" outline></v-text-field>
+          <v-text-field v-model="courseSection" label="course section" type="text" required :rules="[required]" outline></v-text-field>
+          <v-text-field v-model="courseDescription" label="course description" type="text" required :rules="[required]" outline></v-text-field>
+          <v-text-field v-model="courseUnit" label="course unit" type="text" required :rules="[required]" outline></v-text-field>
+          <v-text-field v-model="courseProf" label="course professor" type="text" required :rules="[required]" outline></v-text-field>
+          <v-text-field v-model="courseRoom" label="course room" type="text" required :rules="[required]" outline></v-text-field>
         </v-form>
         <div class="success" v-show="successfulAdd">Course has been successfully added!</div>
         <div class="failed" v-show="failedAdd">{{error}}</div>
@@ -28,7 +28,7 @@
 <script>
 import CourseService from "@/services/CourseService";
 import Router from "vue-router";
-import CourseDrawer from "@/components/CourseDrawer.vue";
+import CourseDrawer from "@/components/course/CourseDrawer.vue";
 import depts from "./depts"
 
 export default {
@@ -46,45 +46,42 @@ export default {
       courseRoom: "",
       failedAdd: false,
       successfulAdd: false,
+      required: (value) => !!value || 'Required Field',
       error: ""
     };
   },
-  mounted() {
+  mounted: function() {
     this.depts = depts,
     this.checkLoggedIn()
   },
   methods: {
-    checkLoggedIn() {
+    checkLoggedIn: function() {
       if (!this.$store.state.isUserLoggedIn) {
         this.$router.push("/");
       }
     },
-    discard() {
-      this.courseDept = ''
-      this.courseName = ''
-      this.courseNumber = ''
-      this.courseSection = ''
-      this.courseDescription = ''
-      this.courseUnit = ''
-      this.courseProf = ''
-      this.courseRoom = ''
+    discard: function() {
+      this.courseDept = ""
+      this.courseName = ""
+      this.courseNumber = ""
+      this.courseSection = ""
+      this.courseDescription = ""
+      this.courseUnit = ""
+      this.courseProf = ""
+      this.courseRoom = ""
     },
     async addCourse() {
-      if (!this.courseDept || !this.courseName.replace( /\s/g, '') || !this.courseNumber.replace( /\s/g, '') || !this.courseSection.replace( /\s/g, '') || !this.courseDescription.replace( /\s/g, '') || !this.courseUnit.replace( /\s/g, '') || !this.courseProf.replace( /\s/g, '') || !this.courseRoom.replace( /\s/g, '')) {
+      const course = {dept: this.courseDept, name: this.courseName, number: this.courseNumber, section: this.courseSection, description: this.courseDescription, unit: this.courseUnit, professor: this.courseProf, room: this.courseRoom}
+
+      if (!Object.keys(course).every(key => !!course[key])) {
         this.failedAdd = true
         this.successfulAdd = false
         this.error = "One or more of the fields are empty."
         return
       }
 
-      const course = {dept: this.courseDept, name: this.courseName, number: this.courseNumber, section: this.courseSection, description: this.courseDescription, unit: this.courseUnit, professor: this.courseProf, room: this.courseRoom}
-
       try {
         const response = await CourseService.addCourse(course)
-
-        console.log(response.data)
-
-        this.discard()
         this.failedAdd = false
         this.successfulAdd = true
         this.$router.push('/course/add')
@@ -94,7 +91,6 @@ export default {
         this.successfulAdd = false
         this.error = err.response.data.error
       }
-
     }
   },
   components: {

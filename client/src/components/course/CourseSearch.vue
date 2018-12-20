@@ -16,6 +16,7 @@
         <td>{{props.item.name}}</td>
         <td>{{props.item.unit}}</td>
         <td>{{props.item.professor}}</td>
+        <td><v-btn v-on:click="enrollCourse(props.item._id)" class="enroll" type="button">Enroll</v-btn></td>
       </template>
     </v-data-table>
   </div>
@@ -24,18 +25,21 @@
 <script>
 import CourseService from "@/services/CourseService";
 import Router from "vue-router";
-import CourseDrawer from "@/components/CourseDrawer.vue";
+import CourseDrawer from "@/components/course/CourseDrawer.vue";
 
 export default {
   name: "CourseSearch",
   data() {
     return {
-      headers: [{text: "Department", value: "dept"}, {text: "Number", value: "number"}, {text: "Section", value: "section"}, {text: "Name", value: "name"}, {text: "Unit", value: "unit"}, {text: "Professor", value: "professor"}],
+      headers: [{text: "Department", value: "dept"}, {text: "Number", value: "number"}, {text: "Section", value: "section"}, {text: "Name", value: "name"}, {text: "Unit", value: "unit"}, {text: "Professor", value: "professor"}, {text: "Action", value: "_id"}],
       depts: ["CS", "ME", "BIOL", "PHYS", "CHEM", "COMM", "CE"],
+      userName: "",
       courses: null,
       searchedCourses: [],
       dept: "",
-      number: ""
+      number: "",
+      failedEnroll: false,
+      error: ""
     };
   },
   mounted() {
@@ -62,15 +66,31 @@ export default {
 
       // Filter the search results based on the user's enrolled courses
       this.$store.state.user.courses.forEach(courseId => {
-        this.searchedCourses = this.searchedCourses.filter(course => !(courseId === course._id))
+        this.searchedCourses = this.searchedCourses.filter(course => !(course._id === courseId))
       })
+    },
+    async enrollCourse(courseId) {
+      const obj = {userName: this.userName, courseId: courseId}
+
+      try {
+        const response = await CourseService.enrollCourse(obj)
+        this.$store.dispatch('enrollCourse', response.data.courseId)
+        // Filter the search results based on the user's enrolled courses
+        this.$store.state.user.courses.forEach(courseId => {
+           this.searchedCourses = this.searchedCourses.filter(course => !(course._id === courseId))
+        })
+        this.$router.push("/course/search")
+      }
+      catch(err) {
+        console.log(err.response)
+      }
     },
     async fetchCourses() {
       const response = await CourseService.fetchCourses()
       this.courses = response.data.courses
-      this.searchedCourses = response.data.courses
+      this.userName = this.$store.state.user.userName
     },
-    checkLoggedIn() {
+    checkLoggedIn: function() {
       if (!this.$store.state.isUserLoggedIn) {
         this.$router.push("/");
       }
@@ -81,3 +101,9 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+.enroll {
+  color: green;
+}
+</style>

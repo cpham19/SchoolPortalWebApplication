@@ -9,7 +9,7 @@
 import CourseService from "@/services/CourseService";
 import Router from "vue-router";
 
-import CourseDrawer from "@/components/CourseDrawer.vue";
+import CourseDrawer from "@/components/course/CourseDrawer.vue";
 
 export default {
   name: "Course",

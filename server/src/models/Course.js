@@ -10,8 +10,6 @@ const CourseSchema = new Mongoose.Schema({
     unit: String,
     professor: String,
     room: String,
-    assignments: Array,
-    threads: Array
 }, { strict: false })
 
 const Course = Mongoose.model('courses', CourseSchema)
@@ -21,6 +19,8 @@ const listOfCourses = () => Course.find({ dept: { $ne: null } })
 
 // Used to check if a course exists already (based on dept, number, and section)
 const findCourseByDeptAndNumAndSection = (course) => Course.findOne({ dept: course.dept, number: course.number, section: course.section })
+
+const findCourseById = (courseId) => Course.findOne({ "_id": courseId })
 
 // Add course
 const addCourse = (course) => {
@@ -42,8 +42,6 @@ const addCourse = (course) => {
                 unit: course.unit,
                 professor: course.professor,
                 room: course.room,
-                assignments: [],
-                threads: []
             }
         })
         // Create course 
@@ -51,38 +49,17 @@ const addCourse = (course) => {
             return Course.create(course)
         })
 }
-
-// Enroll course for user
-const enrollCourse = (userName, courseId) => {
-    return User.findOneAndUpdate({ name: userName }, { "$push": { courses: courseId } })
-        .then(found => {
-            return courseId
-        })
-}
-
-// Drop course for user
-const dropCourse = (userName, courseId) => {
-    return User.findOneAndUpdate({ name: userName }, { '$pull': { courses: courseId } })
-        .then(found => {
-            return courseId
-        })
-}
-
 // Remove course
 const removeCourse = (courseId) => {
-    return Course.remove({ _id: courseId })
-        .then(obj => User.updateMany({}, { "$pull": { courses: courseId } }))
-        .then(obj => Assignment.remove({ courseId: courseId }))
-        .then(obj => Thread.remove({ courseId: courseId }))
-        .then(obj => {
-            return courseId
-        })
+    return Course.deleteOne({ "_id": courseId }).then(obj => {
+        return courseId
+    })
 }
 
 // Edit course
 const editCourse = (course) => {
-    return Course.findOneAndUpdate({ _id: course._id }, { "$set": { dept: course.dept, name: course.name, number: course.number, section: course.section, description: course.description, unit: course.unit, prof: course.prof, room: course.room }})
-    .then(obj => {
+    return Course.findOneAndUpdate({ _id: course._id }, { "$set": { dept: course.dept, name: course.name, number: course.number, section: course.section, description: course.description, unit: course.unit, professor: course.professor, room: course.room }})
+    .then(oldCourse => {
         return course
     })
 }
@@ -90,5 +67,7 @@ const editCourse = (course) => {
 module.exports = {
     listOfCourses,
     addCourse,
-    editCourse
+    removeCourse,
+    editCourse,
+    findCourseById
 }

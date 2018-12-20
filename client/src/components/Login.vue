@@ -4,8 +4,8 @@
       <img src="../assets/img/csula-logo.png" class="center" width="300px">
       <div class="col-lg-4 col-lg-offset-4">
         <v-form>
-          <v-text-field v-model="userName" label="username" type="text" outline></v-text-field>
-          <v-text-field v-model="password" label="password" type="password" outline></v-text-field>
+          <v-text-field v-model="userName" label="username" type="text" required :rules="[required]" outline></v-text-field>
+          <v-text-field v-model="password" label="password" type="password" required :rules="[required]" outline></v-text-field>
         </v-form>
         <div class="failed" v-show="failedLogin">{{error}}</div>
         <v-btn v-on:click="login()" :disabled="!userName || !password" class="btn-small waves-effect waves-light" type="button">Login</v-btn>
@@ -29,6 +29,7 @@ export default {
       userName: "",
       password: "",
       error: "",
+      required: (value) => !!value || 'Required Field',
       failedLogin: false
     };
   },
@@ -37,15 +38,12 @@ export default {
   },
   methods: {
     async login() {
+        const credentials = { userName: this.userName, password: this.password }
+
       // Reject if user doesn't put name or password
-      if (
-        !this.userName.replace(/\s/g, "") ||
-        !this.password.replace(/\s/g, "")
-      ) {
+      if (!Object.keys(credentials).every(key => !!credentials[key])) {
         return;
       }
-
-      const credentials = { userName: this.userName, password: this.password };
 
       try {
         const response = await AuthenticationService.login(credentials)

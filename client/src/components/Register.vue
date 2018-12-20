@@ -2,16 +2,16 @@
   <v-layout column>
       <v-flex xs3 offset>
           <v-form>
-            <v-text-field v-model="firstName" label="first name" type="text" outline></v-text-field>
-            <v-text-field v-model="lastName" label="last name" type="text" outline></v-text-field>
-            <v-text-field v-model="streetAddress" label="street address" type="text" outline></v-text-field>
-            <v-text-field v-model="city" label="city" type="text" outline></v-text-field>
-            <v-select :items="states" v-model="state" label="state" outline></v-select>
-            <v-text-field v-model="zipCode" label="zipCode" type="text" outline></v-text-field>
-            <v-text-field v-model="email" label="email address" type="text" outline></v-text-field>
-            <v-text-field v-model="phoneNumber" label="phone number" type="text" outline></v-text-field>
-            <v-text-field v-model="userName" label="username" type="text" outline></v-text-field>
-            <v-text-field v-model="password" label="password" type="password" outline></v-text-field>
+            <v-text-field v-model="firstName" label="first name" type="text" required :rules="[required]" outline></v-text-field>
+            <v-text-field v-model="lastName" label="last name" type="text" required :rules="[required]" outline></v-text-field>
+            <v-text-field v-model="streetAddress" label="street address" type="text" required :rules="[required]" outline></v-text-field>
+            <v-text-field v-model="city" label="city" type="text" required :rules="[required]" outline></v-text-field>
+            <v-select :items="states" v-model="state" label="state" required :rules="[required]" outline></v-select>
+            <v-text-field v-model="zipCode" label="zipCode" type="text" required :rules="[required]" outline></v-text-field>
+            <v-text-field v-model="email" label="email address" type="text" required :rules="[required]" outline></v-text-field>
+            <v-text-field v-model="phoneNumber" label="phone number" type="text" required :rules="[required]" outline></v-text-field>
+            <v-text-field v-model="userName" label="username" type="text" required :rules="[required]" outline></v-text-field>
+            <v-text-field v-model="password" label="password" type="password" required :rules="[required]" outline></v-text-field>
             <v-switch :label="`Admin: ${admin.toString()}`" v-model="admin" outline></v-switch>
           </v-form>
           <div class="failed" v-show="failedRegister">{{error}}</div>
@@ -46,6 +46,7 @@ export default {
       password: "",
       admin: false,
       failedRegister: false,
+      required: (value) => !!value || 'Required Field',
       error: "",
     };
   },
@@ -57,14 +58,14 @@ export default {
       this.$router.push('/')
     },
     async register () {
+      const credentials = {firstName: this.firstName, lastName: this.lastName, streetAddress : this.streetAddress, city : this.city, state: this.state, zipCode: this.zipCode, email: this.email, phoneNumber : this.phoneNumber, userName: this.userName, password: this.password, admin: this.admin}
+
       // Reject if user doesn't put name or password
-      if (!this.firstName.replace(/\s/g, "") || !this.lastName.replace(/\s/g, "") || !this.streetAddress.replace(/\s/g, "") || !this.city.replace(/\s/g, "") || !this.state.replace(/\s/g, "") || !this.zipCode.replace(/\s/g, "") || !this.email.replace(/\s/g, "") || !this.phoneNumber.replace(/\s/g, "") || !this.userName.replace(/\s/g, "") || !this.password.replace(/\s/g, "")) {
+      if (!Object.keys(credentials).every(key => !!credentials[key])) {
         this.error = "Some fields are empty. Please check."
         this.failedRegister = true
         return
       }
-
-      const credentials = {firstName: this.firstName, lastName: this.lastName, streetAddress : this.streetAddress, city : this.city, state: this.state, zipCode: this.zipCode, email: this.email, phoneNumber : this.phoneNumber, userName: this.userName, password: this.password, admin: this.admin}
 
       try {
         const response = await AuthenticationService.register(credentials)

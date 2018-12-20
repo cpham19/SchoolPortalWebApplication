@@ -1,0 +1,79 @@
+<template>
+  <div>
+    <h1>Course Remove</h1>
+    <course-drawer/>
+    <br>
+    <br>
+    <v-data-table :headers="headers" :items="courses" class="elevation-1">
+      <template slot="items" slot-scope="props">
+        <td>{{props.item.dept}}</td>
+        <td>{{props.item.number}}</td>
+        <td>{{props.item.section}}</td>
+        <td>{{props.item.name}}</td>
+        <td>{{props.item.unit}}</td>
+        <td>{{props.item.professor}}</td>
+        <td><v-btn v-on:click="removeCourse(props.item._id)" class="remove" type="button">Remove</v-btn></td>
+      </template>
+    </v-data-table>
+  </div>
+</template>
+
+<script>
+import CourseService from "@/services/CourseService";
+import Router from "vue-router";
+import CourseDrawer from "@/components/course/CourseDrawer.vue";
+
+export default {
+  name: "CourseRemove",
+  data() {
+    return {
+      headers: [
+        { text: "Department", value: "dept" },
+        { text: "Number", value: "number" },
+        { text: "Section", value: "section" },
+        { text: "Name", value: "name" },
+        { text: "Unit", value: "unit" },
+        { text: "Professor", value: "professor" },
+        { text: "Action", value: "_id" }
+      ],
+      courses: []
+    };
+  },
+  mounted() {
+    this.fetchCourses(), this.checkLoggedIn()
+  },
+  methods: {
+    async fetchCourses() {
+      const response = await CourseService.fetchCourses()
+      this.courses = response.data.courses
+    },
+    checkLoggedIn: function() {
+      if (!this.$store.state.isUserLoggedIn) {
+        this.$router.push("/")
+      }
+    },
+    async removeCourse(courseId) {
+      const obj = { courseId: courseId }
+
+      try {
+        const response = await CourseService.removeCourse(obj)
+        this.$store.dispatch("removeCourse", response.data.courseId)
+        this.courses = this.courses.filter(courseObj => !(courseObj._id === response.data.courseId))
+        this.$router.push("/course/remove")
+      }
+      catch (err) {
+        console.log(err.response);
+      }
+    }
+  },
+  components: {
+    "course-drawer": CourseDrawer
+  }
+};
+</script>
+
+<style scoped>
+.remove {
+  color: red;
+}
+</style>

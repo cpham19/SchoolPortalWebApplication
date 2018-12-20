@@ -85,8 +85,26 @@ const createUser = (firstName, lastName, streetAddress, city, state, zipCode, em
         })
 }
 
+const enrollCourse = (obj) => {
+    return User.findOneAndUpdate({ userName: obj.userName }, { "$push": { courses: obj.courseId} })
+    .then(found => {
+        return { courseId: obj.courseId }
+    })
+}
+
+// Drop course for user
+const dropCourse = (userName, courseId) => {
+    return User.findOneAndUpdate({ userName: userName }, { '$pull': { courses: courseId } })
+        .then(found => {
+            return { courseId: courseId}
+        })
+}
+
+
 module.exports = {
     listOfUsers,
     createUser,
     loginUser,
+    enrollCourse,
+    dropCourse
 }
