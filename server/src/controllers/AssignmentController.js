@@ -22,5 +22,19 @@ module.exports = {
         })
         // error
         .catch(err => res.status(400).send({error : "The assignment already exists! Choose different title and description."}))
-    }
+    },
+    editAssignment(req, res) {
+        Assignment.editAssignment(req.body).then(assignment => {
+            res.send({assignment: assignment})
+        })
+        // error
+        .catch(err => res.status(400).send({error : "The assignment already exists! Choose different title and description."}))
+    },
+    removeAssignment(req, res) {
+        Assignment.removeAssignment(req.params.assignmentId).then(assignment => {
+            res.send({assignment: assignment})
+        })
+        // error
+        .catch(err => res.status(400).send({error : "The assignment cannot be deleted because it doesn't exist!"}))
+    },
 }

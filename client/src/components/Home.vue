@@ -1,7 +1,6 @@
 <template>
   <div>
     <v-responsive>
-      <h1 align="center" class="display-3">Home Page</h1>
       <v-container grid-list-md text-xs-center fill-height>
         <v-layout>
           <v-flex xs12>

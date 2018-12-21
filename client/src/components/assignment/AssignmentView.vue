@@ -1,6 +1,6 @@
 <template>
   <div>
-      <button v-on:click="back()" type="submit">Back</button>
+      <v-btn v-on:click="back()" class="info" type="submit">Back</v-btn>
       <h1 class="display-2">{{assignment.title}}</h1>
       <p class="lead">Due Date: {{assignment.dueDate}}</p>
       <p class="lead">{{assignment.description}}</p>

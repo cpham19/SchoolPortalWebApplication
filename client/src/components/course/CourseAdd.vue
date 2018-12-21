@@ -1,8 +1,6 @@
 <template>
   <div>
-    <h1>Course Add</h1>
-    <course-drawer/>
-
+    <course-nav/>
     <v-layout column>
       <v-flex xs3 offset>
         <v-form>
@@ -17,8 +15,8 @@
         </v-form>
         <div class="success" v-show="successfulAdd">Course has been successfully added!</div>
         <div class="failed" v-show="failedAdd">{{error}}</div>
-        <v-btn v-on:click="addCourse()" :disabled="!courseDept || !courseName || !courseNumber || !courseSection || !courseDescription || !courseUnit || !courseProf || !courseRoom" class="btn-small waves-effect waves-light" type="submit">Add Course</v-btn>
-        <v-btn v-on:click="discard()" class="btn-small waves-effect waves-light" type="submit">Discard</v-btn>
+        <v-btn v-on:click="addCourse()" :disabled="!courseDept || !courseName || !courseNumber || !courseSection || !courseDescription || !courseUnit || !courseProf || !courseRoom" class="success" type="submit">Add Course</v-btn>
+        <v-btn v-on:click="discard()" class="info" type="submit">Discard</v-btn>
       </v-flex>
     </v-layout>
 
@@ -28,7 +26,7 @@
 <script>
 import CourseService from "@/services/CourseService";
 import Router from "vue-router";
-import CourseDrawer from "@/components/course/CourseDrawer.vue";
+import CourseNavigation from "@/components/course/CourseNavigation.vue";
 import depts from "./depts"
 
 export default {
@@ -94,7 +92,7 @@ export default {
     }
   },
   components: {
-    "course-drawer": CourseDrawer
+    "course-nav": CourseNavigation
   }
 };
 </script>

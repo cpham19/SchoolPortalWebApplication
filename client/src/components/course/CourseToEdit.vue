@@ -1,6 +1,5 @@
 <template>
   <div>
-    <h1>Course Edit</h1>
     <div>
       <v-form>
         <v-select :items="depts" v-model="course.dept" label="department" required :rules="[required]" outline></v-select>
@@ -22,7 +21,6 @@
 <script>
 import CourseService from "@/services/CourseService";
 import Router from "vue-router";
-import CourseDrawer from "@/components/course/CourseDrawer.vue"
 import depts from "./depts";
 
 export default {
@@ -86,7 +84,6 @@ export default {
     }
   },
   components: {
-    "course-drawer": CourseDrawer
   }
 };
 </script>

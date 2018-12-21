@@ -10,4 +10,10 @@ export default {
     postAssignment(assignment) {
         return Api().post('assignment/post', assignment)
     },
+    editAssignment(assignment) {
+        return Api().post('assignment/edit', assignment)
+    },
+    removeAssignment(assignmentId) {
+        return Api().post(`assignment/remove/${assignmentId}`)
+    }
 }

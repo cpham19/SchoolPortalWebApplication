@@ -23,6 +23,7 @@ module.exports = (app) => {
     app.get('/course/search', (req, res) => { res.send([{ title: "This is where you search and enroll your course" }]) })
     app.get('/course/edit', (req, res) => { res.send([{ title: "This is where you edit your course" }]) })
     app.get('/course/drop', (req, res) => { res.send([{ title: "This is where you drop your course" }]) })
+
     app.post('/course/add', CourseControllerPolicy.addCourse, CourseController.addCourse)
     app.post('/course/search', CourseController.enrollCourse)
     app.post('/course/remove', CourseController.removeCourse)
@@ -33,4 +34,6 @@ module.exports = (app) => {
     app.get('/assignment/:assignmentId', AssignmentController.getAssignment)
     app.get('/assignment', AssignmentController.getAssignments)
     app.post('/assignment/post', AssignmentControllerPolicy.postAssignment, AssignmentController.postAssignment)
+    app.post('/assignment/edit', AssignmentControllerPolicy.editAssignment, AssignmentController.editAssignment)
+    app.post('/assignment/remove/:assignmentId', AssignmentController.removeAssignment)
 }

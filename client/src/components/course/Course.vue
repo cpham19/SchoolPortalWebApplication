@@ -1,7 +1,6 @@
 <template>
   <div>
-    <h1>Course Page</h1>
-    <course-drawer />
+    <course-nav />
   </div>
 </template>
 
@@ -9,7 +8,7 @@
 import CourseService from "@/services/CourseService";
 import Router from "vue-router";
 
-import CourseDrawer from "@/components/course/CourseDrawer.vue";
+import CourseNavigation from "@/components/course/CourseNavigation.vue";
 
 export default {
   name: "Course",
@@ -29,7 +28,7 @@ export default {
     }
   },
   components: {
-    "course-drawer": CourseDrawer
+    "course-nav": CourseNavigation
   }
 };
 </script>

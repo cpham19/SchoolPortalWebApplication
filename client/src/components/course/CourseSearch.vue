@@ -1,8 +1,7 @@
 <template>
   <div>
+    <course-nav/>
     <h1>Course Search</h1>
-    <course-drawer/>
-    <br/><br/>
     <v-form>
       <v-select :items="depts" v-model="dept" label="department" v-on:change="searchCourse()" outline></v-select>
       <v-text-field v-model="number" label="course number" type="text" v-on:keyup="searchCourse()" outline></v-text-field>
@@ -16,7 +15,7 @@
         <td>{{props.item.name}}</td>
         <td>{{props.item.unit}}</td>
         <td>{{props.item.professor}}</td>
-        <td><v-btn v-on:click="enrollCourse(props.item._id)" class="enroll" type="button">Enroll</v-btn></td>
+        <td><v-btn v-on:click="enrollCourse(props.item._id)" class="success" type="button">Enroll</v-btn></td>
       </template>
     </v-data-table>
   </div>
@@ -25,7 +24,7 @@
 <script>
 import CourseService from "@/services/CourseService";
 import Router from "vue-router";
-import CourseDrawer from "@/components/course/CourseDrawer.vue";
+import CourseNavigation from "@/components/course/CourseNavigation.vue";
 
 export default {
   name: "CourseSearch",
@@ -97,13 +96,10 @@ export default {
     }
   },
   components: {
-    "course-drawer": CourseDrawer
+    "course-nav": CourseNavigation
   }
 };
 </script>
 
 <style scoped>
-.enroll {
-  color: green;
-}
 </style>

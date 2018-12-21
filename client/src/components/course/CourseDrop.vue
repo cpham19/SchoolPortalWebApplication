@@ -1,8 +1,6 @@
 <template>
   <div>
-    <h1>Course Drop</h1>
-    <course-drawer />
-
+    <course-nav />
     <v-data-table :headers="headers" :items="enrolledCourses" class="elevation-1">
       <template slot="items" slot-scope="props">
         <td>{{props.item.dept}}</td>
@@ -11,7 +9,7 @@
         <td>{{props.item.name}}</td>
         <td>{{props.item.unit}}</td>
         <td>{{props.item.professor}}</td>
-        <td><v-btn v-on:click="dropCourse(props.item._id)" class="edit" type="button">Drop</v-btn></td>
+        <td><v-btn v-on:click="dropCourse(props.item._id)" class="info" type="button"><v-icon dark>remove</v-icon></v-btn></td>
       </template>
     </v-data-table>
   </div>
@@ -20,7 +18,7 @@
 <script>
 import CourseService from "@/services/CourseService";
 import Router from "vue-router";
-import CourseDrawer from "@/components/course/CourseDrawer.vue";
+import CourseNavigation from "@/components/course/CourseNavigation.vue";
 
 export default {
   name: "CourseDrop",
@@ -80,7 +78,7 @@ export default {
     }
   },
   components: {
-    "course-drawer": CourseDrawer
+    "course-nav": CourseNavigation
   }
 };
 </script>

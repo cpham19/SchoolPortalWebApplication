@@ -33,7 +33,7 @@ const postAssignment = (assignment) => {
             const month = ('0' + (date.getMonth() + 1)).slice(-2)
             const day = ('0' + date.getDate()).slice(-2)
             const year = date.getFullYear()
-            const formattedDate = month + "/" + day + "/" + year
+            const formattedDate = year + "-" + month + "-" + day
 
             // Return an object if assignment doesnt exist
             return {
@@ -48,8 +48,23 @@ const postAssignment = (assignment) => {
         .then(assignment => Assignment.create(assignment))
 }
 
+// Edit assignment
+const editAssignment = (assignment) => {
+    return Assignment.findOneAndUpdate({ _id: assignment._id }, { "$set": { title: assignment.title, description: assignment.description, dueDate: assignment.dueDate } })
+    .then(obj => {
+        return assignment
+    })
+}
+
+// Remove assignment
+const removeAssignment = (assignmentId) => {
+    return Assignment.findOneAndDelete({_id: assignmentId})
+}
+
 module.exports = {
     listOfAssignments,
     findAssignmentById,
-    postAssignment
+    postAssignment,
+    editAssignment,
+    removeAssignment
 }

@@ -4,7 +4,7 @@
       <v-date-picker v-model="date" required :rules="[required]"></v-date-picker>
       <v-text-field v-model="title" label="title of assignment" type="text" required :rules="[required]" outline></v-text-field>
       <v-textarea v-model="description" label="description of assignment" :rules="[required]" outline></v-textarea>
-      <v-btn v-on:click="addAssignment()" :disabled="!date || !title || !description" type="submit">Add</v-btn><v-btn v-on:click="back()" type="submit">Back</v-btn>
+      <v-btn v-on:click="addAssignment()" :disabled="!date || !title || !description" class="success" type="submit">Add</v-btn><v-btn v-on:click="back()" class="info" type="submit">Back</v-btn>
       <div class="failed" v-show="failedAdd">{{error}}</div>
   </div>
 </template>

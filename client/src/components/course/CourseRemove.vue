@@ -1,9 +1,7 @@
 <template>
   <div>
+    <course-nav/>
     <h1>Course Remove</h1>
-    <course-drawer/>
-    <br>
-    <br>
     <v-data-table :headers="headers" :items="courses" class="elevation-1">
       <template slot="items" slot-scope="props">
         <td>{{props.item.dept}}</td>
@@ -12,7 +10,7 @@
         <td>{{props.item.name}}</td>
         <td>{{props.item.unit}}</td>
         <td>{{props.item.professor}}</td>
-        <td><v-btn v-on:click="removeCourse(props.item._id)" class="remove" type="button">Remove</v-btn></td>
+        <td><v-btn v-on:click="removeCourse(props.item._id)" class="error" type="button"><v-icon>remove</v-icon></v-btn></td>
       </template>
     </v-data-table>
   </div>
@@ -21,7 +19,7 @@
 <script>
 import CourseService from "@/services/CourseService";
 import Router from "vue-router";
-import CourseDrawer from "@/components/course/CourseDrawer.vue";
+import CourseNavigation from "@/components/course/CourseNavigation.vue";
 
 export default {
   name: "CourseRemove",
@@ -67,13 +65,10 @@ export default {
     }
   },
   components: {
-    "course-drawer": CourseDrawer
+    "course-nav": CourseNavigation
   }
 };
 </script>
 
 <style scoped>
-.remove {
-  color: red;
-}
 </style>

@@ -1,16 +1,16 @@
 <template>
   <div>
-    <h1>Assignment Page</h1>
-      <div v-for="course in enrolledCourses" :key="course._id">
-        <h3 class="display-2">{{course.dept}}{{course.number}}-{{course.section}} {{course.name}} <button v-on:click="navigateTo({name: 'AssignmentAdd', params: {courseId: course._id}})" type="submit">+</button></h3>
-        <v-data-table :headers="headers" :items="course.assignments" class="elevation-1">
-          <template slot="items" slot-scope="props">
-            <td><a v-on:click="navigateTo({name: 'AssignmentView', params: {assignmentId: props.item._id}})">{{props.item.title}}</a></td>
-            <td>{{props.item.dueDate}}</td>
-            <td><v-btn type="button">Edit</v-btn><v-btn type="button">Delete</v-btn></td>
-          </template>
-        </v-data-table>
-      </div>
+    <div v-for="course in enrolledCourses" :key="course._id">
+      <h3 class="display-2">{{course.dept}}{{course.number}}-{{course.section}} {{course.name}} <v-btn fab dark color="indigo" v-on:click="navigateTo({name: 'AssignmentAdd', params: {courseId: course._id}})" type="submit"><v-icon dark>add</v-icon></v-btn></h3>
+      <v-data-table :headers="headers" :items="course.assignments" class="elevation-1">
+        <template slot="items" slot-scope="props">
+          <td><a v-on:click="navigateTo({name: 'AssignmentView', params: {assignmentId: props.item._id}})">{{props.item.title}}</a></td>
+          <td>{{props.item.dueDate}}</td>
+          <td><v-btn v-on:click="navigateTo({name: 'AssignmentEdit', params: {assignmentId: props.item._id}})" color="success" type="submit"><v-icon>edit</v-icon></v-btn><v-btn v-on:click="removeAssignment(props.item._id)" class="error" type="submit"><v-icon>remove</v-icon></v-btn></td>
+        </template>
+      </v-data-table>
+      <br/><br/>
+    </div>
   </div>
 </template>
 
@@ -56,7 +56,7 @@ export default {
         })
       }
       catch(err) {
-        console.log("CANT GET COURSES")
+        this.error = err.response.data.error
       }
 
       try {
@@ -73,12 +73,22 @@ export default {
         })
       }
       catch(err) {
-        console.log("CANT GET ASSIGNMENTS")
+        this.error = err.response.data.error
       }
     },
     checkLoggedIn: function() {
       if (!(this.$store.state.isUserLoggedIn)) {
         this.$router.push("/")
+      }
+    },
+    async removeAssignment(assignmentId) {
+      try {
+        const response = await AssignmentService.removeAssignment(assignmentId)
+        this.getUserCoursesAndAssignments()
+        this.$router.push("/assignment")
+      }
+      catch(err) {
+        this.error = err.response.data.error
       }
     }
   }

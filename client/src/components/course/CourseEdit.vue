@@ -1,8 +1,6 @@
 <template>
   <div>
-    <h1>Course Edit</h1>
-    <course-drawer />
-    <br/><br/>
+    <course-nav />
     <v-data-table :headers="headers" :items="courses" class="elevation-1">
       <template slot="items" slot-scope="props">
         <td>{{props.item.dept}}</td>
@@ -11,7 +9,7 @@
         <td>{{props.item.name}}</td>
         <td>{{props.item.unit}}</td>
         <td>{{props.item.professor}}</td>
-        <td><v-btn v-on:click="navigateTo({name: 'CourseToEdit', params: {courseId: props.item._id}})" class="edit" type="button">Edit</v-btn></td>
+        <td><v-btn v-on:click="navigateTo({name: 'CourseToEdit', params: {courseId: props.item._id}})" class="success" type="button"><v-icon>edit</v-icon></v-btn></td>
       </template>
     </v-data-table>
   </div>
@@ -20,7 +18,7 @@
 <script>
 import CourseService from "@/services/CourseService";
 import Router from "vue-router";
-import CourseDrawer from "@/components/course/CourseDrawer.vue"
+import CourseNavigation from "@/components/course/CourseNavigation.vue"
 import depts from "./depts";
 
 export default {
@@ -59,24 +57,12 @@ export default {
 
   },
   components: {
-    "course-drawer": CourseDrawer
+    "course-nav": CourseNavigation
   }
 };
 </script>
 
 <style scoped>
-.submit {
-  color: green;
-}
-
-.back {
-  color: black;
-}
-
-.edit {
-  color:blue;
-}
-
 .failed {
   color:red;
 }
