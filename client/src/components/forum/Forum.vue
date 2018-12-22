@@ -2,12 +2,12 @@
   <div>
     <div class="display-3" v-show="enrolledCourses.length == 0">Nothing to show</div>
     <div v-for="course in enrolledCourses" :key="course._id">
-      <h3 class="display-2">{{course.dept}}{{course.number}}-{{course.section}} {{course.name}} <v-btn fab dark color="indigo" v-on:click="navigateTo({name: 'AssignmentAdd', params: {courseId: course._id}})" type="submit"><v-icon dark>add</v-icon></v-btn></h3>
-      <v-data-table :headers="headers" :items="course.assignments" class="elevation-1">
+      <h3 class="display-2">{{course.dept}}{{course.number}}-{{course.section}} {{course.name}} <v-btn fab dark color="indigo" v-on:click="navigateTo({name: 'ForumAdd', params: {courseId: course._id}})" type="submit"><v-icon dark>add</v-icon></v-btn></h3>
+      <v-data-table :headers="headers" :items="course.threads" class="elevation-1">
         <template slot="items" slot-scope="props">
-          <td><a v-on:click="navigateTo({name: 'AssignmentView', params: {assignmentId: props.item._id}})">{{props.item.title}}</a></td>
-          <td>{{props.item.dueDate}}</td>
-          <td><v-btn v-on:click="navigateTo({name: 'AssignmentEdit', params: {assignmentId: props.item._id}})" color="success" type="submit"><v-icon>edit</v-icon></v-btn><v-btn v-on:click="removeAssignment(props.item._id)" class="error" type="submit"><v-icon>remove</v-icon></v-btn></td>
+          <td><a>{{props.item.title}}</a></td>
+          <td>{{props.item.postedDate}}</td>
+          <td><v-btn v-on:click="removeThread(props.item._id)" class="error" type="submit"><v-icon>remove</v-icon></v-btn></td>
         </template>
       </v-data-table>
       <br/><br/>
@@ -16,17 +16,17 @@
 </template>
 
 <script>
-import AssignmentService from "@/services/AssignmentService";
+import ForumService from "@/services/ForumService";
 import CourseService from "@/services/CourseService";
 import Router from "vue-router";
 
 export default {
-  name: "Assignment",
+  name: "Forum",
   data() {
     return {
       headers: [
         { text: "Title", value: "title" },
-        { text: "Due Date", value: "dueDate" },
+        { text: "Date", value: "postedDate" },
         { text: "Action", value: "_id" },
       ],
       enrolledCourses: [],
@@ -34,13 +34,13 @@ export default {
   },
   mounted() {
     this.checkLoggedIn()
-    this.getUserCoursesAndAssignments()
+    this.getUserCoursesAndThreads()
   },
   methods: {
     navigateTo: function(path) {
       this.$router.push(path)
     },
-    async getUserCoursesAndAssignments() {
+    async getUserCoursesAndThreads() {
       this.userName = this.$store.state.user.userName
       this.enrolledCourses = []
 
@@ -50,7 +50,7 @@ export default {
         this.$store.state.user.courses.forEach(courseId => {
           courseResponse.data.courses.forEach(course => {
               if (course._id === courseId) {
-                course.assignments = []
+                course.threads = []
                 this.enrolledCourses.push(course)
               }
           })
@@ -61,12 +61,12 @@ export default {
       }
 
       try {
-        const assignmentResponse = await AssignmentService.getAssignments()
+        const forumResponse = await ForumService.getThreads()
 
         this.enrolledCourses.forEach(course => {
-            assignmentResponse.data.assignments.forEach(assignment => {
-              if (course._id === assignment.courseId) {
-                course.assignments.push(assignment)
+            forumResponse.data.threads.forEach(thread => {
+              if (course._id === thread.courseId) {
+                course.threads.push(thread)
               }
           })
         })
@@ -80,11 +80,11 @@ export default {
         this.$router.push("/")
       }
     },
-    async removeAssignment(assignmentId) {
+    async removeThread(threadId) {
       try {
-        const response = await AssignmentService.removeAssignment(assignmentId)
-        this.getUserCoursesAndAssignments()
-        this.$router.push("/assignment")
+        const response = await ForumService.removeThread(threadId)
+        this.getUserCoursesAndThreads()
+        this.$router.push("/forum")
       }
       catch(err) {
         this.error = err.response.data.error

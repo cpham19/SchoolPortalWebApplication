@@ -4,8 +4,9 @@
     <v-spacer></v-spacer>
     <v-toolbar-items>
       <v-btn v-if="this.$store.state.isUserLoggedIn" flat dark v-on:click="navigateTo('/home')">Home</v-btn>
-      <v-btn v-if="this.$store.state.isUserLoggedIn" flat dark v-on:click="navigateTo('/course')">Courses</v-btn>
+      <v-btn v-if="this.$store.state.isUserLoggedIn" flat dark v-on:click="navigateTo('/course/search')">Courses</v-btn>
       <v-btn v-if="this.$store.state.isUserLoggedIn" flat dark v-on:click="navigateTo('/assignment')">Assignments</v-btn>
+      <v-btn v-if="this.$store.state.isUserLoggedIn" flat dark v-on:click="navigateTo('/forum')">Forum</v-btn>
       <v-btn v-if="this.$store.state.isUserLoggedIn" flat dark v-on:click="logout()">Log Out</v-btn>
     </v-toolbar-items>
   </v-toolbar>

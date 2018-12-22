@@ -4,7 +4,6 @@ import Login from '@/components/Login'
 import Register from '@/components/Register'
 import Home from '@/components/Home'
 
-import Course from '@/components/course/Course'
 import CourseSearch from '@/components/course/CourseSearch'
 import CourseAdd from '@/components/course/CourseAdd'
 import CourseRemove from '@/components/course/CourseRemove'
@@ -16,6 +15,9 @@ import Assignment from '@/components/assignment/Assignment'
 import AssignmentAdd from '@/components/assignment/AssignmentAdd'
 import AssignmentView from '@/components/assignment/AssignmentView'
 import AssignmentEdit from '@/components/assignment/AssignmentEdit'
+
+import Forum from '@/components/forum/Forum'
+import ForumAdd from '@/components/forum/ForumAdd'
 
 Vue.use(Router)
 
@@ -36,11 +38,6 @@ export default new Router({
             path: '/home',
             name: 'Home',
             component: Home
-        },
-        {
-            path: '/course',
-            name: 'Course',
-            component: Course
         },
         {
             path: '/course/search',
@@ -91,6 +88,16 @@ export default new Router({
             path: '/assignment/edit/:assignmentId',
             name: 'AssignmentEdit',
             component: AssignmentEdit
+        },
+        {
+            path: '/forum',
+            name: 'Forum',
+            component: Forum
+        },
+        {
+            path: '/forum/add/:courseId',
+            name: 'ForumAdd',
+            component: ForumAdd
         },
     ]
 })

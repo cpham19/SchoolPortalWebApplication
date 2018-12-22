@@ -29,7 +29,7 @@ module.exports = {
         .catch(err => res.status(400).send({ error: "User not found!" }))
     },
     removeCourse(req, res) {
-        Course.removeCourse(req.body.courseId).then(found => {
+        Course.removeCourse(req.params.courseId).then(found => {
             res.send({courseId: req.body.courseId})
         })
         // error

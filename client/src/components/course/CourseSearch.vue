@@ -1,12 +1,11 @@
 <template>
   <div>
-    <course-nav/>
-    <h1>Course Search</h1>
+    <course-nav v-bind:active="active"/>
+    <br/><br/><br/>
     <v-form>
       <v-select :items="depts" v-model="dept" label="department" v-on:change="searchCourse()" outline></v-select>
       <v-text-field v-model="number" label="course number" type="text" v-on:keyup="searchCourse()" outline></v-text-field>
     </v-form>
-
     <v-data-table :headers="headers" :items="searchedCourses" class="elevation-1">
       <template slot="items" slot-scope="props">
         <td>{{props.item.dept}}</td>
@@ -38,7 +37,8 @@ export default {
       dept: "",
       number: "",
       failedEnroll: false,
-      error: ""
+      error: "",
+      active: 0,
     };
   },
   mounted() {

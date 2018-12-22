@@ -1,6 +1,7 @@
 <template>
   <div>
-    <course-nav/>
+    <course-nav v-bind:active="active"/>
+    <br/><br/><br/>
     <v-layout column>
       <v-flex xs3 offset>
         <v-form>
@@ -45,7 +46,8 @@ export default {
       failedAdd: false,
       successfulAdd: false,
       required: (value) => !!value || 'Required Field',
-      error: ""
+      error: "",
+      active: 1
     };
   },
   mounted: function() {

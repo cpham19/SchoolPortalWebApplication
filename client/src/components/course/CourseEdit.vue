@@ -1,6 +1,7 @@
 <template>
   <div>
-    <course-nav />
+    <course-nav v-bind:active="active"/>
+    <br/><br/><br/>
     <v-data-table :headers="headers" :items="courses" class="elevation-1">
       <template slot="items" slot-scope="props">
         <td>{{props.item.dept}}</td>
@@ -35,6 +36,7 @@ export default {
         { text: "Action", value: "_id"}
       ],
       courses: [],
+      active: 3,
     };
   },
   async mounted() {

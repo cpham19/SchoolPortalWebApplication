@@ -1,0 +1,70 @@
+const Joi = require('joi')
+
+module.exports = {
+    postThread(req, res, next) {
+        const schema = {
+            courseId: Joi.string().required(),
+            author: Joi.object().required(),
+            title: Joi.string().required(),
+            description: Joi.string().required(),
+        }
+
+        const { error, value } = Joi.validate(req.body, schema)
+
+        if (error) {
+            switch (error.details[0].context.key) {
+                case 'title':
+                    res.status(400).send({
+                        error: 'You must provide a valid title'
+                    })
+                    break
+                case 'description':
+                    res.status(400).send({
+                        error: 'You must provide a valid description'
+                    })
+                    break
+                default:
+                    res.status(400).send({
+                        error: 'Invalid thread information'
+                    })
+            }
+        }
+        else {
+            next()
+        }
+    },
+    editThread(req, res, next) {
+        const schema = {
+            courseId: Joi.string().required(),
+            _id: Joi.string().required(),
+            author: Joi.object().required(),
+            title: Joi.string().required(),
+            description: Joi.string().required(),
+            postedDate: Joi.string().required()
+        }
+
+        const { error, value } = Joi.validate(req.body, schema)
+
+        if (error) {
+            switch (error.details[0].context.key) {
+                case 'title':
+                    res.status(400).send({
+                        error: 'You must provide a valid title'
+                    })
+                    break
+                case 'description':
+                    res.status(400).send({
+                        error: 'You must provide a valid description'
+                    })
+                    break
+                default:
+                    res.status(400).send({
+                        error: 'Invalid thread information'
+                    })
+            }
+        }
+        else {
+            next()
+        }
+    }
+}

@@ -1,6 +1,7 @@
 <template>
   <div>
-    <course-nav />
+    <course-nav v-bind:active="active"/>
+    <br/><br/><br/>
     <v-data-table :headers="headers" :items="enrolledCourses" class="elevation-1">
       <template slot="items" slot-scope="props">
         <td>{{props.item.dept}}</td>
@@ -34,7 +35,8 @@ export default {
         { text: "Action", value: "_id"}
       ],
       enrolledCourses: [],
-      userName: ""
+      userName: "",
+      active: 4
     };
   },
   mounted() {

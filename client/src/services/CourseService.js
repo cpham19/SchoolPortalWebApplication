@@ -13,8 +13,8 @@ export default {
     enrollCourse(course) {
         return Api().post('course/search', course)
     },
-    removeCourse(course) {
-        return Api().post('course/remove', course)
+    removeCourse(courseId) {
+        return Api().post(`course/remove/${courseId}`)
     },
     editCourse(course) {
         return Api().post('course/edit', course)

@@ -4,6 +4,8 @@ const CourseController = require('./controllers/CourseController')
 const CourseControllerPolicy = require('./policies/CourseControllerPolicy')
 const AssignmentController = require('./controllers/AssignmentController')
 const AssignmentControllerPolicy = require('./policies/AssignmentControllerPolicy')
+const ForumController = require('./controllers/ForumController')
+const ForumControllerPolicy = require('./policies/ForumControllerPolicy')
 
 module.exports = (app) => {
     // Login/Register handler
@@ -26,7 +28,7 @@ module.exports = (app) => {
 
     app.post('/course/add', CourseControllerPolicy.addCourse, CourseController.addCourse)
     app.post('/course/search', CourseController.enrollCourse)
-    app.post('/course/remove', CourseController.removeCourse)
+    app.post('/course/remove/:courseId', CourseController.removeCourse)
     app.post('/course/edit', CourseControllerPolicy.editCourse, CourseController.editCourse)
     app.post('/course/drop', CourseController.dropCourse)
 
@@ -36,4 +38,10 @@ module.exports = (app) => {
     app.post('/assignment/post', AssignmentControllerPolicy.postAssignment, AssignmentController.postAssignment)
     app.post('/assignment/edit', AssignmentControllerPolicy.editAssignment, AssignmentController.editAssignment)
     app.post('/assignment/remove/:assignmentId', AssignmentController.removeAssignment)
+
+    // Forum handler
+    app.get('/forum', ForumController.getThreads)
+    app.post('/forum/post', ForumControllerPolicy.postThread, ForumController.postThread)
+    app.post('/forum/edit', ForumControllerPolicy.editThread, ForumController.editThread)
+    app.post('/forum/remove/:threadId', ForumController.removeThread)
 }

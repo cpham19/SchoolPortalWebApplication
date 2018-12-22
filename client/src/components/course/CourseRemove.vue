@@ -1,7 +1,7 @@
 <template>
   <div>
-    <course-nav/>
-    <h1>Course Remove</h1>
+    <course-nav v-bind:active="active"/>
+    <br/><br/><br/>
     <v-data-table :headers="headers" :items="courses" class="elevation-1">
       <template slot="items" slot-scope="props">
         <td>{{props.item.dept}}</td>
@@ -34,7 +34,8 @@ export default {
         { text: "Professor", value: "professor" },
         { text: "Action", value: "_id" }
       ],
-      courses: []
+      courses: [],
+      active: 2,
     };
   },
   mounted() {
@@ -51,16 +52,14 @@ export default {
       }
     },
     async removeCourse(courseId) {
-      const obj = { courseId: courseId }
-
       try {
-        const response = await CourseService.removeCourse(obj)
+        const response = await CourseService.removeCourse(courseId)
         this.$store.dispatch("removeCourse", response.data.courseId)
-        this.courses = this.courses.filter(courseObj => !(courseObj._id === response.data.courseId))
+        this.fetchCourses()
         this.$router.push("/course/remove")
       }
       catch (err) {
-        console.log(err.response);
+        console.log(err.response)
       }
     }
   },
