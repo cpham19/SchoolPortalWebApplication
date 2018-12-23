@@ -41,7 +41,14 @@ module.exports = (app) => {
 
     // Forum handler
     app.get('/forum', ForumController.getThreads)
+    app.get('/forum/:threadId', ForumController.getThread)
     app.post('/forum/post', ForumControllerPolicy.postThread, ForumController.postThread)
     app.post('/forum/edit', ForumControllerPolicy.editThread, ForumController.editThread)
     app.post('/forum/remove/:threadId', ForumController.removeThread)
+
+    app.get('/replies', ForumController.getReplies)
+    app.get('/reply/:replyId', ForumController.getReply)
+    app.post('/forum/addreply', ForumControllerPolicy.addReply, ForumController.addReply)
+    app.post('/reply/edit', ForumControllerPolicy.editReply, ForumController.editReply)
+    app.post('/forum/removereply/:replyId', ForumController.removeReply)
 }

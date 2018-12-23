@@ -46,8 +46,6 @@ export default {
         return
       }
 
-      console.log(thread)
-
       try {
         const response = await ForumService.postThread(thread)
         this.failedAdd = false

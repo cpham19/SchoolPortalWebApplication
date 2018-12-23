@@ -1,11 +1,10 @@
 <template>
   <div>
-    <div class="display-3" v-show="enrolledCourses.length == 0">Nothing to show</div>
     <div v-for="course in enrolledCourses" :key="course._id">
       <h3 class="display-2">{{course.dept}}{{course.number}}-{{course.section}} {{course.name}} <v-btn fab dark color="indigo" v-on:click="navigateTo({name: 'ForumAdd', params: {courseId: course._id}})" type="submit"><v-icon dark>add</v-icon></v-btn></h3>
       <v-data-table :headers="headers" :items="course.threads" class="elevation-1">
         <template slot="items" slot-scope="props">
-          <td><a>{{props.item.title}}</a></td>
+          <td><a v-on:click="navigateTo({name: 'ThreadView', params: {threadId: props.item._id}})">{{props.item.title}}</a></td>
           <td>{{props.item.postedDate}}</td>
           <td><v-btn v-on:click="removeThread(props.item._id)" class="error" type="submit"><v-icon>remove</v-icon></v-btn></td>
         </template>
@@ -26,7 +25,7 @@ export default {
     return {
       headers: [
         { text: "Title", value: "title" },
-        { text: "Date", value: "postedDate" },
+        { text: "Posted Date", value: "postedDate" },
         { text: "Action", value: "_id" },
       ],
       enrolledCourses: [],

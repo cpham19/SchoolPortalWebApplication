@@ -1,6 +1,8 @@
 // Model
 const User = require('../models/User')
 const Course = require('../models/Course')
+const Assignment = require('../models/Assignment')
+const Forum = require('../models/Forum')
 
 
 module.exports = {
@@ -28,12 +30,23 @@ module.exports = {
          // error
         .catch(err => res.status(400).send({ error: "User not found!" }))
     },
-    removeCourse(req, res) {
-        Course.removeCourse(req.params.courseId).then(found => {
-            res.send({courseId: req.body.courseId})
-        })
-        // error
-        .catch(err => res.status(400).send({ error: "Error when removing course" }))
+    async removeCourse(req, res) {
+        try {
+            const userResponse = await User.removeCourse(req.params.courseId)
+            const courseResponse = await Course.removeCourse(req.params.courseId)
+            const assignmentResponse = await Assignment.removeAssignmentAfterCourseRemoval(req.params.courseId)
+            const threadsToRemove = await Forum.findThreadsByCourseId(req.params.courseId)
+            const threadsRemovalResponse = await Forum.removeThreadsByCourseId(req.params.courseId)
+            
+            const threadIds = threadsToRemove.map(thread => {
+                return thread._id
+            })
+
+            res.send({courseId: req.params.courseId, threads: threadIds})
+        }
+        catch(err) {
+            res.status(400).send({ error: "Error when removing course" })
+        }
     },
     editCourse(req, res) {
         Course.editCourse({_id: req.body._id, dept: req.body.dept, name: req.body.name, number: req.body.number, section: req.body.section, description: req.body.description, unit: req.body.unit, professor: req.body.professor, room: req.body.room}).then(course => {

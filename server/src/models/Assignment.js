@@ -61,10 +61,16 @@ const removeAssignment = (assignmentId) => {
     return Assignment.findOneAndDelete({_id: assignmentId})
 }
 
+// Remove assignments when a course is removed
+const removeAssignmentAfterCourseRemoval = (courseId) => {
+    return Assignment.deleteMany({courseId: courseId})
+}
+
 module.exports = {
     listOfAssignments,
     findAssignmentById,
     postAssignment,
     editAssignment,
-    removeAssignment
+    removeAssignment,
+    removeAssignmentAfterCourseRemoval
 }

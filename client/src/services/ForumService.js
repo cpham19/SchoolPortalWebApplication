@@ -15,5 +15,20 @@ export default {
     },
     removeThread(threadId) {
         return Api().post(`forum/remove/${threadId}`)
-    }
+    },
+    addReply(reply) {
+        return Api().post('forum/addreply', reply)
+    },
+    getReplies() {
+        return Api().get('replies')
+    },
+    getReply(replyId) {
+        return Api().get(`reply/${replyId}`)
+    },
+    editReply(reply) {
+        return Api().post('reply/edit', reply)
+    },
+    removeReply(replyId) {
+        return Api().post(`forum/removereply/${replyId}`)
+    },
 }

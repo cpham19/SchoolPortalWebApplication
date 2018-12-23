@@ -9,7 +9,7 @@
             <v-select :items="states" v-model="state" label="state" required :rules="[required]" outline></v-select>
             <v-text-field v-model="zipCode" label="zipCode" type="text" required :rules="[required]" outline></v-text-field>
             <v-text-field v-model="email" label="email address" type="text" required :rules="[required]" outline></v-text-field>
-            <v-text-field v-model="phoneNumber" label="phone number" type="text" required :rules="[required]" outline></v-text-field>
+            <v-text-field v-model="phoneNumber" label="phone number (XXX-XXX-XXXX)" type="text" required :rules="[required]" outline></v-text-field>
             <v-text-field v-model="userName" label="username" type="text" required :rules="[required]" outline></v-text-field>
             <v-text-field v-model="password" label="password" type="password" required :rules="[required]" outline></v-text-field>
             <v-switch :label="`Admin: ${admin.toString()}`" v-model="admin" outline></v-switch>

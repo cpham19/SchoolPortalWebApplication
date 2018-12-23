@@ -100,11 +100,16 @@ const dropCourse = (userName, courseId) => {
         })
 }
 
+// Remove course (if users are still enrolled in a course that was removed)
+const removeCourse = (courseId) => {
+    return  User.updateMany({}, { "$pull": { courses: courseId } })
+}
 
 module.exports = {
     listOfUsers,
     createUser,
     loginUser,
     enrollCourse,
-    dropCourse
+    dropCourse,
+    removeCourse
 }

@@ -18,6 +18,7 @@ export default {
       required: (value) => !!value || 'Required Field',
       assignment: {},
       failedEdit: false,
+      successfulEdit: false,
       error: "",
     }
   },
@@ -39,7 +40,7 @@ export default {
     async editAssignment() {
       if (!this.assignment.dueDate || !this.assignment.title || !this.assignment.description) {
         this.failedEdit = true
-        this.successfulAdd = false
+        this.successfulEdit = false
         this.error = "One or more of the fields are empty."
         return
       }
@@ -49,12 +50,12 @@ export default {
       try {
         const response = await AssignmentService.editAssignment(this.assignment)
         this.failedEdit = false
-        this.successfulAdd = true
+        this.successfulEdit = true
         this.$router.push('/assignment')
       }
       catch (err) {
         this.failedEdit = true
-        this.successfulAdd = false
+        this.successfulEdit = false
         this.error = err.response.data.error
       }
     },

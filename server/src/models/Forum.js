@@ -17,6 +17,10 @@ const listOfThreads = () => Thread.find({ title: { $ne: null } })
 // Used to check if a thread exists already 
 const findThread = (thread) => Thread.findOne({courseId: thread.courseId, title: thread.title})
 
+const findThreadById = (threadId) => Thread.findOne({_id: threadId})
+
+const findThreadsByCourseId = (courseId) => Thread.find({courseId: courseId})
+
 // Post Thread
 const postThread = (thread) => {
     // Return a thread object if thread is not in db
@@ -57,9 +61,26 @@ const editThread = (thread) => {
     return Thread.findOneAndUpdate({ _id: thread._id }, { "$set": { title: thread.title, description: thread.description } })
 }
 
+const addReply = (reply) => {
+    return Thread.findOneAndUpdate({ _id: reply.threadId }, { '$push': { replies: reply._id } })
+}
+
+const removeReply = (reply) => {
+    return Thread.findOneAndUpdate({ _id: reply.threadId }, { '$pull': { replies: reply._id } })
+}
+
+const removeThreadsByCourseId = (courseId) => {
+    return Thread.deleteMany({courseId: courseId})
+}
+
 module.exports = {
     listOfThreads,
     postThread,
     removeThread,
-    editThread
+    editThread,
+    findThreadById,
+    addReply,
+    removeReply,
+    removeThreadsByCourseId,
+    findThreadsByCourseId
 }

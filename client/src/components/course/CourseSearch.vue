@@ -12,6 +12,7 @@
         <td>{{props.item.number}}</td>
         <td>{{props.item.section}}</td>
         <td>{{props.item.name}}</td>
+        <td>{{props.item.description}}</td>
         <td>{{props.item.unit}}</td>
         <td>{{props.item.professor}}</td>
         <td><v-btn v-on:click="enrollCourse(props.item._id)" class="success" type="button">Enroll</v-btn></td>
@@ -29,7 +30,7 @@ export default {
   name: "CourseSearch",
   data() {
     return {
-      headers: [{text: "Department", value: "dept"}, {text: "Number", value: "number"}, {text: "Section", value: "section"}, {text: "Name", value: "name"}, {text: "Unit", value: "unit"}, {text: "Professor", value: "professor"}, {text: "Action", value: "_id"}],
+      headers: [{text: "Department", value: "dept"}, {text: "Number", value: "number"}, {text: "Section", value: "section"}, {text: "Name", value: "name"}, {text: "Description", value: "description"}, {text: "Unit", value: "unit"}, {text: "Professor", value: "professor"}, {text: "Action", value: "_id"}],
       depts: ["CS", "ME", "BIOL", "PHYS", "CHEM", "COMM", "CE"],
       userName: "",
       courses: null,

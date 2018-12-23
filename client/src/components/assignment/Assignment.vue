@@ -1,6 +1,5 @@
 <template>
   <div>
-    <div class="display-3" v-show="enrolledCourses.length == 0">Nothing to show</div>
     <div v-for="course in enrolledCourses" :key="course._id">
       <h3 class="display-2">{{course.dept}}{{course.number}}-{{course.section}} {{course.name}} <v-btn fab dark color="indigo" v-on:click="navigateTo({name: 'AssignmentAdd', params: {courseId: course._id}})" type="submit"><v-icon dark>add</v-icon></v-btn></h3>
       <v-data-table :headers="headers" :items="course.assignments" class="elevation-1">

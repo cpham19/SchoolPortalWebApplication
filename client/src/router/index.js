@@ -18,6 +18,9 @@ import AssignmentEdit from '@/components/assignment/AssignmentEdit'
 
 import Forum from '@/components/forum/Forum'
 import ForumAdd from '@/components/forum/ForumAdd'
+import ThreadView from '@/components/forum/ThreadView'
+import ThreadEdit from '@/components/forum/ThreadEdit'
+import ReplyEdit from '@/components/forum/ReplyEdit'
 
 Vue.use(Router)
 
@@ -98,6 +101,21 @@ export default new Router({
             path: '/forum/add/:courseId',
             name: 'ForumAdd',
             component: ForumAdd
+        },
+        {
+            path: '/forum/:threadId',
+            name: 'ThreadView',
+            component: ThreadView
+        },
+        {
+            path: '/forum/edit/:threadId',
+            name: 'ThreadEdit',
+            component: ThreadEdit
+        },
+        {
+            path: '/forum/editreply/:replyId',
+            name: 'ReplyEdit',
+            component: ReplyEdit
         },
     ]
 })
