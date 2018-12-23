@@ -86,7 +86,7 @@ module.exports = {
                     break
                 default:
                     res.status(400).send({
-                        error: 'Invalid thread information'
+                        error: 'Invalid reply information'
                     })
             }
         }

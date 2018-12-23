@@ -3,7 +3,7 @@ const User = require('../models/User')
 const Course = require('../models/Course')
 const Assignment = require('../models/Assignment')
 const Forum = require('../models/Forum')
-
+const Reply = require('../models/Reply')
 
 module.exports = {
     getCourses(req, res) {
@@ -35,14 +35,17 @@ module.exports = {
             const userResponse = await User.removeCourse(req.params.courseId)
             const courseResponse = await Course.removeCourse(req.params.courseId)
             const assignmentResponse = await Assignment.removeAssignmentAfterCourseRemoval(req.params.courseId)
-            const threadsToRemove = await Forum.findThreadsByCourseId(req.params.courseId)
-            const threadsRemovalResponse = await Forum.removeThreadsByCourseId(req.params.courseId)
-            
-            const threadIds = threadsToRemove.map(thread => {
+
+            const threads = await Forum.findThreadsByCourseId(req.params.courseId)
+            const forumResponse = await Forum.removeThreadsByCourseId(req.params.courseId)
+
+            const threadIds = threads.map(thread => {
                 return thread._id
             })
 
-            res.send({courseId: req.params.courseId, threads: threadIds})
+            const replyResponse = await Reply.removeRepliesByThreads(threadIds)
+
+            res.send({courseId: req.params.courseId})
         }
         catch(err) {
             res.status(400).send({ error: "Error when removing course" })
