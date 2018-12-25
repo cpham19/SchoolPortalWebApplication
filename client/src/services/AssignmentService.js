@@ -11,9 +11,9 @@ export default {
         return Api().post('assignment/post', assignment)
     },
     editAssignment(assignment) {
-        return Api().post('assignment/edit', assignment)
+        return Api().put(`assignment/edit/${assignment._id}`, assignment)
     },
     removeAssignment(assignmentId) {
-        return Api().post(`assignment/remove/${assignmentId}`)
+        return Api().delete(`assignment/remove/${assignmentId}`)
     }
 }

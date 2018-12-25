@@ -11,15 +11,15 @@ export default {
         return Api().post('course/add', course)
     },
     enrollCourse(course) {
-        return Api().post('course/search', course)
+        return Api().post('course/enroll', course)
     },
     removeCourse(courseId) {
-        return Api().post(`course/remove/${courseId}`)
+        return Api().delete(`course/remove/${courseId}`)
     },
     editCourse(course) {
-        return Api().post('course/edit', course)
+        return Api().put(`course/edit/${course._id}`, course)
     },
     dropCourse(course) {
-        return Api().post('course/drop', course)
+        return Api().post(`course/drop/${course.userName}/${course.courseId}`)
     }
 }

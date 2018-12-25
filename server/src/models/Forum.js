@@ -61,14 +61,17 @@ const editThread = (thread) => {
     return Thread.findOneAndUpdate({ _id: thread._id }, { "$set": { title: thread.title, description: thread.description } })
 }
 
+// Add reply to thread
 const addReply = (reply) => {
     return Thread.findOneAndUpdate({ _id: reply.threadId }, { '$push': { replies: reply._id } })
 }
 
+// Remove reply from thread
 const removeReply = (reply) => {
     return Thread.findOneAndUpdate({ _id: reply.threadId }, { '$pull': { replies: reply._id } })
 }
 
+// Remove threads using course id
 const removeThreadsByCourseId = (courseId) => {
     return Thread.deleteMany({courseId: courseId})
 }

@@ -15,7 +15,7 @@
         <td>{{props.item.description}}</td>
         <td>{{props.item.unit}}</td>
         <td>{{props.item.professor}}</td>
-        <td><v-btn v-on:click="enrollCourse(props.item._id)" class="success" type="button">Enroll</v-btn></td>
+        <td v-show="!admin"><v-btn v-on:click="enrollCourse(props.item._id)" class="success" type="button">Enroll</v-btn></td>
       </template>
     </v-data-table>
   </div>
@@ -33,6 +33,7 @@ export default {
       headers: [{text: "Department", value: "dept"}, {text: "Number", value: "number"}, {text: "Section", value: "section"}, {text: "Name", value: "name"}, {text: "Description", value: "description"}, {text: "Unit", value: "unit"}, {text: "Professor", value: "professor"}, {text: "Action", value: "_id"}],
       depts: ["CS", "ME", "BIOL", "PHYS", "CHEM", "COMM", "CE"],
       userName: "",
+      admin: false,
       courses: null,
       searchedCourses: [],
       dept: "",
@@ -88,12 +89,14 @@ export default {
     async fetchCourses() {
       const response = await CourseService.fetchCourses()
       this.courses = response.data.courses
-      this.userName = this.$store.state.user.userName
     },
     checkLoggedIn: function() {
       if (!this.$store.state.isUserLoggedIn) {
         this.$router.push("/");
       }
+
+      this.userName = this.$store.state.user.userName
+      this.admin = this.$store.state.isUserAdmin
     }
   },
   components: {

@@ -1,12 +1,12 @@
 <template>
   <div>
-    <div v-for="course in enrolledCourses" :key="course._id">
+    <div v-for="course in courses" :key="course._id">
       <h3 class="display-2">{{course.dept}}{{course.number}}-{{course.section}} {{course.name}} <v-btn fab dark color="indigo" v-on:click="navigateTo({name: 'ForumAdd', params: {courseId: course._id}})" type="submit"><v-icon dark>add</v-icon></v-btn></h3>
       <v-data-table :headers="headers" :items="course.threads" class="elevation-1">
         <template slot="items" slot-scope="props">
           <td><a v-on:click="navigateTo({name: 'ThreadView', params: {threadId: props.item._id}})">{{props.item.title}}</a></td>
           <td>{{props.item.postedDate}}</td>
-          <td><v-btn v-on:click="removeThread(props.item._id)" class="error" type="submit"><v-icon>remove</v-icon></v-btn></td>
+          <td v-show="admin || userName === prop.item.author.userName"><v-btn v-on:click="removeThread(props.item._id)" class="error" type="submit"><v-icon>remove</v-icon></v-btn></td>
         </template>
       </v-data-table>
       <br/><br/>
@@ -28,7 +28,9 @@ export default {
         { text: "Posted Date", value: "postedDate" },
         { text: "Action", value: "_id" },
       ],
-      enrolledCourses: [],
+      courses: [],
+      userName: "",
+      admin: false
     };
   },
   mounted() {
@@ -41,43 +43,48 @@ export default {
     },
     async getUserCoursesAndThreads() {
       this.userName = this.$store.state.user.userName
-      this.enrolledCourses = []
+      this.courses = []
 
       try {
         const courseResponse = await CourseService.fetchCourses()
+        const forumResponse = await ForumService.getThreads()
 
-        this.$store.state.user.courses.forEach(courseId => {
+        if (this.admin) {
+          this.courses = courseResponse.data.courses
+          this.courses.forEach(course => {
+              course.threads = []
+          })
+        }
+        else {
+          this.$store.state.user.courses.forEach(courseId => {
           courseResponse.data.courses.forEach(course => {
               if (course._id === courseId) {
                 course.threads = []
-                this.enrolledCourses.push(course)
+                this.courses.push(course)
               }
+            })
+          })
+        }
+
+        this.courses.forEach(course => {
+          forumResponse.data.threads.forEach(thread => {
+            if (course._id === thread.courseId) {
+              course.threads.push(thread)
+            }
           })
         })
       }
       catch(err) {
-        this.error = err.response.data.error
-      }
-
-      try {
-        const forumResponse = await ForumService.getThreads()
-
-        this.enrolledCourses.forEach(course => {
-            forumResponse.data.threads.forEach(thread => {
-              if (course._id === thread.courseId) {
-                course.threads.push(thread)
-              }
-          })
-        })
-      }
-      catch(err) {
-        this.error = err.response.data.error
+        this.error = err.response.data
       }
     },
     checkLoggedIn: function() {
       if (!(this.$store.state.isUserLoggedIn)) {
         this.$router.push("/")
       }
+
+      this.userName = this.$store.state.user.userName
+      this.admin = this.$store.state.isUserAdmin
     },
     async removeThread(threadId) {
       try {

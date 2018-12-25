@@ -36,7 +36,8 @@ export default {
       ],
       enrolledCourses: [],
       userName: "",
-      active: 4
+      active: 4,
+      error: ""
     };
   },
   mounted() {
@@ -46,17 +47,15 @@ export default {
   methods: {
     async dropCourse(courseId) {
       const course = {userName: this.userName, courseId: courseId}
-      console.log(course)
       try {
         const response = await CourseService.dropCourse(course)
-
         this.$store.dispatch('dropCourse', response.data.courseId)
         // Filter the search results based on the user's enrolled courses
         this.enrolledCourses = this.enrolledCourses.filter(course => !(course._id === response.data.courseId))
         this.$router.push("/course/drop")
       }
       catch(err) {
-        console.log(err.response)
+        this.error = error.response.data.error
       }
     },
     checkLoggedIn() {

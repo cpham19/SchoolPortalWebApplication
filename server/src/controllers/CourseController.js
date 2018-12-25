@@ -59,8 +59,8 @@ module.exports = {
         .catch(err => res.status(400).send({ error: "Error when editting course" }))
     },
     dropCourse(req, res) {
-        User.dropCourse(req.body.userName, req.body.courseId).then(found => {
-            res.send({courseId: req.body.courseId})
+        User.dropCourse(req.params.userName, req.params.courseId).then(found => {
+            res.send({courseId: req.params.courseId})
         })
         // error
         .catch(err => res.status(400).send({ error: "Error when dropping course" }))

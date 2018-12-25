@@ -20,9 +20,9 @@
             <p class="lead">{{this.$store.state.user.phoneNumber}}</p>
           </v-flex>
         </v-layout>
-        <v-layout>
+        <v-layout v-show="!this.$store.state.isUserAdmin">
           <v-flex xs12>
-            <h1>Current Enrolled Courses</h1>
+            <h1> Current Enrolled Courses</h1>
             <p class="lead" v-for="course in enrolledCourses" :key="course._id">
               {{course.dept}}{{course.number}}
               <br>

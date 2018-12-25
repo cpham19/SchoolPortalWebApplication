@@ -54,10 +54,12 @@ const editReply = (reply) => {
     return Reply.findOneAndUpdate({ _id: reply._id }, { "$set": { description: reply.description } })
 }
 
+// Remove replies using thread id
 const removeRepliesByThreadId = (threadId) => {
     return Reply.deleteMany({threadId: threadId})
 }
 
+// Remove replies using multiple thread ids (when you remove a course, it should remove everything that is relevant to the course)
 const removeRepliesByThreads = (threads) => {
     return Reply.remove({threadId: {$in:threads}})
 }
