@@ -3,10 +3,10 @@
     <v-toolbar-title class="mr-4">CSULA CENTER</v-toolbar-title>
     <v-spacer></v-spacer>
     <v-toolbar-items>
-      <v-btn v-if="this.$store.state.isUserLoggedIn" flat dark v-on:click="navigateTo('/home')">Home</v-btn>
-      <v-btn v-if="this.$store.state.isUserLoggedIn" flat dark v-on:click="navigateTo('/course/search')">Course</v-btn>
-      <v-btn v-if="this.$store.state.isUserLoggedIn" flat dark v-on:click="navigateTo('/assignment')">Assignments</v-btn>
-      <v-btn v-if="this.$store.state.isUserLoggedIn" flat dark v-on:click="navigateTo('/forum')">Forum</v-btn>
+      <v-btn v-if="this.$store.state.isUserLoggedIn" flat dark :to="{name: 'Home'}">Home</v-btn>
+      <v-btn v-if="this.$store.state.isUserLoggedIn" flat dark :to="{name: 'CourseSearch'}">Course</v-btn>
+      <v-btn v-if="this.$store.state.isUserLoggedIn" flat dark :to="{name: 'Assignment'}">Assignments</v-btn>
+      <v-btn v-if="this.$store.state.isUserLoggedIn" flat dark :to="{name: 'Forum'}">Forum</v-btn>
       <v-btn v-if="this.$store.state.isUserLoggedIn" flat dark v-on:click="logout()">Log Out</v-btn>
     </v-toolbar-items>
   </v-toolbar>
@@ -22,9 +22,6 @@ export default {
   },
   mounted() {},
   methods: {
-    navigateTo(path) {
-      this.$router.push(path)
-    },
     logout() {
       this.$store.dispatch('setUser', null)
       this.$store.dispatch('setToken', null)

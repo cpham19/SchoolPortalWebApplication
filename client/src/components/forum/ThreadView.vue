@@ -12,14 +12,14 @@
           <!-- First row is the author and his message -->
           <tr>
             <td class="post-description">{{thread.description}}</td>
-            <td class="post-author">{{thread.postedDate}}<br/><v-img :src="`${thread.author.avatar}`"></v-img><br/>{{thread.author.userName}}<br/><v-btn v-show="admin || userName === thread.author.userName" v-on:click="navigateTo({name: 'ThreadEdit', params: {threadId: thread._id}})" class="info" type="submit">Edit</v-btn></td>
+            <td class="post-author">{{thread.postedDate}}<br/><v-img :src="`${thread.author.avatar}`"></v-img><br/>{{thread.author.userName}}<br/><v-btn v-show="admin || userName === thread.author.userName" :to="{name: 'ThreadEdit', params: {threadId: thread._id}}" class="info" type="submit">Edit</v-btn></td>
           </tr>
 
           <!-- Additional rows for replies and their authors -->
           <tr v-for="reply in thread.replies" :key="reply._id">
 
             <td class="post-description">{{reply.description}}</td>
-            <td class="post-author">{{reply.postedDate}}<br/><v-img :src="`${reply.author.avatar}`"></v-img><br/>{{reply.author.userName}}<br/><v-btn v-show="admin || userName === reply.author.userName" v-on:click="navigateTo({name: 'ReplyEdit', params: {replyId: reply._id}})" class="info" type="submit">Edit</v-btn><v-btn v-on:click="removeReply(reply._id)" v-show="userName === reply.author.userName" class="error" type="submit">Remove</v-btn></td>
+            <td class="post-author">{{reply.postedDate}}<br/><v-img :src="`${reply.author.avatar}`"></v-img><br/>{{reply.author.userName}}<br/><v-btn v-show="admin || userName === reply.author.userName" :to="{name: 'ReplyEdit', params: {replyId: reply._id}}" class="info" type="submit">Edit</v-btn><v-btn v-on:click="removeReply(reply._id)" v-show="userName === reply.author.userName" class="error" type="submit">Remove</v-btn></td>
           </tr>
         </tbody>
       </table>
@@ -55,9 +55,6 @@ export default {
   methods: {
     back: function() {
       this.$router.push("/forum")
-    },
-    navigateTo: function(path) {
-      this.$router.push(path)
     },
     checkLoggedIn: function() {
       if (!(this.$store.state.isUserLoggedIn)) {

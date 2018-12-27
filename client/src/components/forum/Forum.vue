@@ -1,7 +1,7 @@
 <template>
   <div>
     <div v-for="course in courses" :key="course._id">
-      <h3 class="display-2">{{course.dept}}{{course.number}}-{{course.section}} {{course.name}} <v-btn fab dark color="indigo" v-on:click="navigateTo({name: 'ForumAdd', params: {courseId: course._id}})" type="submit"><v-icon dark>add</v-icon></v-btn></h3>
+      <h3 class="display-2">{{course.dept}}{{course.number}}-{{course.section}} {{course.name}} <v-btn fab dark color="indigo" :to="{name: 'ForumAdd', params: {courseId: course._id}}" type="submit"><v-icon dark>add</v-icon></v-btn></h3>
       <v-data-table :headers="headers" :items="course.threads" class="elevation-1">
         <template slot="items" slot-scope="props">
           <td><a v-on:click="navigateTo({name: 'ThreadView', params: {threadId: props.item._id}})">{{props.item.title}}</a></td>
@@ -38,8 +38,8 @@ export default {
     this.getUserCoursesAndThreads()
   },
   methods: {
-    navigateTo: function(path) {
-      this.$router.push(path)
+    navigateTo: function(route) {
+      this.$router.push(route)
     },
     async getUserCoursesAndThreads() {
       this.userName = this.$store.state.user.userName

@@ -10,7 +10,7 @@
         <td>{{props.item.name}}</td>
         <td>{{props.item.unit}}</td>
         <td>{{props.item.professor}}</td>
-        <td><v-btn v-on:click="navigateTo({name: 'CourseToEdit', params: {courseId: props.item._id}})" class="success" type="button"><v-icon>edit</v-icon></v-btn></td>
+        <td><v-btn :to="{name: 'CourseToEdit', params: {courseId: props.item._id}}" class="success" type="button"><v-icon>edit</v-icon></v-btn></td>
       </template>
     </v-data-table>
   </div>
@@ -53,10 +53,6 @@ export default {
         this.$router.push("/");
       }
     },
-    navigateTo: function(path) {
-      this.$router.push(path)
-    },
-
   },
   components: {
     "course-nav": CourseNavigation
