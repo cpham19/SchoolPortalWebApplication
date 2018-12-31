@@ -24,8 +24,9 @@ module.exports = {
             .catch(err => res.status(400).send({ error: "Section of this course already exists!" }))
     },
     enrollCourse(req, res) {
-        User.enrollCourse({ userName: req.body.userName, courseId: req.body.courseId }).then(found => {
-            res.send({ courseId: req.body.courseId })
+        User.enrollCourse({ userId: req.body.userId, courseId: req.body.courseId }).then(found => {
+            res.send({ userId: req.body.userId, courseId: req.body.courseId })
+            
         })
          // error
         .catch(err => res.status(400).send({ error: "User not found!" }))
@@ -59,7 +60,7 @@ module.exports = {
         .catch(err => res.status(400).send({ error: "Error when editting course" }))
     },
     dropCourse(req, res) {
-        User.dropCourse(req.params.userName, req.params.courseId).then(found => {
+        User.dropCourse(req.params.userId, req.params.courseId).then(found => {
             res.send({courseId: req.params.courseId})
         })
         // error

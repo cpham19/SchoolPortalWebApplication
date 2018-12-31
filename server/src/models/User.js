@@ -95,15 +95,15 @@ const createUser = (firstName, lastName, streetAddress, city, state, zipCode, em
 }
 
 const enrollCourse = (obj) => {
-    return User.findOneAndUpdate({ userName: obj.userName }, { "$push": { courses: obj.courseId } })
+    return User.findOneAndUpdate({ _id: obj.userId }, { "$push": { courses: obj.courseId } })
         .then(user => {
             return { courseId: obj.courseId }
         })
 }
 
 // Drop course for user
-const dropCourse = (userName, courseId) => {
-    return User.findOneAndUpdate({ userName: userName }, { '$pull': { courses: courseId } })
+const dropCourse = (userId, courseId) => {
+    return User.findOneAndUpdate({ _id: userId  }, { '$pull': { courses: courseId } })
         .then(user => {
             return { courseId: courseId }
         })

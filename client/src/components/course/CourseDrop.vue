@@ -52,7 +52,7 @@ export default {
   },
   methods: {
     async dropCourse(courseId) {
-      const course = {userName: this.user.userName, courseId: courseId}
+      const course = {userId: this.user._id, courseId: courseId}
       try {
         const response = await CourseService.dropCourse(course)
         this.$store.dispatch('dropCourse', response.data.courseId)

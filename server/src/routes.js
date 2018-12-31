@@ -28,7 +28,7 @@ module.exports = (app) => {
     app.post('/course/enroll', CourseController.enrollCourse)
     app.delete('/course/remove/:courseId', CourseController.removeCourse)
     app.put(`/course/edit/:courseId`, CourseControllerPolicy.editCourse, CourseController.editCourse)
-    app.post('/course/drop/:userName/:courseId', CourseController.dropCourse)
+    app.post('/course/drop/:userId&:courseId', CourseController.dropCourse)
 
     // Assignment handler 
     app.get('/assignment/:assignmentId', AssignmentController.getAssignment)

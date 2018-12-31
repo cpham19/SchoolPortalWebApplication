@@ -44,6 +44,7 @@ export default {
   },
   computed: {
     ...mapState([
+      'user',
       'isUserLoggedIn',
       'isUserAdmin'
     ])
@@ -77,10 +78,11 @@ export default {
       })
     },
     async enrollCourse(courseId) {
-      const obj = {userName: this.userName, courseId: courseId}
-
+      const obj = {userId: this.user._id, courseId: courseId}
+      console.log(obj)
       try {
         const response = await CourseService.enrollCourse(obj)
+        console.log(response)
         this.$store.dispatch('enrollCourse', response.data.courseId)
         // Filter the search results based on the user's enrolled courses
         this.user.courses.forEach(courseId => {

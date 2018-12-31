@@ -20,6 +20,6 @@ export default {
         return Api().put(`course/edit/${course._id}`, course)
     },
     dropCourse(course) {
-        return Api().post(`course/drop/${course.userName}/${course.courseId}`)
+        return Api().post(`course/drop/${course.userId}&${course.courseId}`)
     }
 }
