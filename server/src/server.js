@@ -12,7 +12,10 @@ app.use(bodyParser.json())
 app.use(cors())
 
 // Database
-const db = require('./db')
+require('./db')
+
+// Passport
+require('./passport')
 
 // Routes
 require('./routes')(app)

@@ -2,20 +2,27 @@
   <v-card height="55px" flat>
     <v-bottom-nav :active.sync="active" :value="true" absolute color="transparent">
       <v-btn dark color="teal" flat :to="{name: 'CourseSearch'}"><span>Search</span></v-btn>
-      <v-btn v-show="this.$store.state.isUserAdmin" dark color="blue" flat :to="{name: 'CourseAdd'}"><span>Add</span></v-btn>
-      <v-btn v-show="this.$store.state.isUserAdmin" dark color="red" flat :to="{name: 'CourseRemove'}"><span>Remove</span></v-btn>
-      <v-btn v-show="this.$store.state.isUserAdmin" dark color="green" flat :to="{name: 'CourseEdit'}"><span>Edit</span></v-btn>
-      <v-btn v-show="!this.$store.state.isUserAdmin" dark color="black" flat :to="{name: 'CourseDrop'}"><span>Drop</span></v-btn>
+      <v-btn v-show="isUserAdmin" dark color="blue" flat :to="{name: 'CourseAdd'}"><span>Add</span></v-btn>
+      <v-btn v-show="isUserAdmin" dark color="red" flat :to="{name: 'CourseRemove'}"><span>Remove</span></v-btn>
+      <v-btn v-show="isUserAdmin" dark color="green" flat :to="{name: 'CourseEdit'}"><span>Edit</span></v-btn>
+      <v-btn v-show="!isUserAdmin" dark color="black" flat :to="{name: 'CourseDrop'}"><span>Drop</span></v-btn>
     </v-bottom-nav>
   </v-card>
 </template>
 
 <script>
+import {mapState} from "vuex"
+
 export default {
   name: "CourseNavigation",
   data() {
     return {
     };
+  },
+  computed: {
+    ...mapState([
+      'isUserAdmin'
+    ])
   },
   mounted() {
 

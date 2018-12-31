@@ -1,7 +1,7 @@
 <template>
   <v-layout column>
     <v-flex>
-      <img src="../assets/img/csula-logo.png" class="center" width="300px">
+      <img src="@/assets/img/csula-logo.png" class="center" width="300px">
       <div class="col-lg-4 col-lg-offset-4">
         <v-form>
           <v-text-field v-model="userName" label="username" type="text" required :rules="[required]" outline></v-text-field>
@@ -34,7 +34,7 @@ export default {
     };
   },
   mounted() {
-    this.checkLoggedIn();
+    this.checkLoggedIn()
   },
   methods: {
     async login() {
@@ -60,7 +60,7 @@ export default {
     toggleRegister: function() {
       this.$router.push("/register");
     },
-    checkLoggedIn() {
+    checkLoggedIn: function() {
       if (this.$store.state.isUserLoggedIn) {
         this.$router.push("/home")
       }

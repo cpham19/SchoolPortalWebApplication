@@ -12,14 +12,24 @@
           <!-- First row is the author and his message -->
           <tr>
             <td class="post-description">{{thread.description}}</td>
-            <td class="post-author">{{thread.postedDate}}<br/><v-img :src="`${thread.author.avatar}`"></v-img><br/>{{thread.author.userName}}<br/><v-btn v-show="admin || userName === thread.author.userName" :to="{name: 'ThreadEdit', params: {threadId: thread._id}}" class="info" type="submit">Edit</v-btn></td>
+            <td class="post-author">
+                {{thread.postedDate}}
+                <br/><v-img :src="`${thread.author.avatar}`"></v-img>
+                <br/><a v-on:click="navigateTo({name: 'User', params: {userId: thread.author._id, threadId: thread._id}})">{{thread.author.userName}}</a>
+                <br/><v-btn v-show="isUserAdmin || user.userName === thread.author.userName" :to="{name: 'ThreadEdit', params: {threadId: thread._id}}" class="info" type="submit">Edit</v-btn>
+            </td>
           </tr>
 
           <!-- Additional rows for replies and their authors -->
           <tr v-for="reply in thread.replies" :key="reply._id">
-
             <td class="post-description">{{reply.description}}</td>
-            <td class="post-author">{{reply.postedDate}}<br/><v-img :src="`${reply.author.avatar}`"></v-img><br/>{{reply.author.userName}}<br/><v-btn v-show="admin || userName === reply.author.userName" :to="{name: 'ReplyEdit', params: {replyId: reply._id}}" class="info" type="submit">Edit</v-btn><v-btn v-on:click="removeReply(reply._id)" v-show="userName === reply.author.userName" class="error" type="submit">Remove</v-btn></td>
+            <td class="post-author">
+                {{reply.postedDate}}
+                <br/><v-img :src="`${reply.author.avatar}`"></v-img>
+                <br/><a v-on:click="navigateTo({name: 'User', params: {userId: reply.author._id, threadId: thread._id}})">{{reply.author.userName}}</a>
+                <br/><v-btn v-show="isUserAdmin || user.userName === reply.author.userName" :to="{name: 'ReplyEdit', params: {replyId: reply._id}}" class="info" type="submit">Edit</v-btn>
+                <v-btn v-on:click="removeReply(reply._id)" v-show="user.userName === reply.author.userName" class="error" type="submit">Remove</v-btn>
+            </td>
           </tr>
         </tbody>
       </table>
@@ -34,34 +44,41 @@
 </template>
 
 <script>
-import ForumService from "@/services/ForumService";
+import ForumService from "@/services/ForumService"
+import {mapState} from "vuex"
 
 export default {
   name: 'ThreadView',        
   data () {
     return {
-      userName: "",
       thread: {},
       newReply: "",
       error: "",
       failedAdd: false,
-      admin: false,
     }
+  },
+computed: {
+    ...mapState([
+      'user',
+      'isUserLoggedIn',
+      'isUserAdmin'
+    ])
   },
   async mounted() {
     this.checkLoggedIn()
     this.getThreadAndReplies()
   },
   methods: {
+    navigateTo: function(route) {
+      this.$router.push(route)
+    },
     back: function() {
       this.$router.push("/forum")
     },
     checkLoggedIn: function() {
-      if (!(this.$store.state.isUserLoggedIn)) {
+      if (!(this.isUserLoggedIn)) {
         this.$router.push("/")
       }
-      this.userName = this.$store.state.user.userName
-      this.admin = this.$store.state.isUserAdmin
     },
     async getThreadAndReplies() {
         const threadId = this.$store.state.route.params.threadId
@@ -97,8 +114,8 @@ export default {
             return
         }
 
-        const reply = {threadId: this.thread._id, description: this.newReply, author: {userName: this.$store.state.user.userName, avatar: this.$store.state.user.avatar}}
-
+        const reply = {threadId: this.thread._id, description: this.newReply, author: {_id: this.user._id, userName: this.user.userName, avatar: this.user.avatar}}
+        
         try {
             const response = await ForumService.addReply(reply)
             this.getThreadAndReplies()
@@ -150,7 +167,7 @@ export default {
     vertical-align: top;
     text-align: left;
     height: 200px;
-    width: 1000px;
+    width: 2000px;
 }
 
 .post-author {

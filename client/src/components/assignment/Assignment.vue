@@ -1,12 +1,12 @@
 <template>
   <div>
     <div v-for="course in courses" :key="course._id">
-      <h1 class="display-1">{{course.dept}}{{course.number}}-{{course.section}} {{course.name}} <v-btn fab dark color="indigo" :to="{name: 'AssignmentAdd', params: {courseId: course._id}}" type="submit"><v-icon dark>add</v-icon></v-btn></h1>
+      <h1 class="display-1">{{course.dept}}{{course.number}}-{{course.section}} {{course.name}} <v-btn v-show="isUserAdmin" fab dark color="indigo" :to="{name: 'AssignmentAdd', params: {courseId: course._id}}" type="submit"><v-icon dark>add</v-icon></v-btn></h1>
       <v-data-table :headers="headers" :items="course.assignments" class="elevation-1">
         <template slot="items" slot-scope="props">
           <td><a v-on:click="navigateTo({name: 'AssignmentView', params: {assignmentId: props.item._id}})">{{props.item.title}}</a></td>
           <td>{{props.item.dueDate}}</td>
-          <td v-show="admin"><v-btn :to="{name: 'AssignmentEdit', params: {assignmentId: props.item._id}}" color="success" type="submit"><v-icon>edit</v-icon></v-btn><v-btn v-on:click="removeAssignment(props.item._id)" class="error" type="submit"><v-icon>remove</v-icon></v-btn></td>
+          <td v-show="isUserAdmin"><v-btn :to="{name: 'AssignmentEdit', params: {assignmentId: props.item._id}}" color="success" type="submit"><v-icon>edit</v-icon></v-btn><v-btn v-on:click="removeAssignment(props.item._id)" class="error" type="submit"><v-icon>remove</v-icon></v-btn></td>
         </template>
       </v-data-table>
       <br/><br/>
@@ -15,9 +15,10 @@
 </template>
 
 <script>
-import AssignmentService from "@/services/AssignmentService";
-import CourseService from "@/services/CourseService";
-import Router from "vue-router";
+import AssignmentService from "@/services/AssignmentService"
+import CourseService from "@/services/CourseService"
+import Router from "vue-router"
+import {mapState} from "vuex"
 
 export default {
   name: "Assignment",
@@ -29,8 +30,14 @@ export default {
         { text: "Action", value: "_id" },
       ],
       courses: [],
-      admin: false,
     };
+  },
+  computed: {
+    ...mapState([
+      'user',
+      'isUserLoggedIn',
+      'isUserAdmin'
+    ])
   },
   mounted() {
     this.checkLoggedIn()
@@ -41,20 +48,18 @@ export default {
       this.$router.push(route)
     },
     async getUserCoursesAndAssignments() {
-      this.userName = this.$store.state.user.userName
-
       try {
         const courseResponse = await CourseService.fetchCourses()
         const assignmentResponse = await AssignmentService.getAssignments()
 
-        if (this.admin) {
+        if (this.isUserAdmin) {
           this.courses = courseResponse.data.courses
           this.courses.forEach(course => {
             course.assignments = []
           })
         }
         else {
-          this.$store.state.user.courses.forEach(courseId => {
+          this.user.courses.forEach(courseId => {
           courseResponse.data.courses.forEach(course => {
              if (course._id === courseId) {
                 course.assignments = []
@@ -77,10 +82,9 @@ export default {
       }
     },
     checkLoggedIn: function() {
-      if (!(this.$store.state.isUserLoggedIn)) {
+      if (!(this.isUserLoggedIn)) {
         this.$router.push("/")
       }
-      this.admin = this.$store.state.isUserAdmin
     },
     async removeAssignment(assignmentId) {
       try {

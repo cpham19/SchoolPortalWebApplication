@@ -17,10 +17,11 @@
 </template>
 
 <script>
-import CourseService from "@/services/CourseService";
-import Router from "vue-router";
+import CourseService from "@/services/CourseService"
+import Router from "vue-router"
 import CourseNavigation from "@/components/course/CourseNavigation.vue"
-import depts from "./depts";
+import depts from "./depts"
+import {mapState} from "vuex"
 
 export default {
   name: "CourseEdit",
@@ -39,6 +40,11 @@ export default {
       active: 3,
     };
   },
+  computed: {
+    ...mapState([
+      'isUserLoggedIn',
+    ])
+  },
   async mounted() {
     this.checkLoggedIn()
     const response = await CourseService.fetchCourses()
@@ -49,7 +55,7 @@ export default {
       this.$router.push('/course/edit')
     },
     checkLoggedIn: function() {
-      if (!this.$store.state.isUserLoggedIn) {
+      if (!this.isUserLoggedIn) {
         this.$router.push("/");
       }
     },

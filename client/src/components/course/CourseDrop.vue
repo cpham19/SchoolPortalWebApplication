@@ -17,9 +17,10 @@
 </template>
 
 <script>
-import CourseService from "@/services/CourseService";
-import Router from "vue-router";
-import CourseNavigation from "@/components/course/CourseNavigation.vue";
+import CourseService from "@/services/CourseService"
+import Router from "vue-router"
+import CourseNavigation from "@/components/course/CourseNavigation.vue"
+import {mapState} from "vuex"
 
 export default {
   name: "CourseDrop",
@@ -35,18 +36,23 @@ export default {
         { text: "Action", value: "_id"}
       ],
       enrolledCourses: [],
-      userName: "",
       active: 4,
       error: ""
     };
   },
+  computed: {
+    ...mapState([
+      'user',
+      'isUserLoggedIn',
+    ])
+  },
   mounted() {
-    this.checkLoggedIn(), 
+    this.checkLoggedIn()
     this.getUserCourses()
   },
   methods: {
     async dropCourse(courseId) {
-      const course = {userName: this.userName, courseId: courseId}
+      const course = {userName: this.user.userName, courseId: courseId}
       try {
         const response = await CourseService.dropCourse(course)
         this.$store.dispatch('dropCourse', response.data.courseId)
@@ -59,17 +65,16 @@ export default {
       }
     },
     checkLoggedIn() {
-      if (!this.$store.state.isUserLoggedIn) {
+      if (!this.isUserLoggedIn) {
         this.$router.push("/");
       }
     },
     async getUserCourses() {
-      this.userName = this.$store.state.user.userName
       this.enrolledCourses = [];
 
       const response = await CourseService.fetchCourses();
 
-      this.$store.state.user.courses.forEach(courseId => {
+      this.user.courses.forEach(courseId => {
         response.data.courses.forEach(course => {
             if (course._id === courseId) {
               this.enrolledCourses.push(course)

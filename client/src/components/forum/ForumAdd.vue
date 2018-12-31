@@ -9,9 +9,10 @@
 </template>
 
 <script>
-import ForumService from "@/services/ForumService";
-import CourseService from "@/services/CourseService";
-import Router from "vue-router";
+import ForumService from "@/services/ForumService"
+import CourseService from "@/services/CourseService"
+import Router from "vue-router"
+import {mapState} from "vuex"
 
 export default {
   name: 'ForumAdd',        
@@ -26,6 +27,12 @@ export default {
       error: '',
     }
   },
+  computed: {
+    ...mapState([
+      'user',
+      'isUserLoggedIn'
+    ])
+  },
   async mounted() {
     this.checkLoggedIn()
     const courseId = this.$store.state.route.params.courseId
@@ -37,8 +44,8 @@ export default {
       this.$router.push("/forum")
     },
     async addThread() {
-      const thread = {courseId: this.course._id, author: {userName: this.$store.state.user.userName, avatar: this.$store.state.user.avatar}, title: this.title, description: this.description}
-
+      const thread = {courseId: this.course._id, author: {_id: this.user._id, userName: this.user.userName, avatar: this.user.avatar}, title: this.title, description: this.description}
+      
       if (!Object.keys(thread).every(key => !!thread[key])) {
         this.failedAdd = true
         this.successfulAdd = false
@@ -59,7 +66,7 @@ export default {
       }
     },
     checkLoggedIn: function() {
-      if (!(this.$store.state.isUserLoggedIn)) {
+      if (!(this.isUserLoggedIn)) {
         this.$router.push("/")
       }
     }

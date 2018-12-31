@@ -1,5 +1,7 @@
 const AuthenticationController = require('./controllers/AuthenticationController')
 const AuthenticationControllerPolicy = require('./policies/AuthenticationControllerPolicy')
+const isAuthenticated = require('./policies/isAuthenticated')
+const HomeController = require('./controllers/HomeController')
 const CourseController = require('./controllers/CourseController')
 const CourseControllerPolicy = require('./policies/CourseControllerPolicy')
 const AssignmentController = require('./controllers/AssignmentController')
@@ -14,6 +16,9 @@ module.exports = (app) => {
 
     // Home handler 
     app.get('/home', (req, res) => {res.send([{ title: "This is where you see your home" }])})
+
+     // User handler
+     app.get('/user/:userId', HomeController.getUser)
 
     // Course handler 
     app.get('/course', CourseController.getCourses)

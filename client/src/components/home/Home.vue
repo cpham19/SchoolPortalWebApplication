@@ -6,21 +6,19 @@
           <v-flex xs12>
             <h1>User Information</h1>
             <h2>Full Name</h2>
-            <p class="lead">{{this.$store.state.user.firstName}} {{this.$store.state.user.lastName}}</p>
+            <p class="lead">{{user.firstName}} {{user.lastName}}</p>
 
             <h2>Address</h2>
-            <p
-              class="lead"
-            >{{this.$store.state.user.streetAddress}}, {{this.$store.state.user.city}} {{this.$store.state.user.state}} {{this.$store.state.user.zipCode}}</p>
+            <p class="lead">{{user.streetAddress}}, {{user.city}} {{user.state}} {{user.zipCode}}</p>
 
             <h2>Email</h2>
-            <p class="lead">{{this.$store.state.user.email}}</p>
+            <p class="lead">{{user.email}}</p>
 
             <h2>Phone Number</h2>
-            <p class="lead">{{this.$store.state.user.phoneNumber}}</p>
+            <p class="lead">{{user.phoneNumber}}</p>
           </v-flex>
         </v-layout>
-        <v-layout v-show="!this.$store.state.isUserAdmin">
+        <v-layout v-show="!isUserAdmin">
           <v-flex xs12>
             <h1> Current Enrolled Courses</h1>
             <p class="lead" v-for="course in enrolledCourses" :key="course._id">
@@ -38,9 +36,10 @@
 </template>
 
 <script>
-import HomeService from "@/services/HomeService";
-import CourseService from "@/services/CourseService";
-import Router from "vue-router";
+import HomeService from "@/services/HomeService"
+import CourseService from "@/services/CourseService"
+import Router from "vue-router"
+import {mapState} from "vuex"
 
 export default {
   name: "Home",
@@ -50,11 +49,19 @@ export default {
     };
   },
   mounted() {
-    this.checkLoggedIn(), this.getUserCourses();
+    this.checkLoggedIn() 
+    this.getUserCourses()
+  },
+  computed: {
+    ...mapState([
+      'user',
+      'isUserLoggedIn',
+      'isUserAdmin'
+    ])
   },
   methods: {
-    checkLoggedIn() {
-      if (!this.$store.state.isUserLoggedIn) {
+    checkLoggedIn: function() {
+      if (!this.isUserLoggedIn) {
         this.$router.push("/");
       }
     },
@@ -63,13 +70,13 @@ export default {
 
       const response = await CourseService.fetchCourses();
 
-      this.$store.state.user.courses.forEach(courseId => {
+      this.user.courses.forEach(courseId => {
         response.data.courses.forEach(course => {
             if (course._id === courseId) {
               this.enrolledCourses.push(course)
             }
         })
-      });
+      })
     }
   }
 };

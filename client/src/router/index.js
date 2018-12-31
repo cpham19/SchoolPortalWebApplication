@@ -1,8 +1,12 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Login from '@/components/Login'
-import Register from '@/components/Register'
-import Home from '@/components/Home'
+
+import Login from '@/components/login/Login'
+import Register from '@/components/login/Register'
+
+import Home from '@/components/home/Home'
+import User from '@/components/home/User'
+
 
 import CourseSearch from '@/components/course/CourseSearch'
 import CourseAdd from '@/components/course/CourseAdd'
@@ -41,6 +45,11 @@ export default new Router({
             path: '/home',
             name: 'Home',
             component: Home
+        },
+        {
+            path: '/user/:userId',
+            name: 'User',
+            component: User
         },
         {
             path: '/course/search',

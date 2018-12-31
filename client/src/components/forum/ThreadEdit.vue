@@ -8,7 +8,8 @@
 </template>
 
 <script>
-import ForumService from "@/services/ForumService";
+import ForumService from "@/services/ForumService"
+import {mapState} from "vuex"
 
 export default {
   name: 'ThreadEdit',        
@@ -21,6 +22,11 @@ export default {
       error: "",
     }
   },
+  computed: {
+    ...mapState([
+      'isUserLoggedIn'
+    ])
+  },
   async mounted() {
     this.checkLoggedIn()
     const threadId = this.$store.state.route.params.threadId
@@ -32,7 +38,7 @@ export default {
       this.$router.push(`/forum/${this.thread._id}`)
     },
     checkLoggedIn: function() {
-      if (!(this.$store.state.isUserLoggedIn)) {
+      if (!(this.isUserLoggedIn)) {
         this.$router.push("/")
       }
     },

@@ -60,13 +60,6 @@ export default {
     async register () {
       const credentials = {firstName: this.firstName, lastName: this.lastName, streetAddress : this.streetAddress, city : this.city, state: this.state, zipCode: this.zipCode, email: this.email, phoneNumber : this.phoneNumber, userName: this.userName, password: this.password, admin: this.admin}
 
-      // Reject if user doesn't put name or password
-      if (!Object.keys(credentials).every(key => !!credentials[key])) {
-        this.error = "Some fields are empty. Please check."
-        this.failedRegister = true
-        return
-      }
-
       try {
         const response = await AuthenticationService.register(credentials)
         this.failedRegister = false

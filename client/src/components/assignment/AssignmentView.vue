@@ -8,7 +8,8 @@
 </template>
 
 <script>
-import AssignmentService from "@/services/AssignmentService";
+import AssignmentService from "@/services/AssignmentService"
+import {mapState} from "vuex"
 
 export default {
   name: 'AssignmentView',        
@@ -16,6 +17,11 @@ export default {
     return {
       assignment: {}
     }
+  },
+  computed: {
+    ...mapState([
+      'isUserLoggedIn',
+    ])
   },
   async mounted() {
     this.checkLoggedIn()
@@ -28,7 +34,7 @@ export default {
       this.$router.push("/assignment")
     },
     checkLoggedIn: function() {
-      if (!(this.$store.state.isUserLoggedIn)) {
+      if (!this.isUserLoggedIn) {
         this.$router.push("/")
       }
     }

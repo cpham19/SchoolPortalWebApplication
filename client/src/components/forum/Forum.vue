@@ -6,7 +6,7 @@
         <template slot="items" slot-scope="props">
           <td><a v-on:click="navigateTo({name: 'ThreadView', params: {threadId: props.item._id}})">{{props.item.title}}</a></td>
           <td>{{props.item.postedDate}}</td>
-          <td v-show="admin || userName === prop.item.author.userName"><v-btn v-on:click="removeThread(props.item._id)" class="error" type="submit"><v-icon>remove</v-icon></v-btn></td>
+          <td><v-btn v-show="isUserAdmin || user.userName === props.item.author.userName" v-on:click="removeThread(props.item._id)" class="error" type="submit"><v-icon>remove</v-icon></v-btn></td>
         </template>
       </v-data-table>
       <br/><br/>
@@ -15,9 +15,11 @@
 </template>
 
 <script>
-import ForumService from "@/services/ForumService";
-import CourseService from "@/services/CourseService";
-import Router from "vue-router";
+import ForumService from "@/services/ForumService"
+import CourseService from "@/services/CourseService"
+import Router from "vue-router"
+import {mapState} from "vuex"
+
 
 export default {
   name: "Forum",
@@ -29,9 +31,14 @@ export default {
         { text: "Action", value: "_id" },
       ],
       courses: [],
-      userName: "",
-      admin: false
     };
+  },
+  computed: {
+    ...mapState([
+      'user',
+      'isUserLoggedIn',
+      'isUserAdmin'
+    ])
   },
   mounted() {
     this.checkLoggedIn()
@@ -42,7 +49,6 @@ export default {
       this.$router.push(route)
     },
     async getUserCoursesAndThreads() {
-      this.userName = this.$store.state.user.userName
       this.courses = []
 
       try {
@@ -56,7 +62,7 @@ export default {
           })
         }
         else {
-          this.$store.state.user.courses.forEach(courseId => {
+          this.user.courses.forEach(courseId => {
           courseResponse.data.courses.forEach(course => {
               if (course._id === courseId) {
                 course.threads = []
@@ -64,6 +70,7 @@ export default {
               }
             })
           })
+
         }
 
         this.courses.forEach(course => {
@@ -79,12 +86,9 @@ export default {
       }
     },
     checkLoggedIn: function() {
-      if (!(this.$store.state.isUserLoggedIn)) {
+      if (!(this.isUserLoggedIn)) {
         this.$router.push("/")
       }
-
-      this.userName = this.$store.state.user.userName
-      this.admin = this.$store.state.isUserAdmin
     },
     async removeThread(threadId) {
       try {

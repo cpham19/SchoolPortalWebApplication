@@ -7,7 +7,8 @@
 </template>
 
 <script>
-import ForumService from "@/services/ForumService";
+import ForumService from "@/services/ForumService"
+import {mapState} from "vuex"
 
 export default {
   name: 'ReplyEdit',        
@@ -20,20 +21,28 @@ export default {
       error: "",
     }
   },
+  computed: {
+    ...mapState([
+      'isUserLoggedIn'
+    ])
+  },
   async mounted() {
     this.checkLoggedIn()
-    const replyId = this.$store.state.route.params.replyId
-    const response = await ForumService.getReply(replyId)
-    this.reply = response.data.reply
+    this.getReply()
   },
   methods: {
     back: function() {
       this.$router.push(`/forum/${this.reply.threadId}`)
     },
     checkLoggedIn: function() {
-      if (!(this.$store.state.isUserLoggedIn)) {
+      if (!(this.isUserLoggedIn)) {
         this.$router.push("/")
       }
+    },
+    async getReply() {
+      const replyId = this.$store.state.route.params.replyId
+      const response = await ForumService.getReply(replyId)
+      this.reply = response.data.reply
     },
     async editReply() {
       if (!this.reply.description) {

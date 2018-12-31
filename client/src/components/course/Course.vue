@@ -7,7 +7,6 @@
 <script>
 import CourseService from "@/services/CourseService";
 import Router from "vue-router";
-
 import CourseNavigation from "@/components/course/CourseNavigation.vue";
 
 export default {
@@ -22,7 +21,7 @@ export default {
   },
   methods: {
     checkLoggedIn() {
-      if (!this.$store.state.isUserLoggedIn) {
+      if (!this.isUserLoggedIn) {
         this.$router.push("/");
       }
     }

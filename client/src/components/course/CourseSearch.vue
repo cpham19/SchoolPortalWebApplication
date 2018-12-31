@@ -15,16 +15,17 @@
         <td>{{props.item.description}}</td>
         <td>{{props.item.unit}}</td>
         <td>{{props.item.professor}}</td>
-        <td v-show="!admin"><v-btn v-on:click="enrollCourse(props.item._id)" class="success" type="button">Enroll</v-btn></td>
+        <td v-show="!isUserAdmin"><v-btn v-on:click="enrollCourse(props.item._id)" class="success" type="button">Enroll</v-btn></td>
       </template>
     </v-data-table>
   </div>
 </template>
 
 <script>
-import CourseService from "@/services/CourseService";
-import Router from "vue-router";
-import CourseNavigation from "@/components/course/CourseNavigation.vue";
+import CourseService from "@/services/CourseService"
+import Router from "vue-router"
+import {mapState} from "vuex"
+import CourseNavigation from "@/components/course/CourseNavigation.vue"
 
 export default {
   name: "CourseSearch",
@@ -32,8 +33,6 @@ export default {
     return {
       headers: [{text: "Department", value: "dept"}, {text: "Number", value: "number"}, {text: "Section", value: "section"}, {text: "Name", value: "name"}, {text: "Description", value: "description"}, {text: "Unit", value: "unit"}, {text: "Professor", value: "professor"}, {text: "Action", value: "_id"}],
       depts: ["CS", "ME", "BIOL", "PHYS", "CHEM", "COMM", "CE"],
-      userName: "",
-      admin: false,
       courses: null,
       searchedCourses: [],
       dept: "",
@@ -43,8 +42,15 @@ export default {
       active: 0,
     };
   },
+  computed: {
+    ...mapState([
+      'isUserLoggedIn',
+      'isUserAdmin'
+    ])
+  },
   mounted() {
-    this.fetchCourses(), this.checkLoggedIn()
+    this.fetchCourses()
+    this.checkLoggedIn()
   },
   methods: {
     searchCourse: function () {
@@ -66,7 +72,7 @@ export default {
       })
 
       // Filter the search results based on the user's enrolled courses
-      this.$store.state.user.courses.forEach(courseId => {
+      this.user.courses.forEach(courseId => {
         this.searchedCourses = this.searchedCourses.filter(course => !(course._id === courseId))
       })
     },
@@ -77,7 +83,7 @@ export default {
         const response = await CourseService.enrollCourse(obj)
         this.$store.dispatch('enrollCourse', response.data.courseId)
         // Filter the search results based on the user's enrolled courses
-        this.$store.state.user.courses.forEach(courseId => {
+        this.user.courses.forEach(courseId => {
            this.searchedCourses = this.searchedCourses.filter(course => !(course._id === courseId))
         })
         this.$router.push("/course/search")
@@ -91,12 +97,9 @@ export default {
       this.courses = response.data.courses
     },
     checkLoggedIn: function() {
-      if (!this.$store.state.isUserLoggedIn) {
+      if (!this.isUserLoggedIn) {
         this.$router.push("/");
       }
-
-      this.userName = this.$store.state.user.userName
-      this.admin = this.$store.state.isUserAdmin
     }
   },
   components: {

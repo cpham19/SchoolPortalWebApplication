@@ -17,9 +17,10 @@
 </template>
 
 <script>
-import CourseService from "@/services/CourseService";
-import Router from "vue-router";
-import CourseNavigation from "@/components/course/CourseNavigation.vue";
+import CourseService from "@/services/CourseService"
+import Router from "vue-router"
+import CourseNavigation from "@/components/course/CourseNavigation.vue"
+import {mapState} from "vuex"
 
 export default {
   name: "CourseRemove",
@@ -38,8 +39,14 @@ export default {
       active: 2,
     };
   },
+  computed: {
+    ...mapState([
+      'isUserLoggedIn',
+    ])
+  },
   mounted() {
-    this.fetchCourses(), this.checkLoggedIn()
+    this.fetchCourses()
+    this.checkLoggedIn()
   },
   methods: {
     async fetchCourses() {
@@ -47,7 +54,7 @@ export default {
       this.courses = response.data.courses
     },
     checkLoggedIn: function() {
-      if (!this.$store.state.isUserLoggedIn) {
+      if (!this.isUserLoggedIn) {
         this.$router.push("/")
       }
     },

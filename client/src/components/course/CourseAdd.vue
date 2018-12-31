@@ -25,10 +25,11 @@
 </template>
 
 <script>
-import CourseService from "@/services/CourseService";
-import Router from "vue-router";
-import CourseNavigation from "@/components/course/CourseNavigation.vue";
+import CourseService from "@/services/CourseService"
+import Router from "vue-router"
+import CourseNavigation from "@/components/course/CourseNavigation.vue"
 import depts from "./depts"
+import {mapState} from "vuex"
 
 export default {
   name: "CourseAdd",
@@ -50,13 +51,18 @@ export default {
       active: 1
     };
   },
+  computed: {
+    ...mapState([
+      'isUserLoggedIn',
+    ])
+  },
   mounted: function() {
     this.depts = depts,
     this.checkLoggedIn()
   },
   methods: {
     checkLoggedIn: function() {
-      if (!this.$store.state.isUserLoggedIn) {
+      if (!this.isUserLoggedIn) {
         this.$router.push("/");
       }
     },

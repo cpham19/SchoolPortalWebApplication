@@ -19,9 +19,10 @@
 </template>
 
 <script>
-import CourseService from "@/services/CourseService";
-import Router from "vue-router";
-import depts from "./depts";
+import CourseService from "@/services/CourseService"
+import Router from "vue-router"
+import depts from "./depts"
+import {mapState} from "vuex"
 
 export default {
   name: "CourseEdit",
@@ -44,6 +45,11 @@ export default {
       error: ""
     };
   },
+  computed: {
+    ...mapState([
+      'isUserLoggedIn',
+    ])
+  },
   async mounted() {
     this.depts = depts
     const courseId = this.$store.state.route.params.courseId
@@ -55,8 +61,8 @@ export default {
       this.$router.push('/course/edit')
     },
     checkLoggedIn: function() {
-      if (!this.$store.state.isUserLoggedIn) {
-        this.$router.push("/");
+      if (!this.isUserLoggedIn) {
+        this.$router.push("/")
       }
     },
     async editCourse() {

@@ -10,9 +10,10 @@
 </template>
 
 <script>
-import AssignmentService from "@/services/AssignmentService";
-import CourseService from "@/services/CourseService";
-import Router from "vue-router";
+import AssignmentService from "@/services/AssignmentService"
+import CourseService from "@/services/CourseService"
+import Router from "vue-router"
+import {mapState} from "vuex"
 
 export default {
   name: 'AssignmentAdd',        
@@ -27,6 +28,11 @@ export default {
       successfulAdd: false,
       error: '',
     }
+  },
+  computed: {
+    ...mapState([
+      'isUserLoggedIn',
+    ])
   },
   async mounted() {
     this.checkLoggedIn()
@@ -50,7 +56,6 @@ export default {
 
       try {
         const response = await AssignmentService.postAssignment(assignment)
-        console.log(response)
         this.failedAdd = false
         this.successfulAdd = true
         this.$router.push('/assignment')
@@ -62,7 +67,7 @@ export default {
       }
     },
     checkLoggedIn: function() {
-      if (!(this.$store.state.isUserLoggedIn)) {
+      if (!(this.isUserLoggedIn)) {
         this.$router.push("/")
       }
     }
