@@ -1,11 +1,25 @@
 <template>
-  <div>
-      <h1 class="display-2">Adding thread to {{course.dept}}{{course.number}}-{{course.section}} {{course.name}}</h1>
-      <v-text-field v-model="title" label="title of thread" type="text" required :rules="[required]" outline></v-text-field>
-      <v-textarea v-model="description" label="description of thread" :rules="[required]" outline></v-textarea>
-      <v-btn v-on:click="addThread()" :disabled="!title || !description" class="success" type="submit">Add</v-btn><v-btn v-on:click="back()" class="info" type="submit">Back</v-btn>
-      <div class="failed" v-show="failedAdd">{{error}}</div>
-  </div>
+    <v-layout align-center justify-center>
+      <v-flex xs12 sm8 md12>
+        <v-card class="elevation-12">
+          <v-toolbar dark color="primary">
+            <v-toolbar-title>
+              <h1 class="display-1">Adding thread to {{course.dept}}{{course.number}}-{{course.section}} {{course.name}}</h1>
+            </v-toolbar-title>
+          </v-toolbar>
+          <v-card-text>
+            <v-form>
+              <v-text-field v-model="title" label="title of thread" type="text" required :rules="[required]" outline></v-text-field>
+              <v-textarea v-model="description" label="description of thread" :rules="[required]" outline></v-textarea>
+            </v-form>
+            <div class="failed" v-show="failedAdd">{{error}}</div>
+          </v-card-text>
+          <v-card-actions>
+            <v-btn v-on:click="addThread()" :disabled="!title || !description" class="success" type="submit">Add</v-btn><v-btn v-on:click="back()" class="info" type="submit">Back</v-btn>
+           </v-card-actions>
+        </v-card>
+      </v-flex>
+    </v-layout>
 </template>
 
 <script>

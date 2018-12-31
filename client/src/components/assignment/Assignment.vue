@@ -1,17 +1,26 @@
 <template>
-  <div>
-    <div v-for="course in courses" :key="course._id">
-      <h1 class="display-1">{{course.dept}}{{course.number}}-{{course.section}} {{course.name}} <v-btn v-show="isUserAdmin" fab dark color="indigo" :to="{name: 'AssignmentAdd', params: {courseId: course._id}}" type="submit"><v-icon dark>add</v-icon></v-btn></h1>
-      <v-data-table :headers="headers" :items="course.assignments" class="elevation-1">
-        <template slot="items" slot-scope="props">
-          <td><a v-on:click="navigateTo({name: 'AssignmentView', params: {assignmentId: props.item._id}})">{{props.item.title}}</a></td>
-          <td>{{props.item.dueDate}}</td>
-          <td v-show="isUserAdmin"><v-btn :to="{name: 'AssignmentEdit', params: {assignmentId: props.item._id}}" color="success" type="submit"><v-icon>edit</v-icon></v-btn><v-btn v-on:click="removeAssignment(props.item._id)" class="error" type="submit"><v-icon>remove</v-icon></v-btn></td>
-        </template>
-      </v-data-table>
-      <br/><br/>
-    </div>
-  </div>
+  <v-layout>
+    <v-flex xs12 md12>
+      <div v-for="course in courses" :key="course._id" hover>
+        <v-card class="my-3" hover>
+          <v-toolbar dark color="primary">
+            <v-toolbar-title>
+              <h1 class="display-1">{{course.dept}}{{course.number}}-{{course.section}} {{course.name}}
+                <v-btn v-show="isUserAdmin" fab dark color="indigo" :to="{name: 'AssignmentAdd', params: {courseId: course._id}}" type="submit"><v-icon dark>add</v-icon></v-btn>
+              </h1>
+            </v-toolbar-title>
+          </v-toolbar>
+          <v-data-table :headers="headers" :items="course.assignments" class="elevation-1">
+            <template slot="items" slot-scope="props">
+              <td><a v-on:click="navigateTo({name: 'AssignmentView', params: {assignmentId: props.item._id}})">{{props.item.title}}</a></td>
+              <td>{{props.item.dueDate}}</td>
+              <td v-show="isUserAdmin"><v-btn :to="{name: 'AssignmentEdit', params: {assignmentId: props.item._id}}" color="success" type="submit"><v-icon>edit</v-icon></v-btn><v-btn v-on:click="removeAssignment(props.item._id)" class="error" type="submit"><v-icon>remove</v-icon></v-btn></td>
+            </template>
+          </v-data-table>
+        </v-card>
+      </div>
+    </v-flex>
+  </v-layout>
 </template>
 
 <script>
@@ -76,6 +85,8 @@ export default {
             }
           })
         })
+
+        console.log(this.courses)
       }
       catch(err) {
         //this.error = err.response.data

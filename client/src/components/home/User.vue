@@ -1,22 +1,26 @@
 <template>
   <v-layout>
     <v-btn v-on:click="back()" class="info" type="submit">Back</v-btn>
-    <v-flex xs12>
-      <br/><br/>
-      <h1>User Information</h1>
-      <v-img :src="user.avatar" height="300px" contain></v-img>
+    <v-flex xs12 md12>
+      <div class="text-xs-center">
+        <div class="headline" v-show="user.admin">Admin</div>
+        <div class="headline" v-show="!user.admin">Student</div>
+        <v-avatar size="250px">
+          <v-img class="img-circle elevation-7 mb-1" :src="user.avatar"></v-img>
+        </v-avatar>
+        <div class="headline">
+          <!-- <v-img v-show="user.admin" src="static/admin.png" height="30px" alt="admin" contain></v-img> -->
+          <span style="font-weight:bold">{{user.firstName}} {{user.lastName}}</span>
+        </div>
 
-      <h2>Full Name</h2>
-      <p class="lead">{{user.firstName}} {{user.lastName}}</p>
+        <div class="subheading text-xs-center grey--text pt-1 pb-3">{{user.email}}</div>
 
-      <h2>Address</h2>
-      <p class="lead">{{user.streetAddress}}, {{user.city}} {{user.state}} {{user.zipCode}}</p>
+        <h2>Address</h2>
+        <p class="lead">{{user.streetAddress}}, {{user.city}} {{user.state}} {{user.zipCode}}</p>
 
-      <h2>Email</h2>
-      <p class="lead">{{user.email}}</p>
-
-      <h2>Phone Number</h2>
-      <p class="lead">{{user.phoneNumber}}</p>
+        <h2>Phone Number</h2>
+        <p class="lead">{{user.phoneNumber}}</p>
+      </div>
     </v-flex>
   </v-layout>
 </template>

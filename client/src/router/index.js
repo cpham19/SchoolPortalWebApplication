@@ -14,6 +14,7 @@ import CourseRemove from '@/components/course/CourseRemove'
 import CourseEdit from '@/components/course/CourseEdit'
 import CourseToEdit from '@/components/course/CourseToEdit'
 import CourseDrop from '@/components/course/CourseDrop'
+import CourseView from '@/components/course/CourseView'
 
 import Assignment from '@/components/assignment/Assignment'
 import AssignmentAdd from '@/components/assignment/AssignmentAdd'
@@ -80,6 +81,11 @@ export default new Router({
             path: '/course/drop',
             name: 'CourseDrop',
             component: CourseDrop
+        },
+        {
+            path: '/course/:courseId',
+            name: 'CourseView',
+            component: CourseView
         },
         {
             path: '/assignment',

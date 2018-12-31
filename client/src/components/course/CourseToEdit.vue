@@ -62,6 +62,7 @@ export default {
     ])
   },
   async mounted() {
+    this.checkLoggedIn()
     this.depts = depts
     const courseId = this.$store.state.route.params.courseId
     const response = await CourseService.getCourse(courseId)

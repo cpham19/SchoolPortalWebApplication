@@ -1,17 +1,24 @@
 <template>
-  <div>
-    <div v-for="course in courses" :key="course._id">
-      <h3 class="display-2">{{course.dept}}{{course.number}}-{{course.section}} {{course.name}} <v-btn fab dark color="indigo" :to="{name: 'ForumAdd', params: {courseId: course._id}}" type="submit"><v-icon dark>add</v-icon></v-btn></h3>
-      <v-data-table :headers="headers" :items="course.threads" class="elevation-1">
-        <template slot="items" slot-scope="props">
-          <td><a v-on:click="navigateTo({name: 'ThreadView', params: {threadId: props.item._id}})">{{props.item.title}}</a></td>
-          <td>{{props.item.postedDate}}</td>
-          <td><v-btn v-show="isUserAdmin || user.userName === props.item.author.userName" v-on:click="removeThread(props.item._id)" class="error" type="submit"><v-icon>remove</v-icon></v-btn></td>
-        </template>
-      </v-data-table>
-      <br/><br/>
-    </div>
-  </div>
+  <v-layout>
+    <v-flex xs12 md12>
+      <div v-for="course in courses" :key="course._id" hover>
+        <v-card class="my-3" hover>
+          <v-toolbar dark color="primary">
+            <v-toolbar-title>
+            <h3 class="display-1">{{course.dept}}{{course.number}}-{{course.section}} {{course.name}} <v-btn fab dark color="indigo" :to="{name: 'ForumAdd', params: {courseId: course._id}}" type="submit"><v-icon dark>add</v-icon></v-btn></h3>
+            </v-toolbar-title>
+          </v-toolbar>
+          <v-data-table :headers="headers" :items="course.threads" class="elevation-1">
+            <template slot="items" slot-scope="props">
+              <td><a v-on:click="navigateTo({name: 'ThreadView', params: {threadId: props.item._id}})">{{props.item.title}}</a></td>
+              <td>{{props.item.postedDate}}</td>
+              <td><v-btn v-show="isUserAdmin || user.userName === props.item.author.userName" v-on:click="removeThread(props.item._id)" class="error" type="submit"><v-icon>remove</v-icon></v-btn></td>
+            </template>
+          </v-data-table>
+        </v-card>
+      </div>
+    </v-flex>
+  </v-layout>
 </template>
 
 <script>

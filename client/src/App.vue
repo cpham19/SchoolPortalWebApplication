@@ -2,11 +2,13 @@
   <div id="app">
     <v-app>
       <page-header/>
+        <!-- <v-parallax src="static/csula.jpg" height="1200"> -->
         <v-content>
           <v-container fluid>
             <router-view/>
           </v-container>
         </v-content>
+        <!-- </v-parallax> -->
     </v-app>
   </div>
 </template>
