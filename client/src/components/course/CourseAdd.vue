@@ -2,22 +2,31 @@
   <div>
     <course-nav v-bind:active="active"/>
     <br/><br/><br/>
-    <v-layout column>
-      <v-flex xs3 offset>
-        <v-form>
-          <v-select :items="depts" v-model="courseDept" label="department" required :rules="[required]" outline></v-select>
-          <v-text-field v-model="courseName" label="course name" type="text" required :rules="[required]" outline></v-text-field>
-          <v-text-field v-model="courseNumber" label="course number" type="text" required :rules="[required]" outline></v-text-field>
-          <v-text-field v-model="courseSection" label="course section" type="text" required :rules="[required]" outline></v-text-field>
-          <v-text-field v-model="courseDescription" label="course description" type="text" required :rules="[required]" outline></v-text-field>
-          <v-text-field v-model="courseUnit" label="course unit" type="text" required :rules="[required]" outline></v-text-field>
-          <v-text-field v-model="courseProf" label="course professor" type="text" required :rules="[required]" outline></v-text-field>
-          <v-text-field v-model="courseRoom" label="course room" type="text" required :rules="[required]" outline></v-text-field>
-        </v-form>
-        <div class="success" v-show="successfulAdd">Course has been successfully added!</div>
-        <div class="failed" v-show="failedAdd">{{error}}</div>
-        <v-btn v-on:click="addCourse()" :disabled="!courseDept || !courseName || !courseNumber || !courseSection || !courseDescription || !courseUnit || !courseProf || !courseRoom" class="success" type="submit">Add Course</v-btn>
-        <v-btn v-on:click="discard()" class="info" type="submit">Discard</v-btn>
+    <v-layout align-center justify-center>
+      <v-flex xs12 sm8 md8>
+        <v-card class="elevation-12">
+          <v-toolbar dark color="primary">
+            <v-toolbar-title>Add Course</v-toolbar-title>
+          </v-toolbar>
+          <v-card-text>
+            <v-form>
+              <v-select :items="depts" v-model="courseDept" label="department" required :rules="[required]" outline></v-select>
+              <v-text-field v-model="courseName" label="course name" type="text" required :rules="[required]" outline></v-text-field>
+              <v-text-field v-model="courseNumber" label="course number" type="text" required :rules="[required]" outline></v-text-field>
+              <v-text-field v-model="courseSection" label="course section" type="text" required :rules="[required]" outline></v-text-field>
+              <v-text-field v-model="courseDescription" label="course description" type="text" required :rules="[required]" outline></v-text-field>
+              <v-text-field v-model="courseUnit" label="course unit" type="text" required :rules="[required]" outline></v-text-field>
+              <v-text-field v-model="courseProf" label="course professor" type="text" required :rules="[required]" outline></v-text-field>
+              <v-text-field v-model="courseRoom" label="course room" type="text" required :rules="[required]" outline></v-text-field>
+            </v-form>
+            <div class="success" v-show="successfulAdd">Course has been successfully added!</div>
+            <div class="failed" v-show="failedAdd">{{error}}</div>
+          </v-card-text>
+          <v-card-actions>
+            <v-btn v-on:click="addCourse()" :disabled="!courseDept || !courseName || !courseNumber || !courseSection || !courseDescription || !courseUnit || !courseProf || !courseRoom" class="success" type="submit">Add Course</v-btn>
+            <v-btn v-on:click="discard()" class="info" type="submit">Discard</v-btn>
+          </v-card-actions>
+        </v-card>
       </v-flex>
     </v-layout>
 

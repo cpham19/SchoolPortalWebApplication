@@ -1,20 +1,31 @@
 <template>
   <div>
-    <div>
-      <v-form>
-        <v-select :items="depts" v-model="course.dept" label="department" required :rules="[required]" outline></v-select>
-        <v-text-field v-model="course.name" label="course name" type="text" required :rules="[required]" outline></v-text-field>
-        <v-text-field v-model="course.number" label="course number" type="text" required :rules="[required]" outline></v-text-field>
-        <v-text-field v-model="course.section" label="course section" type="text" required :rules="[required]" outline></v-text-field>
-        <v-text-field v-model="course.description" label="course description" type="text" required :rules="[required]" outline></v-text-field>
-        <v-text-field v-model="course.unit" label="course unit" type="text" required :rules="[required]" outline></v-text-field>
-        <v-text-field v-model="course.professor" label="course professor" type="text" required :rules="[required]" outline></v-text-field>
-        <v-text-field v-model="course.room" label="course room" type="text" required :rules="[required]" outline></v-text-field>
-      </v-form>
-      <div class="failed" v-show="failedEdit">{{error}}</div>
-      <v-btn v-on:click="editCourse()" :disabled="!course.dept || !course.name || !course.number || !course.section || !course.description || !course.unit || !course.professor || !course.room" class="green" type="submit">Submit Changes</v-btn>
-      <v-btn v-on:click="back()" class="back" type="submit">Back and Discard Changes</v-btn>
-    </div>
+    <v-layout align-center justify-center>
+      <v-flex xs12 sm8 md8>
+        <v-card class="elevation-12">
+          <v-toolbar dark color="primary">
+            <v-toolbar-title>Edit Course</v-toolbar-title>
+          </v-toolbar>
+          <v-card-text>
+            <v-form>
+              <v-select :items="depts" v-model="course.dept" label="department" required :rules="[required]" outline></v-select>
+              <v-text-field v-model="course.name" label="course name" type="text" required :rules="[required]" outline></v-text-field>
+              <v-text-field v-model="course.number" label="course number" type="text" required :rules="[required]" outline></v-text-field>
+              <v-text-field v-model="course.section" label="course section" type="text" required :rules="[required]" outline></v-text-field>
+              <v-text-field v-model="course.description" label="course description" type="text" required :rules="[required]" outline></v-text-field>
+              <v-text-field v-model="course.unit" label="course unit" type="text" required :rules="[required]" outline></v-text-field>
+              <v-text-field v-model="course.professor" label="course professor" type="text" required :rules="[required]" outline></v-text-field>
+              <v-text-field v-model="course.room" label="course room" type="text" required :rules="[required]" outline></v-text-field>
+            </v-form>
+            <div class="failed" v-show="failedEdit">{{error}}</div>
+          </v-card-text>
+          <v-card-actions>
+            <v-btn v-on:click="editCourse()" :disabled="!course.dept || !course.name || !course.number || !course.section || !course.description || !course.unit || !course.professor || !course.room" class="green" type="submit">Submit Changes</v-btn>
+            <v-btn v-on:click="back()" class="back" type="submit">Back and Discard Changes</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-flex>
+    </v-layout>
   </div>
 </template>
 

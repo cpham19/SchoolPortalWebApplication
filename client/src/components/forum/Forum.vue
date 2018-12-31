@@ -55,7 +55,7 @@ export default {
         const courseResponse = await CourseService.fetchCourses()
         const forumResponse = await ForumService.getThreads()
 
-        if (this.admin) {
+        if (this.isUserAdmin) {
           this.courses = courseResponse.data.courses
           this.courses.forEach(course => {
               course.threads = []

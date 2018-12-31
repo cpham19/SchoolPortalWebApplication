@@ -1,23 +1,34 @@
 <template>
   <div>
     <course-nav v-bind:active="active"/>
-    <br/><br/><br/>
-    <v-form>
-      <v-select :items="depts" v-model="dept" label="department" v-on:change="searchCourse()" outline></v-select>
-      <v-text-field v-model="number" label="course number" type="text" v-on:keyup="searchCourse()" outline></v-text-field>
-    </v-form>
-    <v-data-table :headers="headers" :items="searchedCourses" class="elevation-1">
-      <template slot="items" slot-scope="props">
-        <td>{{props.item.dept}}</td>
-        <td>{{props.item.number}}</td>
-        <td>{{props.item.section}}</td>
-        <td>{{props.item.name}}</td>
-        <td>{{props.item.description}}</td>
-        <td>{{props.item.unit}}</td>
-        <td>{{props.item.professor}}</td>
-        <td v-show="!isUserAdmin"><v-btn v-on:click="enrollCourse(props.item._id)" class="success" type="button">Enroll</v-btn></td>
-      </template>
-    </v-data-table>
+    <br/><br/><br/><br/>
+    <v-layout align-center justify-center>
+      <v-flex xs12 sm8 md8>
+        <v-card class="elevation-12">
+          <v-toolbar dark color="primary">
+            <v-toolbar-title>Search</v-toolbar-title>
+          </v-toolbar>
+          <v-card-text>
+            <v-form>
+              <v-select :items="depts" v-model="dept" label="department" v-on:change="searchCourse()" outline></v-select>
+              <v-text-field v-model="number" label="course number" type="text" v-on:keyup="searchCourse()" outline></v-text-field>
+            </v-form>
+          </v-card-text>
+          <v-data-table :headers="headers" :items="searchedCourses" class="elevation-1">
+            <template slot="items" slot-scope="props">
+              <td>{{props.item.dept}}</td>
+              <td>{{props.item.number}}</td>
+              <td>{{props.item.section}}</td>
+              <td>{{props.item.name}}</td>
+              <td>{{props.item.description}}</td>
+              <td>{{props.item.unit}}</td>
+              <td>{{props.item.professor}}</td>
+              <td v-show="!isUserAdmin"><v-btn v-on:click="enrollCourse(props.item._id)" class="success" type="button">Enroll</v-btn></td>
+            </template>
+          </v-data-table>
+        </v-card>
+      </v-flex>
+    </v-layout>
   </div>
 </template>
 

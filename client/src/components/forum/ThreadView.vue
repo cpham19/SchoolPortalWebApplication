@@ -13,10 +13,10 @@
           <tr>
             <td class="post-description">{{thread.description}}</td>
             <td class="post-author">
-                {{thread.postedDate}}
-                <br/><v-img :src="`${thread.author.avatar}`"></v-img>
-                <br/><a v-on:click="navigateTo({name: 'User', params: {userId: thread.author._id, threadId: thread._id}})">{{thread.author.userName}}</a>
-                <br/><v-btn v-show="isUserAdmin || user.userName === thread.author.userName" :to="{name: 'ThreadEdit', params: {threadId: thread._id}}" class="info" type="submit">Edit</v-btn>
+                {{thread.postedDate}}<br/>
+                <v-img :src="thread.author.avatar"></v-img><br/>
+                <a v-on:click="navigateTo({name: 'User', params: {userId: thread.author._id, threadId: thread._id}})">{{thread.author.userName}}</a><br/>
+                <v-btn v-show="isUserAdmin || user.userName === thread.author.userName" :to="{name: 'ThreadEdit', params: {threadId: thread._id}}" class="info" type="submit">Edit</v-btn>
             </td>
           </tr>
 
@@ -24,10 +24,10 @@
           <tr v-for="reply in thread.replies" :key="reply._id">
             <td class="post-description">{{reply.description}}</td>
             <td class="post-author">
-                {{reply.postedDate}}
-                <br/><v-img :src="`${reply.author.avatar}`"></v-img>
-                <br/><a v-on:click="navigateTo({name: 'User', params: {userId: reply.author._id, threadId: thread._id}})">{{reply.author.userName}}</a>
-                <br/><v-btn v-show="isUserAdmin || user.userName === reply.author.userName" :to="{name: 'ReplyEdit', params: {replyId: reply._id}}" class="info" type="submit">Edit</v-btn>
+                {{reply.postedDate}}<br/>
+                <v-img :src="reply.author.avatar"></v-img><br/>
+                <a v-on:click="navigateTo({name: 'User', params: {userId: reply.author._id, threadId: thread._id}})">{{reply.author.userName}}</a><br/>
+                <v-btn v-show="isUserAdmin || user.userName === reply.author.userName" :to="{name: 'ReplyEdit', params: {replyId: reply._id}}" class="info" type="submit">Edit</v-btn>
                 <v-btn v-on:click="removeReply(reply._id)" v-show="user.userName === reply.author.userName" class="error" type="submit">Remove</v-btn>
             </td>
           </tr>

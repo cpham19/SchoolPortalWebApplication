@@ -1,16 +1,23 @@
 <template>
-  <v-layout column>
-    <v-flex>
-      <img src="@/assets/img/csula-logo.png" class="center" width="300px">
-      <div class="col-lg-4 col-lg-offset-4">
-        <v-form>
-          <v-text-field v-model="userName" label="username" type="text" required :rules="[required]" outline></v-text-field>
-          <v-text-field v-model="password" label="password" type="password" required :rules="[required]" outline></v-text-field>
-        </v-form>
-        <div class="failed" v-show="failedLogin">{{error}}</div>
-        <v-btn v-on:click="login()" :disabled="!userName || !password" class="btn-small waves-effect waves-light" type="button">Login</v-btn>
-        <a v-on:click="toggleRegister()">New User?</a>
-      </div>
+  <v-layout align-center justify-center>
+    <v-flex xs12 sm8 md4>
+      <v-card class="elevation-12">
+        <v-toolbar dark color="primary">
+          <v-toolbar-title>Login</v-toolbar-title>
+        </v-toolbar>
+        <v-img src="static/csula-logo.png" aspect-ratio="1.3"></v-img>
+        <v-card-text>
+          <v-form>
+            <v-text-field v-model="userName" label="username" type="text" required :rules="[required]" outline></v-text-field>
+            <v-text-field v-model="password" label="password" type="password" required :rules="[required]" outline></v-text-field>
+          </v-form>
+          <div class="failed" v-show="failedLogin">{{error}}</div>
+        </v-card-text>
+        <v-card-actions>
+          <v-btn v-on:click="login()" :disabled="!userName || !password" class="btn-small waves-effect waves-light" type="button">Login</v-btn>
+          <a v-on:click="toggleRegister()">New User?</a>
+        </v-card-actions>
+      </v-card>
     </v-flex>
   </v-layout>
 </template>
@@ -71,13 +78,6 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.center {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  width: 25%;
-}
-
 .failed {
   color: red;
 }

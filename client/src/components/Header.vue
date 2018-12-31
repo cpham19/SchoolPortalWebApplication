@@ -1,5 +1,5 @@
 <template>
-  <v-toolbar fixed class="cyan" dark>
+  <v-toolbar fixed class="red" dark>
     <v-toolbar-title class="mr-4">CSULA CENTER</v-toolbar-title>
     <v-spacer></v-spacer>
     <v-toolbar-items>
