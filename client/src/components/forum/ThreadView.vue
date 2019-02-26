@@ -1,46 +1,51 @@
 <template>
-  <div>
-    <div>
-      <v-btn v-on:click="back()" class="info" type="submit">Back</v-btn>
-      <h1 class="display-3">{{thread.title}}</h1>
-      <table>
-        <thead>
-          <tr><th>Message</th><th>Author</th></tr>
-        </thead>
-
-        <tbody>
-          <!-- First row is the author and his message -->
-          <tr>
-            <td class="post-description">{{thread.description}}</td>
-            <td class="post-author">
-                {{thread.postedDate}}<br/>
-                <v-img :src="thread.author.avatar"></v-img><br/>
-                <a v-on:click="navigateTo({name: 'User', params: {userId: thread.author._id, threadId: thread._id}})">{{thread.author.userName}}</a><br/>
-                <v-btn v-show="isUserAdmin || user.userName === thread.author.userName" :to="{name: 'ThreadEdit', params: {threadId: thread._id}}" class="info" type="submit">Edit</v-btn>
-            </td>
-          </tr>
-
-          <!-- Additional rows for replies and their authors -->
-          <tr v-for="reply in thread.replies" :key="reply._id">
-            <td class="post-description">{{reply.description}}</td>
-            <td class="post-author">
-                {{reply.postedDate}}<br/>
-                <v-img :src="reply.author.avatar"></v-img><br/>
-                <a v-on:click="navigateTo({name: 'User', params: {userId: reply.author._id, threadId: thread._id}})">{{reply.author.userName}}</a><br/>
-                <v-btn v-show="isUserAdmin || user.userName === reply.author.userName" :to="{name: 'ReplyEdit', params: {replyId: reply._id}}" class="info" type="submit">Edit</v-btn>
-                <v-btn v-on:click="removeReply(reply._id)" v-show="user.userName === reply.author.userName" class="error" type="submit">Remove</v-btn>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-
-      <br />
-      <!-- For creating a new reply to a thread -->
-      <v-textarea v-model="newReply" label="description of reply" outline></v-textarea>
-      <v-btn v-on:click="addReply()" :disabled="!newReply" type="submit">Reply</v-btn>
-      <div class="failed" v-show="failedAdd">{{error}}</div>
-    </div>
-  </div>
+        <v-layout>
+            <v-flex xs12 sm12>
+                <v-btn v-on:click="back()" class="info" type="submit">Back</v-btn>
+                <br/>
+                <h1 align="center" class="display-3">{{thread.title}}</h1>
+                <v-card color="cyan darken-2" class="white--text">
+                    <v-card-title primary-title>
+                        <div id="content">
+                            <div id="left">
+                                {{thread.postedDate}}<br/>
+                                <v-img :src="thread.author.avatar" height="125px" contain></v-img><br/>
+                                <a v-on:click="navigateTo({name: 'User', params: {userId: thread.author._id, threadId: thread._id}})">{{thread.author.userName}}</a><br/>
+                                <v-card-actions class="justify-center">
+                                    <v-btn v-show="isUserAdmin || user.userName === thread.author.userName" :to="{name: 'ThreadEdit', params: {threadId: thread._id}}" class="info" type="submit">Edit</v-btn>
+                                </v-card-actions>
+                            </div>
+                            <div id="right">{{thread.description}}</div>
+                        </div>
+                    </v-card-title>
+                </v-card>
+                <br/>
+                <div v-for="reply in thread.replies" :key="reply._id">
+                    <v-card color="cyan darken-2" class="white--text">
+                        <v-card-title primary-title>
+                            <div id="content">
+                                <div id="left">
+                                    {{reply.postedDate}}<br/>
+                                    <v-img :src="reply.author.avatar" height="125px" contain></v-img><br/>
+                                    <a v-on:click="navigateTo({name: 'User', params: {userId: reply.author._id, threadId: thread._id}})">{{reply.author.userName}}</a>
+                                    <br/>
+                                    <v-card-actions class="justify-center">
+                                        <v-btn v-show="isUserAdmin || user.userName === reply.author.userName" :to="{name: 'ReplyEdit', params: {replyId: reply._id}}" class="info" type="submit">Edit</v-btn>
+                                        <v-btn v-on:click="removeReply(reply._id)" v-show="user.userName === reply.author.userName" class="error" type="submit">Remove</v-btn>
+                                    </v-card-actions>
+                                </div>
+                                <div id="right">{{reply.description}}</div>
+                            </div>
+                        </v-card-title>
+                    </v-card>
+                    <br />
+                </div>
+                <!-- For creating a new reply to a thread -->
+                <v-textarea v-model="newReply" label="description of reply" outline></v-textarea>
+                <v-btn v-on:click="addReply()" :disabled="!newReply" type="submit">Reply</v-btn>
+                <div class="failed" v-show="failedAdd">{{error}}</div>
+            </v-flex>
+        </v-layout>
 </template>
 
 <script>
@@ -176,5 +181,58 @@ computed: {
     text-align: center;
     height: 200px;
     width:200px; 
+}
+
+#content { 
+  margin: 0;
+  width: 100%;
+  display: inline-block;
+} 
+
+#left {
+    border: 1px solid black;
+    vertical-align: center;
+    text-align: center;
+    width: 20%;
+    height: 250px;
+    float:left;
+}
+
+#right {
+    border: 1px solid black;
+    text-align: left;
+    width: 79%;
+    height: 250px;
+    float:right;
+}
+
+/* unvisited link */
+a {
+    color:white;
+}
+
+/* unvisited link */
+/* a:link {
+  color: white;
+  background-color: #f44336;
+} */
+
+/* visited link */
+a:visited {
+  color: green;
+}
+
+/* mouse over link */
+a:hover {
+  color: hotpink;
+}
+
+/* selected link */
+a:active {
+  color: red;
+}
+
+.white--card {
+    border: 5px solid black;
 }
 </style>
