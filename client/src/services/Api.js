@@ -3,7 +3,7 @@ import store from '@/store/store'
 
 export default () => {
     return axios.create({
-        baseURL: `http://csula-center.herokuapp.com/`,
+        baseURL: `https://csula-center.herokuapp.com/`,
         headers: {
             Authorization: `Bearer ${store.state.token}`
         }

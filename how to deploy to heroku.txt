@@ -1,0 +1,135 @@
+# How to Deploy `tab-tracker`
+
+## Heroku:
+
+### Prerequisites:
+The following will need to be known / obtained before getting started:
+- Node.js and npm
+- command-line (cli) / terminal
+- Heroku account
+- [Heroku CLI](https://devcenter.heroku.com/articles/heroku-cli) installed and setup with your Heroku account
+
+### Deploying:
+1. In the root directory for `tab-tracker`, create a new `package.json` file. The contents of the file should be similar to this:
+
+`tab-tracker/package.json`
+```js
+{
+  "name": "tab-tracker",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "heroku-postbuild": "npm run build-client && npm run install-server",
+    "start": "node server/src/app.js",
+    "build-client": "cd ./client && npm install && npm run build",
+    "install-server": "cd ./server && npm install"
+  },
+  "engines": {
+    "node": ">= 4.0.0"
+  },
+  "cacheDirectories": ["client/node_modules", "server/node_modules"]
+}
+```
+
+`name` can renamed to your app's name, you can add a `description` if you'd like, but **the `scripts`, `engines`, and
+`cacheDirectories` sections should be identical.**
+
+2. Open the `client/` directory's `package.json` and move all of the `devDependencies` to the `dependencies` section.
+This is best done by copying and pasting inside your text editor. `client/`'s `package.json` should not have a
+`devDependencies` section now.
+
+3. Open your cli or terminal of choice with Heroku CLI installed and navigate to the root directory of your app (i.e., `tab-tracker/`).
+Run the following command:
+
+```sh
+$ heroku create tab-tracker    # replace tab-tracker with your app name
+```
+
+4. Next, change the `baseURL` in the `src/services/Api.js` file found in the `client/` directory to the URL of your new Heroku app.
+
+`tab-tracker/client/src/services/Api.js`
+```js
+import axios from 'axios'
+import store from '@/store/store'
+
+export default () => {
+  return axios.create({
+    baseURL: `https://tab-tracker-demo.herokuapp.com/`,  // <-- url copied from `heroku create ...` command
+    headers: {
+      Authorization: `Bearer ${store.state.token}`
+    }
+  })
+}
+```
+
+5. Edit the `server/`'s `src/app.js` file to include `path` and serve the built `client/` resources.
+Add `const path = require('path')` to the top with the other constants and add
+`app.use(express.static(path.join(__dirname, '../../client/dist')))` after the other `app.use(...)` declarations.
+
+`tab-tracker/server/src/app.js`
+```js
+const express = require('express')
+const bodyParser = require('body-parser')
+const cors = require('cors')
+const morgan = require('morgan')
+const {sequelize} = require('./models')
+const config = require('./config/config')
+const path = require('path')    // <-- added
+
+const app = express()
+app.use(morgan('combined'))
+app.use(bodyParser.json())
+app.use(cors())
+app.use(express.static(path.join(__dirname, '../../client/dist')))    // <-- added
+
+require('./passport')
+
+require('./routes')(app)
+
+sequelize.sync({force: false})
+  .then(() => {
+    app.listen(config.port)
+    console.log(`Server started on port ${config.port}`)
+  })
+```
+
+6. Add a Heroku remote using the following command:
+
+```sh
+$ heroku git:remote -a tab-tracker    # again, replace tab-tracker with your app's name
+```
+
+This sets up a git remote with Heroku so you can deploy your app via git, as seen in the next steps.
+
+7. Save and commit the changes using `git add .` and `git commit -m '[MESSAGE]'`, for example:
+
+```sh
+$ git commit -m 'Readying for Heroku deployment'
+```
+
+8. Assuming you are on the `master` branch, run the following command to push your code to Heroku,
+which initiates the deploy process.
+
+```sh
+$ git push heroku master
+```
+
+If you're not on the `master` branch, you can use the following command:
+
+```sh
+$ git push heroku localbranch:master    # where localbranch is the non-master branch
+```
+
+9. Wait for `git push` process to finish then you're all set! :tada:
+
+### Afterword
+Assuming the deployment went smoothly and nothing failed during the build process, your app should now be deployed
+and ready to be view at `https://<your_app_name>.herokuapp.com/`. The demo app used for testing this guide can be found here:
+
+https://tab-tracker-demo.herokuapp.com/
+
+**Note:** Heroku uses a ephemeral filesystem which means when your dyno goes down due to inactivity, all file changes made
+during it's uptime get erased. This means any changes to the database (i.e., new user registrations, songs added, etc.)
+will be gone. Sequelize can interact with PostgreSQL databases so adding a Heroku Postgres database to your app and configuring
+the `server/src/config/config.js` file to point to your Heroku Postgres database will allow for data persistance. Outlining that
+process will be reserved for another time and guide however...
