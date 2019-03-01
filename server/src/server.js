@@ -1,7 +1,8 @@
 const express = require('express'),
     bodyParser = require('body-parser'),
     cors = require('cors'),
-    morgan = require('morgan')
+    morgan = require('morgan'),
+	path = require('path')
 
 // Express configuration
 const app = express(),
@@ -10,6 +11,7 @@ const app = express(),
 app.use(morgan('combined'))
 app.use(bodyParser.json())
 app.use(cors())
+app.use(express.static(path.join(__dirname, '../../client/dist')))
 
 // Database
 require('./db')
