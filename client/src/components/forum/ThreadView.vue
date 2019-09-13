@@ -12,7 +12,7 @@
                                 <v-img :src="thread.author.avatar" height="125px" contain></v-img><br/>
                                 <a v-on:click="navigateTo({name: 'User', params: {userId: thread.author._id, threadId: thread._id}})">{{thread.author.userName}}</a><br/>
                                 <v-card-actions class="justify-center">
-                                    <v-btn v-show="isUserAdmin || user.userName === thread.author.userName" :to="{name: 'ThreadEdit', params: {threadId: thread._id}}" class="info" type="submit">Edit</v-btn>
+                                    <v-btn v-show="isUserProfessor || user.userName === thread.author.userName" :to="{name: 'ThreadEdit', params: {threadId: thread._id}}" class="info" type="submit">Edit</v-btn>
                                 </v-card-actions>
                             </div>
                             <div id="right">{{thread.description}}</div>
@@ -30,7 +30,7 @@
                                     <a v-on:click="navigateTo({name: 'User', params: {userId: reply.author._id, threadId: thread._id}})">{{reply.author.userName}}</a>
                                     <br/>
                                     <v-card-actions class="justify-center">
-                                        <v-btn v-show="isUserAdmin || user.userName === reply.author.userName" :to="{name: 'ReplyEdit', params: {replyId: reply._id}}" class="info" type="submit">Edit</v-btn>
+                                        <v-btn v-show="isUserProfessor || user.userName === reply.author.userName" :to="{name: 'ReplyEdit', params: {replyId: reply._id}}" class="info" type="submit">Edit</v-btn>
                                         <v-btn v-on:click="removeReply(reply._id)" v-show="user.userName === reply.author.userName" class="error" type="submit">Remove</v-btn>
                                     </v-card-actions>
                                 </div>
@@ -66,7 +66,7 @@ computed: {
     ...mapState([
       'user',
       'isUserLoggedIn',
-      'isUserAdmin'
+      'isUserProfessor'
     ])
   },
   async mounted() {

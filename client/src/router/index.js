@@ -1,12 +1,13 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
+import Landing from '@/components/landing/Landing'
+
 import Login from '@/components/login/Login'
 import Register from '@/components/login/Register'
 
 import Home from '@/components/home/Home'
 import User from '@/components/home/User'
-
 
 import CourseSearch from '@/components/course/CourseSearch'
 import CourseAdd from '@/components/course/CourseAdd'
@@ -34,6 +35,11 @@ export default new Router({
     routes: [
         {
             path: '/',
+            name: 'Landing',
+            component: Landing
+        },
+        {
+            path: '/login',
             name: 'Login',
             component: Login
         },

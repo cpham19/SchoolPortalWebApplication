@@ -1,33 +1,35 @@
 <template>
-  <v-layout align-center justify-center>
-      <v-flex xs12 sm8 md4>
-        <v-card class="elevation-12">
-          <v-toolbar dark color="primary">
-             <v-toolbar-title>Registration Form</v-toolbar-title>
-          </v-toolbar>
-          <v-card-text>
-            <v-form>
-              <v-text-field v-model="firstName" label="first name" type="text" required :rules="[required]" outline></v-text-field>
-              <v-text-field v-model="lastName" label="last name" type="text" required :rules="[required]" outline></v-text-field>
-              <v-text-field v-model="streetAddress" label="street address" type="text" required :rules="[required]" outline></v-text-field>
-              <v-text-field v-model="city" label="city" type="text" required :rules="[required]" outline></v-text-field>
-              <v-select :items="states" v-model="state" label="state" required :rules="[required]" outline></v-select>
-              <v-text-field v-model="zipCode" label="zipCode" type="text" required :rules="[required]" outline></v-text-field>
-              <v-text-field v-model="email" label="email address" type="text" required :rules="[required]" outline></v-text-field>
-              <v-text-field v-model="phoneNumber" label="phone number (XXX-XXX-XXXX)" type="text" required :rules="[required]" outline></v-text-field>
-              <v-text-field v-model="userName" label="username" type="text" required :rules="[required]" outline></v-text-field>
-              <v-text-field v-model="password" label="password" type="password" required :rules="[required]" outline></v-text-field>
-              <v-switch :label="`Admin: ${admin.toString()}`" v-model="admin" outline></v-switch>
-            </v-form>
-            <div class="failed" v-show="failedRegister">{{error}}</div>
-          </v-card-text>
-          <v-card-actions>
-            <v-btn v-on:click="register()" :disabled="!firstName || !lastName || !streetAddress || !city || !state || !zipCode || !email || !phoneNumber || !userName || !password" class="btn-small waves-effect waves-light" type="submit">Register</v-btn>
-            <v-btn v-on:click="back()" class="btn-small waves-effect waves-light" type="submit">Back</v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-flex>
-  </v-layout>
+  <v-container fluid bg fill-height grid-list-md text-xs-center :style="cssProps">
+    <v-layout align-center justify-center>
+        <v-flex xs12 sm8 md4>
+          <v-card class="elevation-12">
+            <v-toolbar dark color="primary">
+              <v-toolbar-title>Registration Form</v-toolbar-title>
+            </v-toolbar>
+            <v-card-text>
+              <v-form>
+                <v-text-field v-model="firstName" label="first name" type="text" required :rules="[required]" outline></v-text-field>
+                <v-text-field v-model="lastName" label="last name" type="text" required :rules="[required]" outline></v-text-field>
+                <v-text-field v-model="streetAddress" label="street address" type="text" required :rules="[required]" outline></v-text-field>
+                <v-text-field v-model="city" label="city" type="text" required :rules="[required]" outline></v-text-field>
+                <v-select :items="states" v-model="state" label="state" required :rules="[required]" outline></v-select>
+                <v-text-field v-model="zipCode" label="zipCode" type="text" required :rules="[required]" outline></v-text-field>
+                <v-text-field v-model="email" label="email address" type="text" required :rules="[required]" outline></v-text-field>
+                <v-text-field v-model="phoneNumber" label="phone number (XXX-XXX-XXXX)" type="text" required :rules="[required]" outline></v-text-field>
+                <v-text-field v-model="userName" label="username" type="text" required :rules="[required]" outline></v-text-field>
+                <v-text-field v-model="password" label="password" type="password" required :rules="[required]" outline></v-text-field>
+                <v-switch :label="`Professor?: ${isUserProfessor.toString()}`" v-model="isUserProfessor" outline></v-switch>
+              </v-form>
+              <div class="failed" v-show="failedRegister">{{error}}</div>
+            </v-card-text>
+            <v-card-actions>
+              <v-btn v-on:click="register()" color="success" block rounded :disabled="!firstName || !lastName || !streetAddress || !city || !state || !zipCode || !email || !phoneNumber || !userName || !password" type="submit">Register</v-btn>
+              <v-btn v-on:click="back()" color="accent" block rounded>Back</v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-flex>
+    </v-layout>
+  </v-container>
 </template>
 
 <script>
@@ -53,10 +55,13 @@ export default {
       phoneNumber: "",
       userName: "",
       password: "",
-      admin: false,
+      isUserProfessor: false,
       failedRegister: false,
       required: (value) => !!value || 'Required Field',
       error: "",
+      cssProps: {
+        backgroundImage: "url('/static/login.jpg')"
+      }
     };
   },
   mounted() {
@@ -64,15 +69,15 @@ export default {
   },
   methods: {
     back: function() {
-      this.$router.push('/')
+      this.$router.push('/login')
     },
     async register () {
-      const credentials = {firstName: this.firstName, lastName: this.lastName, streetAddress : this.streetAddress, city : this.city, state: this.state, zipCode: this.zipCode, email: this.email, phoneNumber : this.phoneNumber, userName: this.userName, password: this.password, admin: this.admin}
+      const credentials = {firstName: this.firstName, lastName: this.lastName, streetAddress : this.streetAddress, city : this.city, state: this.state, zipCode: this.zipCode, email: this.email, phoneNumber : this.phoneNumber, userName: this.userName, password: this.password, isUserProfessor: this.isUserProfessor}
 
       try {
         const response = await AuthenticationService.register(credentials)
         this.failedRegister = false
-        this.$router.push('/')
+        this.$router.push('/login')
       }
       catch (err) {
         this.failedRegister = true

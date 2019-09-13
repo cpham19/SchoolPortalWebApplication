@@ -5,7 +5,7 @@
     <v-layout align-center justify-center>
       <v-flex xs12 sm8 md8>
         <v-card class="elevation-12">
-          <v-toolbar dark color="primary">
+          <v-toolbar dark>
             <v-toolbar-title>Search</v-toolbar-title>
           </v-toolbar>
           <v-card-text>
@@ -23,7 +23,7 @@
               <td>{{props.item.description}}</td>
               <td>{{props.item.unit}}</td>
               <td>{{props.item.professor}}</td>
-              <td v-show="!isUserAdmin"><v-btn v-on:click="enrollCourse(props.item._id)" class="success" type="button">Enroll</v-btn></td>
+              <td v-show="!isUserProfessor"><v-btn v-on:click="enrollCourse(props.item._id)" class="success" type="button">Enroll</v-btn></td>
             </template>
           </v-data-table>
         </v-card>
@@ -57,7 +57,7 @@ export default {
     ...mapState([
       'user',
       'isUserLoggedIn',
-      'isUserAdmin'
+      'isUserProfessor'
     ])
   },
   mounted() {

@@ -12,7 +12,7 @@
             <template slot="items" slot-scope="props">
               <td><a v-on:click="navigateTo({name: 'ThreadView', params: {threadId: props.item._id}})">{{props.item.title}}</a></td>
               <td>{{props.item.postedDate}}</td>
-              <td><v-btn v-show="isUserAdmin || user.userName === props.item.author.userName" v-on:click="removeThread(props.item._id)" class="error" type="submit"><v-icon>remove</v-icon></v-btn></td>
+              <td><v-btn v-show="isUserProfessor || user.userName === props.item.author.userName" v-on:click="removeThread(props.item._id)" class="error" type="submit"><v-icon>remove</v-icon></v-btn></td>
             </template>
           </v-data-table>
         </v-card>
@@ -44,7 +44,7 @@ export default {
     ...mapState([
       'user',
       'isUserLoggedIn',
-      'isUserAdmin'
+      'isUserProfessor'
     ])
   },
   mounted() {
@@ -62,7 +62,7 @@ export default {
         const courseResponse = await CourseService.fetchCourses()
         const forumResponse = await ForumService.getThreads()
 
-        if (this.isUserAdmin) {
+        if (this.isUserProfessor) {
           this.courses = courseResponse.data.courses
           this.courses.forEach(course => {
               course.threads = []

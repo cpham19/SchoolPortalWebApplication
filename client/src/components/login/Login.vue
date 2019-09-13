@@ -1,25 +1,26 @@
 <template>
-  <v-layout align-center justify-center>
-    <v-flex xs12 sm8 md4>
-      <v-card class="elevation-12">
-        <v-toolbar dark color="primary">
-          <v-toolbar-title>Login</v-toolbar-title>
-        </v-toolbar>
-        <v-img src="static/csula-logo.png" aspect-ratio="1.3"></v-img>
-        <v-card-text>
-          <v-form>
-            <v-text-field v-model="userName" label="username" type="text" required :rules="[required]" outline></v-text-field>
-            <v-text-field v-model="password" label="password" type="password" required :rules="[required]" outline></v-text-field>
-          </v-form>
-          <div class="failed" v-show="failedLogin">{{error}}</div>
-        </v-card-text>
-        <v-card-actions>
-          <v-btn v-on:click="login()" :disabled="!userName || !password" class="btn-small waves-effect waves-light" type="button">Login</v-btn>
-          <a v-on:click="toggleRegister()">New User?</a>
-        </v-card-actions>
-      </v-card>
-    </v-flex>
-  </v-layout>
+  <v-container fluid bg fill-height grid-list-md text-xs-center :style="cssProps">
+    <v-layout align-center justify-center>
+      <v-flex xs12 sm8 md4>
+        <v-card class="elevation-12">
+          <v-toolbar dark color="primary">
+            <v-toolbar-title>Login</v-toolbar-title>
+          </v-toolbar>
+          <v-card-text>
+            <v-form>
+              <v-text-field v-model="userName" label="username" type="text" required :rules="[required]" outline></v-text-field>
+              <v-text-field v-model="password" label="password" type="password" required :rules="[required]" outline></v-text-field>
+            </v-form>
+            <div class="failed" v-show="failedLogin">{{error}}</div>
+          </v-card-text>
+          <v-card-actions>
+            <v-btn v-on:click="login()" :disabled="!userName || !password" color="primary" block rounded type="button">Login</v-btn>
+            <v-spacer></v-spacer><a class="link" href="/register">New User?</a>
+          </v-card-actions>
+        </v-card>
+      </v-flex>
+    </v-layout>
+  </v-container>
 </template>
 
 <script>
@@ -37,7 +38,10 @@ export default {
       password: "",
       error: "",
       required: (value) => !!value || 'Required Field',
-      failedLogin: false
+      failedLogin: false,
+      cssProps: {
+        backgroundImage: "url('/static/login.jpg')"
+      }
     };
   },
   mounted() {
@@ -80,5 +84,10 @@ export default {
 <style scoped>
 .failed {
   color: red;
+}
+
+.link {
+  color:blue;
+  font-size: 24px;
 }
 </style>

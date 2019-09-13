@@ -1,15 +1,16 @@
 <template>
+  <v-container fluid>
   <v-layout>
     <v-btn v-on:click="back()" class="info" type="submit">Back</v-btn>
     <v-flex xs12 md12>
       <div class="text-xs-center">
-        <div class="headline" v-show="user.admin">Admin</div>
-        <div class="headline" v-show="!user.admin">Student</div>
+        <div class="headline" v-show="this.isUserProfessor">isUserProfessor</div>
+        <div class="headline" v-show="!this.isUserProfessor">Student</div>
         <v-avatar size="250px">
           <v-img class="img-circle elevation-7 mb-1" :src="user.avatar"></v-img>
         </v-avatar>
         <div class="headline">
-          <!-- <v-img v-show="user.admin" src="static/admin.png" height="30px" alt="admin" contain></v-img> -->
+          <!-- <v-img v-show="isUserProfessor" src="static/isUserProfessor.png" height="30px" alt="isUserProfessor" contain></v-img> -->
           <span style="font-weight:bold">{{user.firstName}} {{user.lastName}}</span>
         </div>
 
@@ -23,6 +24,7 @@
       </div>
     </v-flex>
   </v-layout>
+  </v-container>
 </template>
 
 <script>
@@ -40,7 +42,8 @@ export default {
   },
   computed: {
     ...mapState([
-      "isUserLoggedIn"
+      "isUserLoggedIn",
+      "isUserProfessor"
     ])
   },
   mounted() {

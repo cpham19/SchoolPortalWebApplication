@@ -15,7 +15,7 @@ module.exports = {
             password: Joi.string().regex(
                 new RegExp('^[a-zA-Z0-9]{3,10}$')
             ).required(),
-            admin: Joi.boolean().required()
+            isUserProfessor: Joi.boolean().required()
         }
 
         const { error, value } = Joi.validate(req.body, schema)
@@ -72,9 +72,9 @@ module.exports = {
                         error: 'You must provide a valid password (3 to 10 characters allowed)'
                     })
                     break
-                case 'admin':
+                case 'isUserProfessor':
                     res.status(400).send({
-                        error: 'You must have a boolean value for admin'
+                        error: 'You must have a boolean value for isUserProfessor'
                     })
                 default:
                     res.status(400).send({

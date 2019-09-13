@@ -15,13 +15,13 @@ export default new Vuex.Store({
         user: null,
         token: null,
         isUserLoggedIn: false,
-        isUserAdmin: false,
+        isUserProfessor: false,
     },
     mutations: {
         setUser(state, user) {
             state.user = user
             if (state.user != null) {
-                state.isUserAdmin = state.user.admin
+                state.isUserProfessor = state.user.isProfessor
             }
         },
         setToken(state, token) {

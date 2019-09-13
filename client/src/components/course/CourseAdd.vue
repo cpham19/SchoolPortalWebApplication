@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <v-container fluid>
     <course-nav v-bind:active="active"/>
     <br/><br/><br/>
     <v-layout align-center justify-center>
@@ -29,8 +29,7 @@
         </v-card>
       </v-flex>
     </v-layout>
-
-  </div>
+  </v-container>
 </template>
 
 <script>
@@ -99,6 +98,7 @@ export default {
         const response = await CourseService.addCourse(course)
         this.failedAdd = false
         this.successfulAdd = true
+        this.discard();
         this.$router.push('/course/add')
       }
       catch (err) {
@@ -122,5 +122,6 @@ export default {
 
 .success {
   color: green;
+  background-color:white;
 }
 </style>

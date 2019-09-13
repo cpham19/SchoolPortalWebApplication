@@ -14,7 +14,7 @@ const UserSchema = new Mongoose.Schema({
     userName: String,
     avatar: String,
     password: String,
-    admin: Boolean,
+    isUserProfessor: Boolean,
     courses: Array,
 }, { strict: false })
 
@@ -30,8 +30,8 @@ const findUserByName = (userName) => User.findOne({ userName: userName })
 const findUserById = (userId) => {
     return User.findOne({ _id: userId })
         // return user info
-        .then(({ _id, firstName, lastName, streetAddress, city, state, zipCode, email, phoneNumber, userName, avatar, admin, courses }) => {
-            return { _id, firstName, lastName, streetAddress, city, state, zipCode, email, phoneNumber, userName, avatar, admin, courses }
+        .then(({ _id, firstName, lastName, streetAddress, city, state, zipCode, email, phoneNumber, userName, avatar, isUserProfessor, courses }) => {
+            return { _id, firstName, lastName, streetAddress, city, state, zipCode, email, phoneNumber, userName, avatar, isUserProfessor, courses }
         })
 }
 
@@ -54,13 +54,13 @@ const loginUser = (userName, password) => {
             return user
         })
         // return user info
-        .then(({ _id, firstName, lastName, streetAddress, city, state, zipCode, email, phoneNumber, userName, avatar, admin, courses }) => {
-            return { _id, firstName, lastName, streetAddress, city, state, zipCode, email, phoneNumber, userName, avatar, admin, courses }
+        .then(({ _id, firstName, lastName, streetAddress, city, state, zipCode, email, phoneNumber, userName, avatar, isUserProfessor, courses }) => {
+            return { _id, firstName, lastName, streetAddress, city, state, zipCode, email, phoneNumber, userName, avatar, isUserProfessor, courses }
         })
 }
 
 // Create a user
-const createUser = (firstName, lastName, streetAddress, city, state, zipCode, email, phoneNumber, userName, password, administrator) => {
+const createUser = (firstName, lastName, streetAddress, city, state, zipCode, email, phoneNumber, userName, password, isUserProfessor) => {
     // Return a user object if username is in db
     return findUserByName(userName)
         .then(user => {
@@ -81,7 +81,7 @@ const createUser = (firstName, lastName, streetAddress, city, state, zipCode, em
                 phoneNumber: phoneNumber,
                 userName: userName,
                 password: generateHash(password),
-                admin: administrator,
+                isUserProfessor: isUserProfessor,
                 avatar: `https://robohash.org/${userName}`,
                 courses: []
             }
@@ -89,8 +89,8 @@ const createUser = (firstName, lastName, streetAddress, city, state, zipCode, em
         // Create user from user object 
         .then(user => User.create(user))
         // return user info
-        .then(({ _id, firstName, lastName, streetAddress, city, state, zipCode, email, phoneNumber, userName, avatar, admin, courses }) => {
-            return { _id, firstName, lastName, streetAddress, city, state, zipCode, email, phoneNumber, userName, avatar, admin, courses }
+        .then(({ _id, firstName, lastName, streetAddress, city, state, zipCode, email, phoneNumber, userName, avatar, isUserProfessor, courses }) => {
+            return { _id, firstName, lastName, streetAddress, city, state, zipCode, email, phoneNumber, userName, avatar, isUserProfessor, courses }
         })
 }
 
