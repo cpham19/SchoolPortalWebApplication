@@ -69,6 +69,7 @@ export default {
   mounted() {
     this.checkLoggedIn();
     this.getUserCourses();
+    console.log(this.user);
   },
   computed: {
     ...mapState(["user", "isUserLoggedIn", "isUserProfessor"])

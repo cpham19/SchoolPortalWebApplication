@@ -18,7 +18,7 @@
                 <v-text-field v-model="phoneNumber" label="phone number (XXX-XXX-XXXX)" type="text" required :rules="[required]" outline></v-text-field>
                 <v-text-field v-model="userName" label="username" type="text" required :rules="[required]" outline></v-text-field>
                 <v-text-field v-model="password" label="password" type="password" required :rules="[required]" outline></v-text-field>
-                <v-switch :label="`Professor?: ${isUserProfessor.toString()}`" v-model="isUserProfessor" outline></v-switch>
+                <v-switch :label="`Professor?: ${isProfessor.toString()}`" v-model="isProfessor" outline></v-switch>
               </v-form>
               <div class="failed" v-show="failedRegister">{{error}}</div>
             </v-card-text>
@@ -55,7 +55,7 @@ export default {
       phoneNumber: "",
       userName: "",
       password: "",
-      isUserProfessor: false,
+      isProfessor: false,
       failedRegister: false,
       required: (value) => !!value || 'Required Field',
       error: "",
@@ -72,7 +72,7 @@ export default {
       this.$router.push('/login')
     },
     async register () {
-      const credentials = {firstName: this.firstName, lastName: this.lastName, streetAddress : this.streetAddress, city : this.city, state: this.state, zipCode: this.zipCode, email: this.email, phoneNumber : this.phoneNumber, userName: this.userName, password: this.password, isUserProfessor: this.isUserProfessor}
+      const credentials = {firstName: this.firstName, lastName: this.lastName, streetAddress : this.streetAddress, city : this.city, state: this.state, zipCode: this.zipCode, email: this.email, phoneNumber : this.phoneNumber, userName: this.userName, password: this.password, isProfessor: this.isProfessor}
 
       try {
         const response = await AuthenticationService.register(credentials)
