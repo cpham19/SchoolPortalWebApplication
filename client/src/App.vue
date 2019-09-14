@@ -1,12 +1,11 @@
 <template>
   <div id="app">
     <v-app id="inspire">
-      <page-header />
+      <page-header/>
 
       <v-content class="wrapper">
         <router-view />
       </v-content>
-
       <page-footer />
     </v-app>
   </div>
@@ -18,13 +17,13 @@ import Footer from "@/components/Footer.vue";
 
 export default {
   name: "App",
-   data() {
+  data() {
     return {
     };
-   },
+  },
   components: {
     "page-header": PageHeader,
-    "page-footer" : Footer
+    "page-footer": Footer
   }
 };
 </script>
@@ -34,14 +33,13 @@ export default {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  margin-top: 60px;
   display: flex;
   flex-direction: column;
   height: 100%;
 }
 
 .wrapper {
-  background: url('/static/abstract.jpg');
+  background: url("/static/abstract.jpg");
   background-repeat: repeat-y;
 }
 </style>

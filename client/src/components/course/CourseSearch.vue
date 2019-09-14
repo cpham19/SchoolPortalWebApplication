@@ -63,6 +63,10 @@ export default {
   mounted() {
     this.fetchCourses()
     this.checkLoggedIn()
+    // Remove the Action tab if you are professor (because you don't need to enroll)
+    if (this.isUserProfessor) {
+      this.headers.pop();
+    }
   },
   methods: {
     searchCourse: function () {

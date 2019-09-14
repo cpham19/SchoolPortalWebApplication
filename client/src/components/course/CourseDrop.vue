@@ -1,11 +1,11 @@
 <template>
-  <div>
+  <v-container fluid>
     <course-nav v-bind:active="active"/>
     <br/><br/><br/>
     <v-layout align-center justify-center>
       <v-flex xs12 sm8 md8>
         <v-card class="elevation-12">
-          <v-toolbar dark color="primary">
+          <v-toolbar dark>
             <v-toolbar-title>Drop Courses</v-toolbar-title>
           </v-toolbar>
           <v-data-table :headers="headers" :items="enrolledCourses" class="elevation-1">
@@ -16,13 +16,15 @@
               <td>{{props.item.name}}</td>
               <td>{{props.item.unit}}</td>
               <td>{{props.item.professor}}</td>
-              <td><v-btn v-on:click="dropCourse(props.item._id)" class="info" type="button"><v-icon dark>remove</v-icon></v-btn></td>
+              <td>
+                <v-btn v-on:click="dropCourse(props.item._id)" class="info" type="button"><v-icon dark>remove</v-icon></v-btn>
+              </td>
             </template>
           </v-data-table>
         </v-card>
       </v-flex>
     </v-layout>
-  </div>
+  </v-container>
 </template>
 
 <script>

@@ -1,11 +1,11 @@
 <template>
-  <div>
+  <v-container fluid>
       <v-date-picker v-model="assignment.dueDate" required :rules="[required]"></v-date-picker>
       <v-text-field v-model="assignment.title" label="title of assignment" type="text" required :rules="[required]" outline></v-text-field>
       <v-textarea v-model="assignment.description" label="description of assignment" :rules="[required]" outline></v-textarea>
       <v-btn v-on:click="editAssignment()" :disabled="!assignment.dueDate || !assignment.title || !assignment.description" class="success" type="submit">Edit</v-btn><v-btn v-on:click="back()" class="info" type="submit">Back</v-btn>
       <div class="failed" v-show="failedEdit">{{error}}</div>
-  </div>
+  </v-container>
 </template>
 
 <script>

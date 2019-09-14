@@ -1,15 +1,15 @@
 <template>
-  <v-footer>
-    <v-card color="grey darken-4" padless width="100%">
-      <v-card-text class="text-light">
+  <v-footer height="auto" dark>
+    <v-layout justify-center row wrap>
+      <v-flex py-3 text-xs-center xs12>
         Copyright &copy; {{ new Date().getFullYear() }} —
         <strong>
           <a href="https://github.com/cpham19">
             <font color="red">Calvin Pham</font>
           </a>
         </strong>
-      </v-card-text>
-    </v-card>
+      </v-flex>
+    </v-layout>
   </v-footer>
 </template>
 

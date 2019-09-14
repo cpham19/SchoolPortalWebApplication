@@ -5,7 +5,7 @@
     <v-layout align-center justify-center>
       <v-flex xs12 sm8 md8>
         <v-card class="elevation-12">
-          <v-toolbar dark color="primary">
+          <v-toolbar dark>
             <v-toolbar-title>Add Course</v-toolbar-title>
           </v-toolbar>
           <v-card-text>

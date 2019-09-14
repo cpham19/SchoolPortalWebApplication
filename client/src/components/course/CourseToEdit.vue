@@ -59,6 +59,7 @@ export default {
   computed: {
     ...mapState([
       'isUserLoggedIn',
+      'isUserProfessor'
     ])
   },
   async mounted() {
@@ -70,7 +71,7 @@ export default {
   },
   methods: {
     back: function() {
-      this.$router.push('/course/edit')
+      this.$router.push('/course/configure')
     },
     checkLoggedIn: function() {
       if (!this.isUserLoggedIn) {
@@ -92,7 +93,7 @@ export default {
         this.failedEdit = false
         this.edit = false
         this.successfulEdit = true
-        this.$router.push('/course/edit')
+        this.$router.push('/course/configure')
       }
       catch (err) {
         this.failedEdit = true

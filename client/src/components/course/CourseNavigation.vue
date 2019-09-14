@@ -2,11 +2,10 @@
   <v-container fluid>
     <v-card height="55px">
       <v-bottom-nav :active.sync="active" :value="true">
-        <v-btn color="teal" flat :to="{name: 'CourseSearch'}"><span>Search</span></v-btn>
-        <v-btn v-show="isUserProfessor" color="blue" flat :to="{name: 'CourseAdd'}"><span>Add</span></v-btn>
-        <v-btn v-show="isUserProfessor" color="red" flat :to="{name: 'CourseRemove'}"><span>Remove</span></v-btn>
-        <v-btn v-show="isUserProfessor" color="green" flat :to="{name: 'CourseEdit'}"><span>Edit</span></v-btn>
-        <v-btn v-show="!isUserProfessor" color="white" flat :to="{name: 'CourseDrop'}"><span>Drop</span></v-btn>
+        <v-btn color="teal" flat :to="{name: 'CourseSearch'}"><span><i class="fas fa-search"></i> Search</span></v-btn>
+        <v-btn v-show="isUserProfessor" color="blue" flat :to="{name: 'CourseAdd'}"><span><i class="fas fa-plus"></i> Add</span></v-btn>
+        <v-btn v-show="isUserProfessor" flat :to="{name: 'CourseConfigure'}"><span><i class="fas fa-minus"></i> <i class="fas fa-edit"></i> Configure</span></v-btn>
+        <v-btn v-show="!isUserProfessor" color="orange" flat :to="{name: 'CourseDrop'}"><span><i class="fas fa-tint"></i> Drop</span></v-btn>
       </v-bottom-nav>
     </v-card>
     </v-container>
@@ -37,4 +36,11 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+.fas fa-edit {
+  color:green;
+}
+
+.fas fa-minus {
+  color:red;
+}
 </style>

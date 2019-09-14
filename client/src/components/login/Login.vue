@@ -3,7 +3,7 @@
     <v-layout align-center justify-center>
       <v-flex xs12 sm8 md4>
         <v-card class="elevation-12">
-          <v-toolbar dark color="primary">
+          <v-toolbar dark>
             <v-toolbar-title>Login</v-toolbar-title>
           </v-toolbar>
           <v-card-text>
@@ -14,7 +14,7 @@
             <div class="failed" v-show="failedLogin">{{error}}</div>
           </v-card-text>
           <v-card-actions>
-            <v-btn v-on:click="login()" :disabled="!userName || !password" color="primary" block rounded type="button">Login</v-btn>
+            <v-btn v-on:click="login()" :disabled="!userName || !password" dark block rounded type="button">Login</v-btn>
             <v-spacer></v-spacer><a class="link" href="/register">New User?</a>
           </v-card-actions>
         </v-card>

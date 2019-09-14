@@ -11,8 +11,7 @@ import User from '@/components/home/User'
 
 import CourseSearch from '@/components/course/CourseSearch'
 import CourseAdd from '@/components/course/CourseAdd'
-import CourseRemove from '@/components/course/CourseRemove'
-import CourseEdit from '@/components/course/CourseEdit'
+import CourseConfigure from '@/components/course/CourseConfigure'
 import CourseToEdit from '@/components/course/CourseToEdit'
 import CourseDrop from '@/components/course/CourseDrop'
 import CourseView from '@/components/course/CourseView'
@@ -69,14 +68,9 @@ export default new Router({
             component: CourseAdd
         },
         {
-            path: '/course/remove',
-            name: 'CourseRemove',
-            component: CourseRemove
-        },
-        {
-            path: '/course/edit',
-            name: 'CourseEdit',
-            component: CourseEdit
+            path: '/course/configure',
+            name: 'CourseConfigure',
+            component: CourseConfigure
         },
         {
             path: '/course/edit/:courseId',
