@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-toolbar fixed dark prominent app>
-      <v-toolbar-title class="mr-4">School Portal Center</v-toolbar-title>
+      <v-toolbar-title class="mr-4"><a :href="'/'" :style="'color:white;'">School Portal Center</a></v-toolbar-title>
       <v-spacer></v-spacer>
       <v-toolbar-items class="hidden-md-and-down">
         <v-btn v-show="!this.$store.state.isUserLoggedIn" :to="{name: 'Landing'}">Home</v-btn>
