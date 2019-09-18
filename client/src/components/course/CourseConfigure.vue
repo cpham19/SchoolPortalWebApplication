@@ -18,9 +18,11 @@
               <td :colspan="headers.length">
                 {{item.description}}
                 <br/>
-                <v-btn :to="{name: 'CourseToEdit', params: {courseId: item._id}}" class="success" type="button"><v-icon>edit</v-icon> Edit</v-btn>
-                <v-spacer></v-spacer>
-                <v-btn v-on:click="removeCourse(item._id)" class="error" type="button"><v-icon>remove</v-icon> Remove</v-btn>
+                <div class="btn-group blocks">
+                  <v-btn class="blocks success" :to="{name: 'CourseToEdit', params: {courseId: item._id}}" type="button"><v-icon>edit</v-icon> Edit</v-btn>
+                  <v-spacer></v-spacer>
+                  <v-btn class="blocks error" v-on:click="removeCourse(item._id)" type="button"><v-icon>remove</v-icon> Remove</v-btn>
+                </div>
               </td>
             </template>
           </v-data-table>
@@ -101,5 +103,12 @@ export default {
 <style scoped>
 .failed {
   color:red;
+}
+
+.blocks
+{
+    padding: 24px 12px;
+    margin: 0 5px;  
+    border-radius: 0;
 }
 </style>

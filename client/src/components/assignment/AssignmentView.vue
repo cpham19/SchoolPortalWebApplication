@@ -49,7 +49,7 @@ export default {
   },
   methods: {
     back: function() {
-      this.$router.push("/assignment")
+      this.$router.push("/assignments")
     },
     checkLoggedIn: function() {
       if (!this.isUserLoggedIn) {

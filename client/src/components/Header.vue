@@ -10,9 +10,9 @@
         <v-btn v-show="!this.$store.state.isUserLoggedIn" :to="{name: 'Register'}">Register</v-btn>
 
         <v-btn v-show="this.$store.state.isUserLoggedIn" :to="{name: 'Home'}">Home</v-btn>
-        <v-btn v-show="this.$store.state.isUserLoggedIn" :to="{name: 'CourseSearch'}">Course</v-btn>
-        <v-btn v-show="this.$store.state.isUserLoggedIn" :to="{name: 'Assignment'}">Assignments</v-btn>
-        <v-btn v-show="this.$store.state.isUserLoggedIn" :to="{name: 'Forum'}">Forum</v-btn>
+        <v-btn v-show="this.$store.state.isUserLoggedIn" :to="{name: 'CourseSearch'}">Courses</v-btn>
+        <v-btn v-show="this.$store.state.isUserLoggedIn" :to="{name: 'Assignments'}">Assignments</v-btn>
+        <v-btn v-show="this.$store.state.isUserLoggedIn" :to="{name: 'Forums'}">Forums</v-btn>
         <v-btn v-show="this.$store.state.isUserLoggedIn" v-on:click="logout()">Log Out</v-btn>
       </v-toolbar-items>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" @click="scrollToTop" class="hidden-md-and-up"></v-app-bar-nav-icon>
@@ -39,7 +39,7 @@
         <v-list-item :to="{name: 'Assignment'}">
             <v-list-item-title style="font-size:24px;color:white;">Assignments</v-list-item-title>
         </v-list-item>
-        <v-list-item :to="{name: 'Forum'}">
+        <v-list-item :to="{name: 'Forums'}">
             <v-list-item-title style="font-size:24px;color:white;">Forums</v-list-item-title>
         </v-list-item>
         <v-list-item v-on:click="logout()">

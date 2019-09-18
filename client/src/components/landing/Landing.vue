@@ -1,16 +1,15 @@
 <template>
   <v-container class="landing" fluid fill-height>
     <v-layout align-center justify-center>
-      <v-flex>
-        <h1 class="text-uppercase font-weight-bold">Welcome to the School Portal Website!</h1>
-        <hr class="divider my-4" />
-        <p :style="'font-family:arial; font-size:24px;'">This site is designed to emulate the sites that students and teachers use for school purposes.</p>
-        <v-btn class="mx-2" v-show="!isUserLoggedIn" :to="{name: 'Login'}">Login</v-btn>
-        <v-btn class="mx-2" v-show="!isUserLoggedIn" :to="{name: 'Register'}">Register</v-btn>
-        <p
-          v-show="isUserLoggedIn"
-          :style="'font-family:fantasy; font-size:24px;'"
-        >You are currently logged in.</p>
+      <v-flex sm8>
+        <div class="text-center">
+          <h1 class="text-uppercase font-weight-bold">Welcome to the School Portal Website!</h1>
+          <hr class="divider my-4" />
+          <p :style="'font-family:arial; font-size:24px;'">This site is designed to emulate the sites that students and teachers use for school purposes.</p>
+          <v-btn class="mx-2" v-show="!isUserLoggedIn" :to="{name: 'Login'}">Login</v-btn>
+          <v-btn class="mx-2" v-show="!isUserLoggedIn" :to="{name: 'Register'}">Register</v-btn>
+          <p v-show="isUserLoggedIn" style="'font-family:fantasy; font-size:24px;'">You are currently logged in.</p>
+        </div>
       </v-flex>
     </v-layout>
   </v-container>

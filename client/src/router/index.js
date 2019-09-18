@@ -16,12 +16,12 @@ import CourseToEdit from '@/components/course/CourseToEdit'
 import CourseDrop from '@/components/course/CourseDrop'
 import CourseView from '@/components/course/CourseView'
 
-import Assignment from '@/components/assignment/Assignment'
+import Assignments from '@/components/assignment/Assignments'
 import AssignmentAdd from '@/components/assignment/AssignmentAdd'
 import AssignmentView from '@/components/assignment/AssignmentView'
 import AssignmentEdit from '@/components/assignment/AssignmentEdit'
 
-import Forum from '@/components/forum/Forum'
+import Forums from '@/components/forum/Forums'
 import ForumAdd from '@/components/forum/ForumAdd'
 import ThreadView from '@/components/forum/ThreadView'
 import ThreadEdit from '@/components/forum/ThreadEdit'
@@ -59,77 +59,77 @@ export default new Router({
             component: User
         },
         {
-            path: '/course/search',
+            path: '/courses/search',
             name: 'CourseSearch',
             component: CourseSearch
         },
         {
-            path: '/course/add',
+            path: '/courses/add',
             name: 'CourseAdd',
             component: CourseAdd
         },
         {
-            path: '/course/configure',
+            path: '/courses/configure',
             name: 'CourseConfigure',
             component: CourseConfigure
         },
         {
-            path: '/course/edit/:courseId',
+            path: '/courses/edit/:courseId',
             name: 'CourseToEdit',
             component: CourseToEdit
         },
         {
-            path: '/course/drop',
+            path: '/courses/drop',
             name: 'CourseDrop',
             component: CourseDrop
         },
         {
-            path: '/course/:courseId',
+            path: '/courses/:courseId',
             name: 'CourseView',
             component: CourseView
         },
         {
-            path: '/assignment',
-            name: 'Assignment',
-            component: Assignment
+            path: '/assignments',
+            name: 'Assignments',
+            component: Assignments
         },
         {
-            path: '/assignment/add/:courseId',
+            path: '/assignments/add/:courseId',
             name: 'AssignmentAdd',
             component: AssignmentAdd
         },
         {
-            path: '/assignment/:assignmentId',
+            path: '/assignments/:assignmentId',
             name: 'AssignmentView',
             component: AssignmentView
         },
         {
-            path: '/assignment/edit/:assignmentId',
+            path: '/assignments/edit/:assignmentId',
             name: 'AssignmentEdit',
             component: AssignmentEdit
         },
         {
-            path: '/forum',
-            name: 'Forum',
-            component: Forum
+            path: '/forums',
+            name: 'Forums',
+            component: Forums
         },
         {
-            path: '/forum/add/:courseId',
+            path: '/forums/:courseId/:courseName/add',
             name: 'ForumAdd',
             component: ForumAdd
         },
         {
-            path: '/forum/:threadId',
+            path: '/forums/:courseId/:courseName/:threadId',
             name: 'ThreadView',
             component: ThreadView
         },
         {
-            path: '/forum/edit/:threadId',
+            path: '/forums/:courseId/:courseName/editthread/:threadId',
             name: 'ThreadEdit',
             component: ThreadEdit
         },
         {
-            path: '/forum/editreply/:replyId',
+            path: '/forums/:courseId/:courseName/editreply/:replyId',
             name: 'ReplyEdit',
             component: ReplyEdit
         },

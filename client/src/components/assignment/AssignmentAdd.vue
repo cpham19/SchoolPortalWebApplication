@@ -1,9 +1,9 @@
 <template>
   <v-container fluid>
     <v-layout align-center justify-center>
-        <v-flex xs12 sm8 md12>
+        <v-flex sm8>
           <v-card class="elevation-12">
-            <v-toolbar dark color="primary">
+            <v-toolbar dark>
               <v-toolbar-title>
                 <h1 class="display-1">Adding assignment to {{course.dept}}{{course.number}}-{{course.section}} {{course.name}}</h1>
               </v-toolbar-title>
@@ -74,7 +74,7 @@ export default {
         const response = await AssignmentService.postAssignment(assignment)
         this.failedAdd = false
         this.successfulAdd = true
-        this.$router.push('/assignment')
+        this.$router.push('/assignments')
       }
       catch (err) {
         this.failedAdd = true

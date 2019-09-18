@@ -1,24 +1,26 @@
 <template>
-  <v-layout align-center justify-center>
-      <v-flex xs12 sm8 md12>
-        <v-card class="elevation-12">
-          <v-toolbar dark color="primary">
-            <v-toolbar-title>
-              <h1 class="display-1">Editting Reply</h1>
-            </v-toolbar-title>
-          </v-toolbar>
-          <v-card-text>
-            <v-form>
-              <v-textarea v-model="reply.description" label="description of reply" :rules="[required]" outline></v-textarea>
-            </v-form>
-            <div class="failed" v-show="failedEdit">{{error}}</div>
-          </v-card-text>
-          <v-card-actions>
-            <v-btn v-on:click="editReply()" :disabled="!reply.description" class="success" type="submit">Edit</v-btn><v-btn v-on:click="back()" class="info" type="submit">Back</v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-flex>
-  </v-layout>
+  <v-container fluid fill-height>
+    <v-layout align-center justify-center>
+        <v-flex sm8>
+          <v-card class="elevation-12">
+            <v-toolbar dark color="primary">
+              <v-toolbar-title>
+                <h1 class="display-1">Editting Reply</h1>
+              </v-toolbar-title>
+            </v-toolbar>
+            <v-card-text>
+              <v-form>
+                <v-textarea v-model="reply.description" label="description of reply" :rules="[required]" outline></v-textarea>
+              </v-form>
+              <div class="failed" v-show="failedEdit">{{error}}</div>
+            </v-card-text>
+            <v-card-actions>
+              <v-btn v-on:click="editReply()" :disabled="!reply.description" class="success" type="submit">Edit</v-btn><v-btn v-on:click="back()" class="info" type="submit">Back</v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-flex>
+    </v-layout>
+  </v-container>
 </template>
 
 <script>
@@ -33,6 +35,8 @@ export default {
       reply: {},
       failedEdit: false,
       successfulEdit: false,
+      courseId: "",
+      courseName: "",
       error: "",
     }
   },
@@ -44,10 +48,12 @@ export default {
   async mounted() {
     this.checkLoggedIn()
     this.getReply()
+    this.courseId = this.$store.state.route.params.courseId
+    this.courseName = this.$store.state.route.params.courseName
   },
   methods: {
     back: function() {
-      this.$router.push(`/forum/${this.reply.threadId}`)
+      this.$router.push(`/forums/${this.courseId}/${this.courseName}/${this.reply.threadId}`)
     },
     checkLoggedIn: function() {
       if (!(this.isUserLoggedIn)) {

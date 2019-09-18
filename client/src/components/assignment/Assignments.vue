@@ -1,7 +1,7 @@
 <template>
   <v-container fluid>
     <v-layout align-center justify-center>
-      <v-flex xs10 md10>
+      <v-flex xs10>
         <div v-for="course in courses" :key="course._id" hover>
           <v-card class="my-3" hover>
             <v-toolbar dark>
@@ -39,7 +39,7 @@ import Router from "vue-router"
 import {mapState} from "vuex"
 
 export default {
-  name: "Assignment",
+  name: "Assignments",
   data() {
     return {
       headers: [
@@ -75,7 +75,12 @@ export default {
         const assignmentResponse = await AssignmentService.getAssignments()
 
         if (this.isUserProfessor) {
-          this.courses = courseResponse.data.courses
+          courseResponse.data.courses.forEach(course => {
+          if (course.professor === this.user.firstName + " " + this.user.lastName) {
+              this.courses.push(course);
+            }
+          });
+
           this.courses.forEach(course => {
             course.assignments = []
           })
@@ -113,7 +118,7 @@ export default {
       try {
         const response = await AssignmentService.removeAssignment(assignmentId)
         this.getUserCoursesAndAssignments()
-        this.$router.push("/assignment")
+        this.$router.push("/assignments")
       }
       catch(err) {
         this.error = err.response.data.error

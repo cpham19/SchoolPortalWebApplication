@@ -98,7 +98,7 @@ export default {
         this.failedAdd = false
         this.successfulAdd = true
         this.discard();
-        this.$router.push('/course/add')
+        this.$router.push('/courses/add')
       }
       catch (err) {
         this.failedAdd = true

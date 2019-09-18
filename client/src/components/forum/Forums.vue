@@ -3,7 +3,7 @@
     <v-layout align-center justify-center>
       <v-flex xs8>     
         <div v-for="course in courses" :key="course._id" class="box">
-           <h3 class="text-white">{{course.dept}}{{course.number}}-{{course.section}} {{course.name}} <v-btn fab dark color="indigo" :to="{name: 'ForumAdd', params: {courseId: course._id}}" type="submit"><v-icon dark>add</v-icon></v-btn></h3>    
+           <h3 class="text-white">{{course.dept}}{{course.number}}-{{course.section}} {{course.name}} <v-btn fab dark color="indigo" :to="{name: 'ForumAdd', params: {courseId: course._id, courseName: course.dept + ' ' + course.number + ' ' + course.section + ' ' +  course.name}}" type="submit"><v-icon dark>add</v-icon></v-btn></h3>    
            <table class="table table-striped table-light">
               <thead class="thead-dark">
                 <tr>
@@ -14,7 +14,7 @@
               </thead>
               <tbody>
                 <tr scope="row" v-for="thread in course.threads" :key="thread._id">
-                  <td><a :style="'color:blue;'" v-on:click="navigateTo({name: 'ThreadView', params: {threadId: thread._id}})">{{thread.title}}</a></td>
+                  <td><a :style="'color:blue;'" v-on:click="navigateTo({name: 'ThreadView', params: {courseId: course._id, courseName: course.dept + ' ' + course.number + ' ' + course.section + ' ' +  course.name, threadId: thread._id}})">{{thread.title}}</a></td>
                   <td>{{thread.postedDate}}</td>
                   <td><v-btn v-show="isUserProfessor || user.userName === thread.author.userName" v-on:click="removeThread(thread._id)" class="error" type="submit"><v-icon>remove</v-icon></v-btn></td>
                 </tr>

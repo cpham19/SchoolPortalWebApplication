@@ -1,6 +1,7 @@
 <template>
+  <v-container fluid fill-height>
     <v-layout align-center justify-center>
-      <v-flex xs12 sm8 md12>
+      <v-flex sm8>
         <v-card class="elevation-12">
           <v-toolbar dark color="primary">
             <v-toolbar-title>
@@ -20,6 +21,7 @@
         </v-card>
       </v-flex>
     </v-layout>
+  </v-container>
 </template>
 
 <script>
@@ -55,7 +57,7 @@ export default {
   },
   methods: {
     back: function() {
-      this.$router.push("/forum")
+      this.$router.push("/forums")
     },
     async addThread() {
       const thread = {courseId: this.course._id, author: {_id: this.user._id, userName: this.user.userName, avatar: this.user.avatar}, title: this.title, description: this.description}

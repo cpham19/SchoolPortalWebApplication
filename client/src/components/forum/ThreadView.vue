@@ -11,9 +11,9 @@
                         <p class="lead">{{thread.description}}</p>
                         <hr class="my-4">
                         <p>Posted by <a :style="'color:blue;'" v-on:click="navigateTo({name: 'User', params: {userId: thread.author._id, threadId: thread._id}})">{{thread.author.userName}}</a> on {{thread.postedDate}}</p>
-                        <div v-show="thread.author._id == user._id" class="btn-group">
-                            <a style="font-size:25px;"><i class="fas fa-edit"></i></a>
-                            <a style="font-size:25px;"><i class="fas fa-trash-alt"></i></a>
+                        <div v-show="isUserProfessor || thread.author._id === user._id" class="btn-group">
+                            <v-btn :to="{name: 'ThreadEdit', params: {courseId: cid, courseName: cname, threadId: thread._id}}" class="info blocks" type="submit"><i class="fas fa-edit"> Edit</i></v-btn>
+                            <v-btn class="error blocks"><i class="fas fa-trash-alt"></i> Remove</v-btn>
                         </div>
                     </div>
                 </div>
@@ -34,8 +34,8 @@
                                 <hr class="my-4">
                                 Posted on {{reply.postedDate}}
                                 <div class="btn-group" v-show="isUserProfessor || user.userName === reply.author.userName">
-                                    <v-btn :to="{name: 'ReplyEdit', params: {replyId: reply._id}}" class="info" type="submit">Edit</v-btn>
-                                    <v-btn v-on:click="removeReply(reply._id)" class="error" type="submit">Remove</v-btn>
+                                    <v-btn :to="{name: 'ReplyEdit', params: {courseId: cid, courseName: cname, threadId: tid, replyId: reply._id}}" class="info blocks" type="submit"><i class="fas fa-edit"></i> Edit</v-btn>
+                                    <v-btn v-on:click="removeReply(reply._id)" class="error blocks" type="submit"><i class="fas fa-edit"></i> Remove</v-btn>
                                 </div>
                             </td>
                             <td :style="'width:300px;'">
@@ -72,6 +72,9 @@ export default {
       newReply: "",
       error: "",
       failedAdd: false,
+      cid: "",
+      cname: "",
+      tid: "",
     }
   },
 computed: {
@@ -84,13 +87,16 @@ computed: {
   async mounted() {
     this.checkLoggedIn()
     this.getThreadAndReplies()
+    this.cid = this.$store.state.route.params.courseId
+    this.cname = this.$store.state.route.params.courseName
+    this.tid = this.$store.state.route.params.threadId
   },
   methods: {
     navigateTo: function(route) {
       this.$router.push(route)
     },
     back: function() {
-      this.$router.push("/forum")
+      this.$router.push("/forums")
     },
     checkLoggedIn: function() {
       if (!(this.isUserLoggedIn)) {
@@ -113,7 +119,6 @@ computed: {
             })
             return reply
         })
-        console.log(this.user)
     },
     async removeReply(replyId) {
         try {
@@ -203,9 +208,14 @@ a:active {
         flex-direction: row;
         justify-content: left;
     }
-    .btn-group a {
-        padding-right: 5px;
+
+    .blocks
+    {
+        padding: 24px 12px;
+        margin: 0 5px;  
+        border-radius: 0;
     }
-    @@media (max-width: 768px) {
+
+    @media (max-width: 768px) {
     }
 </style>
