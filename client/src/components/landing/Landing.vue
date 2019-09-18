@@ -1,13 +1,16 @@
 <template>
-  <v-container fluid bg fill-height grid-list-md text-xs-center :style="cssProps">
-    <v-layout row wrap align-center>
+  <v-container class="landing" fluid fill-height>
+    <v-layout align-center justify-center>
       <v-flex>
-        <h1 class="text-uppercase font-weight-bold text-dark">Welcome to the School Portal Website!</h1>
+        <h1 class="text-uppercase font-weight-bold">Welcome to the School Portal Website!</h1>
         <hr class="divider my-4" />
-        <p class="text-dark" :style="'font-family:fantasy; font-size:24px;'">This site is designed to emulate the sites that students and teachers use for school purposes.</p>
-        <a v-show="!isUserLoggedIn" class="btn btn-primary" :style="'color:white;'" href="/login">Login</a>
-        <a v-show="!isUserLoggedIn" class="btn btn-primary" :style="'color:white;'" href="/register">Register</a>
-        <p v-show="isUserLoggedIn" class="text-dark" :style="'font-family:fantasy; font-size:24px;'">You are currently logged in.</p>
+        <p :style="'font-family:arial; font-size:24px;'">This site is designed to emulate the sites that students and teachers use for school purposes.</p>
+        <v-btn class="mx-2" v-show="!isUserLoggedIn" :to="{name: 'Login'}">Login</v-btn>
+        <v-btn class="mx-2" v-show="!isUserLoggedIn" :to="{name: 'Register'}">Register</v-btn>
+        <p
+          v-show="isUserLoggedIn"
+          :style="'font-family:fantasy; font-size:24px;'"
+        >You are currently logged in.</p>
       </v-flex>
     </v-layout>
   </v-container>
@@ -23,18 +26,13 @@ Vue.use(Router);
 export default {
   name: "Landing",
   data() {
-    return {
-      cssProps: {
-        backgroundImage: "url('/static/landing.jpg')"
-      }
-    };
+    return {};
   },
-computed: {
+  computed: {
     ...mapState(["user", "isUserLoggedIn", "isUserProfessor"])
   },
   mounted() {},
-  methods: {
-  }
+  methods: {}
 };
 </script>
 
@@ -64,7 +62,7 @@ h1 {
 }
 .btn-primary:hover {
   background-color: gray;
-  color:black;
+  color: black;
 }
 .btn-primary:focus {
   background-color: black;
@@ -73,6 +71,11 @@ h1 {
 .btn-primary:active {
   background-color: #467370 !important;
 }
+
+.landing {
+  background-image: url("../../assets/static/landing.jpg");
+}
+
 @@media (max-width: 768px) {
   .box h1 {
     font-size: 3rem;

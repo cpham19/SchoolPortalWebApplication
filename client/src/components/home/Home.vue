@@ -1,15 +1,16 @@
 <template>
   <v-container fluid fill-height grid-list-md>
     <v-layout>
-      <v-flex xs6 :style="'background:rgba(71, 71, 71, 0.5);color:white;'">
-        <div class="text-xs-center">
+      <v-flex xsm6 :style="'background:rgba(71, 71, 71, 0.5);color:white;'">
+        <div class="text-center">
           <div v-show="!isUserProfessor" class="headline">Student</div>
           <div v-show="isUserProfessor" class="headline">Professor</div>
           <v-avatar size="250px">
             <v-img class="img-circle elevation-7 mb-1" :src="user.avatar"></v-img>
           </v-avatar>
           <div class="headline">
-            <v-img src="static/professor.png" height="30px" alt="Professor" v-show="isUserProfessor" contain></v-img>
+            <img :src="images.professor" height="30px" v-show="isUserProfessor"/>
+            <br/>
             <span style="font-weight:bold">{{user.firstName}} {{user.lastName}}</span>
           </div>
           <div class="subheading text-xs-center grey--text pt-1 pb-3">{{user.email}}</div>
@@ -19,23 +20,22 @@
           <p class="lead">{{user.phoneNumber}}</p>
         </div>
       </v-flex>
-      <v-flex xs8 :style="'background:rgba(71, 71, 71, 1); color:white;'">
+      <v-flex xsm8 :style="'background:rgba(71, 71, 71, 0.9); color:white;'">
           <v-toolbar dark>
-            <v-toolbar-title v-show="!isUserProfessor">Current Enrolled Courses</v-toolbar-title>
-            <v-toolbar-title v-show="isUserProfessor">Currently Teaching Courses</v-toolbar-title>
+            <v-toolbar-title v-show="!isUserProfessor">Currently Enrolled in {{courses.length}} Course(s)</v-toolbar-title>
+            <v-toolbar-title v-show="isUserProfessor">Currently Teaching {{courses.length}} Course(s)</v-toolbar-title>
           </v-toolbar>
-          <v-carousel cycle height="50%">
-              <v-carousel-item v-for="course in courses" :key="course._id">
-                <v-sheet :color="'secondary'" height="50%" tile>
-                  <v-row class="fill-height" align="center" justify="center">
-                    <div class="display-3"><a :href="'/course/' + course._id" flat class="blue--text">{{course.dept}}{{course.number}}-{{course.name}} - Section {{course.section}}</a></div>
-                  </v-row>
-                   <v-row class="fill-height" align="center" justify="center">
-                    <div>{{course.description}}</div>
-                  </v-row>
-                </v-sheet>
-              </v-carousel-item>
-            </v-carousel>
+          <v-carousel :show-arrows-on-hover="true" height="150px;">
+            <v-carousel-item v-for="course in courses" :key="course._id">
+              <v-sheet :style="'background:rgba(192, 192, 192, 0.7);'" height="100%" tile>
+                <v-row class="fill-height" align="center" justify="center">
+                  <p class="display">
+                    <course-dialog :course="course"/>
+                  </p>
+                </v-row>
+              </v-sheet>
+            </v-carousel-item>
+          </v-carousel>
       </v-flex>
     </v-layout>
   </v-container>
@@ -46,25 +46,21 @@ import HomeService from "@/services/HomeService";
 import CourseService from "@/services/CourseService";
 import Router from "vue-router";
 import { mapState } from "vuex";
+import CourseDialog from "../course/CourseDialog"
 
 export default {
   name: "Home",
   data() {
     return {
       courses: [],
-       colors: [
-        'primary',
-        'secondary',
-        'yellow darken-2',
-        'red',
-        'orange',
-      ],
+      images: {
+        professor: require('../../assets/static/professor.png')
+      },
     };
   },
   mounted() {
     this.checkLoggedIn();
     this.getUserCourses();
-    console.log(this.user);
   },
   computed: {
     ...mapState(["user", "isUserLoggedIn", "isUserProfessor"])
@@ -99,13 +95,27 @@ export default {
         });
       }
     }
-  }
+  },
+  components: {
+    "course-dialog" : CourseDialog
+  },
 };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-@media (max-width: 768px) {
 
+.display {
+  font-size: 36px;
+}
+@media (max-width: 768px) {
+  .lead {
+    font-size:12px;
+  }
+
+  .display {
+    font-size:12px;
+    padding: 20px;
+  }
 }
 </style>

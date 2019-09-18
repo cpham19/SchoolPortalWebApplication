@@ -1,22 +1,26 @@
 <template>
-  <v-container fluid>
-    <v-layout>
-      <v-flex xs12 md12>
-        <div v-for="course in courses" :key="course._id" hover>
-          <v-card class="my-3" hover>
-            <v-toolbar dark color="primary">
-              <v-toolbar-title>
-              <h3 class="display-1">{{course.dept}}{{course.number}}-{{course.section}} {{course.name}} <v-btn fab dark color="indigo" :to="{name: 'ForumAdd', params: {courseId: course._id}}" type="submit"><v-icon dark>add</v-icon></v-btn></h3>
-              </v-toolbar-title>
-            </v-toolbar>
-            <v-data-table :headers="headers" :items="course.threads" class="elevation-1">
-              <template slot="items" slot-scope="props">
-                <td><a v-on:click="navigateTo({name: 'ThreadView', params: {threadId: props.item._id}})">{{props.item.title}}</a></td>
-                <td>{{props.item.postedDate}}</td>
-                <td><v-btn v-show="isUserProfessor || user.userName === props.item.author.userName" v-on:click="removeThread(props.item._id)" class="error" type="submit"><v-icon>remove</v-icon></v-btn></td>
-              </template>
-            </v-data-table>
-          </v-card>
+  <v-container fluid fill-height grid-list-md>
+    <v-layout align-center justify-center>
+      <v-flex xs8>     
+        <div v-for="course in courses" :key="course._id" class="box">
+           <h3 class="text-white">{{course.dept}}{{course.number}}-{{course.section}} {{course.name}} <v-btn fab dark color="indigo" :to="{name: 'ForumAdd', params: {courseId: course._id}}" type="submit"><v-icon dark>add</v-icon></v-btn></h3>    
+           <table class="table table-striped table-light">
+              <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Thread</th>
+                    <th scope="col">Posted Date</th>
+                    <th scope="col">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr scope="row" v-for="thread in course.threads" :key="thread._id">
+                  <td><a :style="'color:blue;'" v-on:click="navigateTo({name: 'ThreadView', params: {threadId: thread._id}})">{{thread.title}}</a></td>
+                  <td>{{thread.postedDate}}</td>
+                  <td><v-btn v-show="isUserProfessor || user.userName === thread.author.userName" v-on:click="removeThread(thread._id)" class="error" type="submit"><v-icon>remove</v-icon></v-btn></td>
+                </tr>
+              </tbody>
+            </table>
+            <br/><br/><br/>
         </div>
       </v-flex>
     </v-layout>
@@ -34,11 +38,6 @@ export default {
   name: "Forum",
   data() {
     return {
-      headers: [
-        { text: "Title", value: "title" },
-        { text: "Posted Date", value: "postedDate" },
-        { text: "Action", value: "_id" },
-      ],
       courses: [],
     };
   },
@@ -115,4 +114,8 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+    .table-light {
+        border: solid 5px;
+    }
+
 </style>

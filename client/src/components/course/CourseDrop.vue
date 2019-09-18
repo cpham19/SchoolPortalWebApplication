@@ -1,6 +1,6 @@
 <template>
   <v-container fluid>
-    <course-nav v-bind:active="active"/>
+    <course-nav />
     <br/><br/><br/>
     <v-layout align-center justify-center>
       <v-flex xs12 sm8 md8>
@@ -8,17 +8,13 @@
           <v-toolbar dark>
             <v-toolbar-title>Drop Courses</v-toolbar-title>
           </v-toolbar>
-          <v-data-table :headers="headers" :items="enrolledCourses" class="elevation-1">
-            <template slot="items" slot-scope="props">
-              <td>{{props.item.dept}}</td>
-              <td>{{props.item.number}}</td>
-              <td>{{props.item.section}}</td>
-              <td>{{props.item.name}}</td>
-              <td>{{props.item.unit}}</td>
-              <td>{{props.item.professor}}</td>
-              <td>
-                <v-btn v-on:click="dropCourse(props.item._id)" class="info" type="button"><v-icon dark>remove</v-icon></v-btn>
-              </td>
+          <v-data-table v-model="selected" :single-select="singleSelect" :headers="headers" :items="enrolledCourses" item-key="_id" show-select class="elevation-1">
+            <template v-slot:top>
+              <v-switch v-model="singleSelect" label="Single select" class="pa-3"></v-switch>
+            </template>
+            <template v-slot:footer>
+              <hr/>
+              <v-btn v-show="!isUserProfessor" v-on:click="dropCourse" class="error" type="button">Drop</v-btn>
             </template>
           </v-data-table>
         </v-card>
@@ -44,10 +40,11 @@ export default {
         { text: "Name", value: "name" },
         { text: "Unit", value: "unit" },
         { text: "Professor", value: "professor" },
-        { text: "Action", value: "_id"}
+        { text: "Room", value: "room" },
       ],
       enrolledCourses: [],
-      active: 4,
+      selected: [],
+      singleSelect: false,
       error: ""
     };
   },
@@ -55,6 +52,7 @@ export default {
     ...mapState([
       'user',
       'isUserLoggedIn',
+      'isUserProfessor'
     ])
   },
   mounted() {
@@ -62,14 +60,20 @@ export default {
     this.getUserCourses()
   },
   methods: {
-    async dropCourse(courseId) {
-      const course = {userId: this.user._id, courseId: courseId}
+    async dropCourse() {
+      if (this.selected.length == 0) {
+        return;
+      }
+
+      var id = this.user._id
       try {
-        const response = await CourseService.dropCourse(course)
-        this.$store.dispatch('dropCourse', response.data.courseId)
-        // Filter the search results based on the user's enrolled courses
-        this.enrolledCourses = this.enrolledCourses.filter(course => !(course._id === response.data.courseId))
-        this.$router.push("/course/drop")
+        for(const course of this.selected) {
+          const obj = {userId: id, courseId: course._id}
+          const response = await CourseService.dropCourse(obj)
+          this.$store.dispatch('dropCourse', response.data.courseId)
+          // Filter the search results based on the user's enrolled courses
+          this.enrolledCourses = await this.enrolledCourses.filter(courseObj => !(courseObj._id === response.data.courseId))
+        }
       }
       catch(err) {
         this.error = error.response.data.error

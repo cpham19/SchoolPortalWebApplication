@@ -1,6 +1,6 @@
 <template>
   <v-container fluid>
-    <course-nav v-bind:active="active"/>
+    <course-nav />
     <br/><br/><br/>
     <v-layout align-center justify-center>
       <v-flex xs12 sm8 md8>
@@ -8,17 +8,19 @@
           <v-toolbar dark>
             <v-toolbar-title>Edit and Remove Courses</v-toolbar-title>
           </v-toolbar>
-          <v-data-table :headers="headers" :items="courses" class="elevation-1">
-            <template slot="items" slot-scope="props">
-              <td>{{props.item.dept}}</td>
-              <td>{{props.item.number}}</td>
-              <td>{{props.item.section}}</td>
-              <td>{{props.item.name}}</td>
-              <td>{{props.item.unit}}</td>
-              <td>{{props.item.professor}}</td>
-              <td>
-                <v-btn :to="{name: 'CourseToEdit', params: {courseId: props.item._id}}" class="success" type="button"><v-icon>edit</v-icon></v-btn>
-                <v-btn v-on:click="removeCourse(props.item._id)" class="error" type="button"><v-icon>remove</v-icon></v-btn>
+          <v-data-table :headers="headers" :items="courses" :single-expand="singleExpand" :expanded.sync="expanded" show-expand item-key="_id"  class="elevation-1">
+           <template v-slot:top>
+              <v-toolbar>
+                <v-switch v-model="singleExpand" label="Single expand" class="pa-3"></v-switch>
+              </v-toolbar>
+            </template>
+            <template v-slot:expanded-item="{ headers, item}">
+              <td :colspan="headers.length">
+                {{item.description}}
+                <br/>
+                <v-btn :to="{name: 'CourseToEdit', params: {courseId: item._id}}" class="success" type="button"><v-icon>edit</v-icon> Edit</v-btn>
+                <v-spacer></v-spacer>
+                <v-btn v-on:click="removeCourse(item._id)" class="error" type="button"><v-icon>remove</v-icon> Remove</v-btn>
               </td>
             </template>
           </v-data-table>
@@ -46,10 +48,13 @@ export default {
         { text: "Name", value: "name" },
         { text: "Unit", value: "unit" },
         { text: "Professor", value: "professor" },
-        { text: "Action", value: "_id"}
+        { text: "Room", value: "room"}
       ],
       courses: [],
-      active: 3,
+      expanded: [],
+      singleExpand: false,
+      selected: [],
+      singleSelect: false,
     };
   },
   computed: {

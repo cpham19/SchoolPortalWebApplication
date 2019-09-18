@@ -5,18 +5,16 @@ import App from './App'
 import router from './router'
 import {sync} from 'vuex-router-sync'
 import store from './store/store'
-import Vuetify from 'vuetify'
-import 'vuetify/dist/vuetify.min.css'
+import vuetify from './plugins/vuetify'
 
-Vue.use(Vuetify);
 Vue.config.productionTip = false
-  
+
 sync(store, router)
 
 new Vue({
   el: '#app',
   router,
   store,
-  components: { App },
-  template: '<App/>'
-})
+  vuetify,
+  render: h => h(App)
+}).$mount('#app')

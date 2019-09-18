@@ -1,7 +1,7 @@
 <template>
-  <v-container fluid bg fill-height grid-list-md text-xs-center :style="cssProps">
+  <v-container class="background" fluid bg fill-height grid-list-md text-xs-center>
     <v-layout align-center justify-center>
-      <v-flex xs12 sm8 md4>
+      <v-flex xs12 md4>
         <v-card class="elevation-12">
           <v-toolbar dark>
             <v-toolbar-title>Login</v-toolbar-title>
@@ -14,8 +14,9 @@
             <div class="failed" v-show="failedLogin">{{error}}</div>
           </v-card-text>
           <v-card-actions>
-            <v-btn v-on:click="login()" :disabled="!userName || !password" dark block rounded type="button">Login</v-btn>
-            <v-spacer></v-spacer><a class="link" href="/register">New User?</a>
+            <v-btn v-on:click="login()" :disabled="!userName || !password" width="100" dark rounded type="button">Login</v-btn>
+            <v-spacer></v-spacer>
+            <v-btn v-show="!this.$store.state.isUserLoggedIn" class="primary" rounded :to="{name: 'Register'}">New User?</v-btn>
           </v-card-actions>
         </v-card>
       </v-flex>
@@ -39,9 +40,6 @@ export default {
       error: "",
       required: (value) => !!value || 'Required Field',
       failedLogin: false,
-      cssProps: {
-        backgroundImage: "url('/static/login.jpg')"
-      }
     };
   },
   mounted() {
@@ -90,4 +88,9 @@ export default {
   color:blue;
   font-size: 24px;
 }
+
+.background {
+  background-image: url('../../assets/static/login.jpg')
+}
+
 </style>

@@ -1,6 +1,6 @@
 <template>
   <v-container fluid>
-    <course-nav v-bind:active="active"/>
+    <course-nav />
     <br/><br/><br/>
     <v-layout align-center justify-center>
       <v-flex xs12 sm8 md8>
@@ -56,7 +56,6 @@ export default {
       successfulAdd: false,
       required: (value) => !!value || 'Required Field',
       error: "",
-      active: 1
     };
   },
   computed: {

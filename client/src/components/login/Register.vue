@@ -1,5 +1,5 @@
 <template>
-  <v-container fluid bg fill-height grid-list-md text-xs-center :style="cssProps">
+  <v-container class="background" fluid bg fill-height grid-list-md text-xs-center>
     <v-layout align-center justify-center>
         <v-flex xs12 sm8 md4>
           <v-card class="elevation-12">
@@ -23,8 +23,8 @@
               <div class="failed" v-show="failedRegister">{{error}}</div>
             </v-card-text>
             <v-card-actions>
-              <v-btn v-on:click="register()" color="success" block rounded :disabled="!firstName || !lastName || !streetAddress || !city || !state || !zipCode || !email || !phoneNumber || !userName || !password" type="submit">Register</v-btn>
-              <v-btn v-on:click="back()" color="accent" block rounded>Back</v-btn>
+              <v-btn v-on:click="register()" color="success" rounded :disabled="!firstName || !lastName || !streetAddress || !city || !state || !zipCode || !email || !phoneNumber || !userName || !password" type="submit">Register</v-btn>
+              <v-btn v-on:click="back()" color="accent" rounded>Back</v-btn>
             </v-card-actions>
           </v-card>
         </v-flex>
@@ -59,9 +59,6 @@ export default {
       failedRegister: false,
       required: (value) => !!value || 'Required Field',
       error: "",
-      cssProps: {
-        backgroundImage: "url('/static/login.jpg')"
-      }
     };
   },
   mounted() {
@@ -93,5 +90,9 @@ export default {
 
 .failed {
   color: red;
+}
+
+.background {
+  background-image: url('../../assets/static/login.jpg')
 }
 </style>

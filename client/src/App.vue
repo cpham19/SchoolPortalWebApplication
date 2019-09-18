@@ -2,7 +2,6 @@
   <div id="app">
     <v-app id="inspire">
       <page-header/>
-
       <v-content class="wrapper">
         <router-view />
       </v-content>
@@ -14,7 +13,6 @@
 <script>
 import PageHeader from "@/components/Header.vue";
 import Footer from "@/components/Footer.vue";
-
 export default {
   name: "App",
   data() {
@@ -37,9 +35,14 @@ export default {
   flex-direction: column;
   height: 100%;
 }
-
 .wrapper {
-  background: url("/static/abstract.jpg");
+  background-image: url('./assets/static/abstract.jpg');
   background-repeat: repeat-y;
+  display:flex;
+}
+
+/* We tell all items to be 100% width, via flex-basis */
+.wrapper > * {
+  flex: 1 100%;
 }
 </style>

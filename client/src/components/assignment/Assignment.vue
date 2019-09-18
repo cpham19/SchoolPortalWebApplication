@@ -1,21 +1,28 @@
 <template>
   <v-container fluid>
-    <v-layout>
-      <v-flex xs12 md12>
+    <v-layout align-center justify-center>
+      <v-flex xs10 md10>
         <div v-for="course in courses" :key="course._id" hover>
-          <v-card class="my-3" hover v-show="course.professor == user.firstName + ' ' + user.lastName">
-            <v-toolbar dark color="primary">
+          <v-card class="my-3" hover>
+            <v-toolbar dark>
               <v-toolbar-title>
-                <h1 class="display-1">{{course.dept}}{{course.number}}-{{course.section}} {{course.name}}
-                  <v-btn v-show="isUserProfessor" fab dark color="indigo" :to="{name: 'AssignmentAdd', params: {courseId: course._id}}" type="submit"><v-icon dark>add</v-icon></v-btn>
+                <h1 class="display">{{course.dept}}{{course.number}}-{{course.section}} {{course.name}}
+                  <v-btn v-show="isUserProfessor" fab dark color="indigo" width="25" height="25" :to="{name: 'AssignmentAdd', params: {courseId: course._id}}" type="submit"><v-icon>add</v-icon></v-btn>
                 </h1>
               </v-toolbar-title>
             </v-toolbar>
             <v-data-table :headers="headers" :items="course.assignments" class="elevation-1">
-              <template slot="items" slot-scope="props">
-                <td><a v-on:click="navigateTo({name: 'AssignmentView', params: {assignmentId: props.item._id}})">{{props.item.title}}</a></td>
-                <td>{{props.item.dueDate}}</td>
-                <td v-show="isUserProfessor"><v-btn :to="{name: 'AssignmentEdit', params: {assignmentId: props.item._id}}" color="success" type="submit"><v-icon>edit</v-icon></v-btn><v-btn v-on:click="removeAssignment(props.item._id)" class="error" type="submit"><v-icon>remove</v-icon></v-btn></td>
+              <template v-slot:item="{ item}">
+                <td><a :style="'color:blue;'" v-on:click="navigateTo({name: 'AssignmentView', params: {assignmentId: item._id}})">{{item.title}}</a></td>
+                <td>{{item.dueDate}}</td>
+                <td v-show="isUserProfessor">
+                  <v-btn :to="{name: 'AssignmentEdit', params: {assignmentId: item._id}}" color="success" type="submit">
+                    <v-icon>edit</v-icon>
+                  </v-btn>
+                  <v-btn v-on:click="removeAssignment(item._id)" class="error" type="submit">
+                    <v-icon>remove</v-icon>
+                  </v-btn>
+                </td>
               </template>
             </v-data-table>
           </v-card>
@@ -53,6 +60,10 @@ export default {
   mounted() {
     this.checkLoggedIn()
     this.getUserCoursesAndAssignments()
+    // Remove the Action tab if you are professor (because you don't need to enroll)
+    if (!this.isUserProfessor) {
+      this.headers.pop();
+    }
   },
   methods: {
     navigateTo: function(route) {
@@ -87,7 +98,6 @@ export default {
             }
           })
         })
-
         console.log(this.courses)
       }
       catch(err) {
@@ -115,4 +125,22 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+.display {
+  font-size: 25px;
+}
+
+@media (max-width: 768px) {
+  .lead {
+    font-size:12px;
+  }
+
+  .display {
+    font-size:15px;
+  }
+
+  .display-btn {
+    width:20px;
+    height:20px;
+  }
+}
 </style>
