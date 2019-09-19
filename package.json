@@ -4,8 +4,7 @@
   "license": "MIT",
   "description": "",
   "scripts": {
-	"heroku-prebuild": "export NPM_CONFIG_PRODUCTION=false; export NODE_ENV=; NPM_CONFIG_PRODUCTION=false NODE_ENV=development npm install --only=dev --dev",
-    "heroku-postbuild": "export NPM_CONFIG_PRODUCTION=true; export NODE_ENV=production; npm run install-global-modules && npm run build-client && npm run install-server",
+    "heroku-postbuild": "npm run install-global-modules && npm run build-client && npm run install-server",
     "start": "node server/src/server.js",
 	"install-global-modules" : "npm cache clean --force && npm install -g @vue/cli @vue/cli-service",
     "build-client": "cd ./client && vue add vuetify && npm install && npm run build",
