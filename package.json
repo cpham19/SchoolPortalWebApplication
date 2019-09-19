@@ -4,9 +4,10 @@
   "license": "MIT",
   "description": "",
   "scripts": {
-    "heroku-postbuild": "npm run build-client && npm run install-server",
+    "heroku-postbuild": "npm run install-modules && npm run build-client && npm run install-server",
     "start": "node server/src/server.js",
-    "build-client": "cd ./client && npm install && npm install -g @vue/cli @vue/cli-service @vue/cli-plugin-babel @vue/cli-plugin-unit-mocha vue-cli-plugin-vuetify @vue/cli-plugin-e2e-cypress && vue add vuetify && npm run build",
+	"install-modules" : "vue add vuetify && npm install -g @vue/cli @vue/cli-service @vue/cli-plugin-babel @vue/cli-plugin-unit-mocha vue-cli-plugin-vuetify @vue/cli-plugin-e2e-cypress",
+    "build-client": "cd ./client && npm install && npm run build",
     "install-server": "cd ./server && npm install"
   },
   "engines": {
