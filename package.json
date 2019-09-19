@@ -7,7 +7,7 @@
     "heroku-postbuild": "npm run install-global-modules && npm run build-client && npm run install-server",
     "start": "node server/src/server.js",
 	"install-global-modules" : "npm cache clean --force && npm install -g @vue/cli @vue/cli-service",
-    "build-client": "cd ./client && vue add vuetify && npm install && npm run build",
+    "build-client": "cd ./client && vue add vuetify && npm install && npm install --save-dev @vue/cli-plugin-babel && npm run build",
     "install-server": "cd ./server && npm install"
   },
   "engines": {
