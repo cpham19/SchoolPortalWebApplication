@@ -6,7 +6,7 @@
   "scripts": {
     "heroku-postbuild": "npm run build-client && npm run install-server",
     "start": "node server/src/server.js",
-    "build-client": "cd ./client && npm install && npm install -g @vue/cli @vue/cli-service @vue/cli-plugin-babel && npm run build",
+    "build-client": "cd ./client && npm install && npm install -g @vue/cli @vue/cli-service @vue/cli-plugin-babel @vue/cli-plugin-e2e-cypress && npm run build",
     "install-server": "cd ./server && npm install"
   },
   "engines": {
