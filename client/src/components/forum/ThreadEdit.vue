@@ -39,6 +39,7 @@ export default {
       successfulEdit: false,
       courseId: "",
       courseName: "",
+      threadId: "",
       error: "",
     }
   },
@@ -51,13 +52,13 @@ export default {
     this.checkLoggedIn()
     this.courseId = this.$store.state.route.params.courseId
     this.courseName = this.$store.state.route.params.courseName
-    const threadId = this.$store.state.route.params.threadId
+    this.threadId = this.$store.state.route.params.threadId
     const response = await ForumService.getThread(threadId)
     this.thread = response.data.thread
   },
   methods: {
     back: function() {
-      this.$router.push(`/forums/${this.courseId}/${this.courseName}/${this.thread._id}`)
+      this.$router.push(`/forums/${this.courseId}/${this.courseName}/${this.threadId}`)
     },
     checkLoggedIn: function() {
       if (!(this.isUserLoggedIn)) {
@@ -78,7 +79,7 @@ export default {
         const response = await ForumService.editThread(this.thread)
         this.failedEdit = false
         this.successfulEdit = true
-        this.$router.push(`/forum/${this.thread._id}`)
+        this.$router.push(`/forums/${this.courseId}/${this.courseName}/${this.threadId}`)
       }
       catch (err) {
         this.failedEdit = true

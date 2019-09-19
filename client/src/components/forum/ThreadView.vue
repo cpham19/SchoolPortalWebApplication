@@ -2,9 +2,6 @@
     <v-container  fluid fill-height grid-list-md>
         <v-layout align-center justify-center>
             <v-flex sm8>
-                <v-btn v-on:click="back()" class="info" type="submit">Back</v-btn>
-                <br/><br/>
-
                 <div class="jumbotron jumbotron-fluid">
                     <div class="container">
                         <h1 class="display-4">{{thread.title}}</h1>
@@ -13,7 +10,6 @@
                         <p>Posted by <a :style="'color:blue;'" v-on:click="navigateTo({name: 'User', params: {userId: thread.author._id, threadId: thread._id}})">{{thread.author.userName}}</a> on {{thread.postedDate}}</p>
                         <div v-show="isUserProfessor || thread.author._id === user._id" class="btn-group">
                             <v-btn :to="{name: 'ThreadEdit', params: {courseId: cid, courseName: cname, threadId: thread._id}}" class="info blocks" type="submit"><i class="fas fa-edit"> Edit</i></v-btn>
-                            <v-btn class="error blocks"><i class="fas fa-trash-alt"></i> Remove</v-btn>
                         </div>
                     </div>
                 </div>
@@ -27,7 +23,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr scope="row" v-for="reply in thread.replies" :key="reply._id">
+                        <tr scope="row" v-for="reply in replies" :key="reply._id">
                             <td>
                                 {{reply.description}}
                                 <br /><br /><br /><br />
@@ -69,6 +65,7 @@ export default {
   data () {
     return {
       thread: {},
+      replies: [],
       newReply: "",
       error: "",
       failedAdd: false,
@@ -86,45 +83,30 @@ computed: {
   },
   async mounted() {
     this.checkLoggedIn()
-    this.getThreadAndReplies()
     this.cid = this.$store.state.route.params.courseId
     this.cname = this.$store.state.route.params.courseName
     this.tid = this.$store.state.route.params.threadId
+    const threadResponse = await ForumService.getThread(this.tid)
+    this.thread = threadResponse.data.thread
+    this.getReplies()
   },
   methods: {
     navigateTo: function(route) {
       this.$router.push(route)
-    },
-    back: function() {
-      this.$router.push("/forums")
     },
     checkLoggedIn: function() {
       if (!(this.isUserLoggedIn)) {
         this.$router.push("/")
       }
     },
-    async getThreadAndReplies() {
-        const threadId = this.$store.state.route.params.threadId
-        const threadResponse = await ForumService.getThread(threadId)
-        this.thread = threadResponse.data.thread
-
+    async getReplies() {
         const repliesResponse = await ForumService.getReplies()
-
-        this.thread.replies = this.thread.replies.map(replyId => {
-            let reply = null
-            repliesResponse.data.replies.forEach(replyObj => {
-                if (replyId === replyObj._id) {
-                    reply = JSON.parse(JSON.stringify(replyObj))
-                }
-            })
-            return reply
-        })
+        this.replies = repliesResponse.data.replies.filter(reply => reply.threadId === this.tid)
     },
     async removeReply(replyId) {
         try {
             const response = await ForumService.removeReply(replyId)
-            this.getThreadAndReplies()
-            this.$router.push(`/forum/${this.thread._id}`)
+            this.getReplies()
         }
         catch(err) {
             this.error = err.response.data.error
@@ -141,12 +123,10 @@ computed: {
         
         try {
             const response = await ForumService.addReply(reply)
-            this.getThreadAndReplies()
+            this.getReplies()
             this.failedAdd = false
             this.successfulAdd = true
             this.newReply = ""
-
-            this.$router.push(`/forum/${this.thread._id}`)
         }
         catch (err) {
             this.failedAdd = true

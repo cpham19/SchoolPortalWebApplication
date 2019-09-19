@@ -21,8 +21,9 @@ import AssignmentAdd from '@/components/assignment/AssignmentAdd'
 import AssignmentView from '@/components/assignment/AssignmentView'
 import AssignmentEdit from '@/components/assignment/AssignmentEdit'
 
+import Forum from '@/components/forum/Forum'
 import Forums from '@/components/forum/Forums'
-import ForumAdd from '@/components/forum/ForumAdd'
+import ThreadAdd from '@/components/forum/ThreadAdd'
 import ThreadView from '@/components/forum/ThreadView'
 import ThreadEdit from '@/components/forum/ThreadEdit'
 import ReplyEdit from '@/components/forum/ReplyEdit'
@@ -109,14 +110,19 @@ export default new Router({
             component: AssignmentEdit
         },
         {
-            path: '/forums',
+            path: '/forums/',
             name: 'Forums',
             component: Forums
         },
         {
+            path: '/forums/:courseId/:courseName',
+            name: 'Forum',
+            component: Forum
+        },
+        {
             path: '/forums/:courseId/:courseName/add',
-            name: 'ForumAdd',
-            component: ForumAdd
+            name: 'ThreadAdd',
+            component: ThreadAdd
         },
         {
             path: '/forums/:courseId/:courseName/:threadId',

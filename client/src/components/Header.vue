@@ -16,34 +16,34 @@
         <v-btn v-show="this.$store.state.isUserLoggedIn" v-on:click="logout()">Log Out</v-btn>
       </v-toolbar-items>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" @click="scrollToTop" class="hidden-md-and-up"></v-app-bar-nav-icon>
-    </v-toolbar>
-    <v-navigation-drawer v-model="drawer" :style="'background:rgba(29,29,29,0.8);padding-top:50px;'" right temporary fixed absolute width="200" height="400" id="drawer">
+    </v-toolbar>  
+    <v-navigation-drawer v-model="drawer" :style="'background:rgba(29,29,29,1);padding-top:50px;'" right temporary fixed absolute width="200" height="400" id="drawer">
       <v-list v-show="!this.$store.state.isUserLoggedIn">
         <v-list-item :to="{name: 'Landing'}">
-            <v-list-item-title style="font-size:24px;color:white;">Home</v-list-item-title>
+            <v-list-item-title class="tile" style="font-size:24px;color:white;">Home</v-list-item-title>
         </v-list-item>
         <v-list-item :to="{name: 'Login'}">
-            <v-list-item-title style="font-size:24px;color:white;">Login</v-list-item-title>
+            <v-list-item-title class="tile" style="font-size:24px;color:white;">Login</v-list-item-title>
         </v-list-item>
         <v-list-item :to="{name: 'Register'}">
-            <v-list-item-title style="font-size:24px;color:white;">Register</v-list-item-title>
+            <v-list-item-title class="tile" style="font-size:24px;color:white;">Register</v-list-item-title>
         </v-list-item>
       </v-list>
       <v-list v-show="this.$store.state.isUserLoggedIn">
         <v-list-item :to="{name: 'Home'}">
-            <v-list-item-title style="font-size:24px;color:white;">Home</v-list-item-title>
+            <v-list-item-title class="tile" style="font-size:24px;color:white;">Home</v-list-item-title>
         </v-list-item>
         <v-list-item :to="{name: 'CourseSearch'}">
-            <v-list-item-title style="font-size:24px;color:white;">Courses</v-list-item-title>
+            <v-list-item-title class="tile" style="font-size:24px;color:white;">Courses</v-list-item-title>
         </v-list-item>
-        <v-list-item :to="{name: 'Assignment'}">
-            <v-list-item-title style="font-size:24px;color:white;">Assignments</v-list-item-title>
+        <v-list-item :to="{name: 'Assignments'}">
+            <v-list-item-title class="tile" style="font-size:24px;color:white;">Assignments</v-list-item-title>
         </v-list-item>
         <v-list-item :to="{name: 'Forums'}">
-            <v-list-item-title style="font-size:24px;color:white;">Forums</v-list-item-title>
+            <v-list-item-title class="tile" style="font-size:24px;color:white;">Forums</v-list-item-title>
         </v-list-item>
         <v-list-item v-on:click="logout()">
-            <v-list-item-title style="font-size:24px;color:white;">Logout</v-list-item-title>
+            <v-list-item-title class="tile" style="font-size:24px;color:white;">Logout</v-list-item-title>
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
@@ -74,4 +74,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+.tile:hover {
+  background-color:gray;
+}
 </style>

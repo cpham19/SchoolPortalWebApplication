@@ -16,12 +16,14 @@
                 <td><a :style="'color:blue;'" v-on:click="navigateTo({name: 'AssignmentView', params: {assignmentId: item._id}})">{{item.title}}</a></td>
                 <td>{{item.dueDate}}</td>
                 <td v-show="isUserProfessor">
-                  <v-btn :to="{name: 'AssignmentEdit', params: {assignmentId: item._id}}" color="success" type="submit">
-                    <v-icon>edit</v-icon>
-                  </v-btn>
-                  <v-btn v-on:click="removeAssignment(item._id)" class="error" type="submit">
-                    <v-icon>remove</v-icon>
-                  </v-btn>
+                  <div class="btn-group">
+                    <v-btn :to="{name: 'AssignmentEdit', params: {assignmentId: item._id}}" class="success" type="submit">
+                        <v-icon>edit</v-icon>
+                    </v-btn>
+                    <v-btn v-on:click="removeAssignment(item._id)" class="error" type="submit">
+                      <v-icon>remove</v-icon>
+                    </v-btn>
+                  </div>
                 </td>
               </template>
             </v-data-table>
@@ -103,7 +105,6 @@ export default {
             }
           })
         })
-        console.log(this.courses)
       }
       catch(err) {
         //this.error = err.response.data
@@ -140,12 +141,20 @@ export default {
   }
 
   .display {
-    font-size:15px;
+    font-size:13px;
   }
 
   .display-btn {
     width:20px;
     height:20px;
+  }
+
+  .success {
+    width:20x;
+  }
+
+  .error {
+    width: 20px;
   }
 }
 </style>

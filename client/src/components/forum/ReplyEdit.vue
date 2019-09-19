@@ -50,6 +50,7 @@ export default {
     this.getReply()
     this.courseId = this.$store.state.route.params.courseId
     this.courseName = this.$store.state.route.params.courseName
+    this.threadId = this.$store.state.route.params.threadId
   },
   methods: {
     back: function() {
@@ -79,7 +80,7 @@ export default {
         const response = await ForumService.editReply(this.reply)
         this.failedEdit = false
         this.successfulEdit = true
-        this.$router.push(`/forum/${this.reply.threadId}`)
+              this.$router.push(`/forums/${this.courseId}/${this.courseName}/${this.threadId}`)
       }
       catch (err) {
         this.failedEdit = true

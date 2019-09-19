@@ -31,7 +31,7 @@ import Router from "vue-router"
 import {mapState} from "vuex"
 
 export default {
-  name: 'ForumAdd',        
+  name: 'ThreadAdd',        
   data () {
     return {
       required: (value) => !!value || 'Required Field',
@@ -57,7 +57,7 @@ export default {
   },
   methods: {
     back: function() {
-      this.$router.push("/forums")
+      this.$router.push(`/forums/${this.course._id}/${this.course.dept + ' ' + this.course.number + ' ' + this.course.section + ' ' +  this.course.name}`)
     },
     async addThread() {
       const thread = {courseId: this.course._id, author: {_id: this.user._id, userName: this.user.userName, avatar: this.user.avatar}, title: this.title, description: this.description}
@@ -73,7 +73,7 @@ export default {
         const response = await ForumService.postThread(thread)
         this.failedAdd = false
         this.successfulAdd = true
-        this.$router.push('/forum')
+        this.$router.push(`/forums/${this.course._id}/${this.course.dept + ' ' + this.course.number + ' ' + this.course.section + ' ' +  this.course.name}`)
       }
       catch (err) {
         this.failedAdd = true
