@@ -6,7 +6,7 @@
           <v-toolbar flat dark>
             <v-toolbar-title>Search</v-toolbar-title>
           </v-toolbar>
-          <v-form>
+          <v-form :style="'padding:10px;'">
               <v-text-field v-model="query" label="Search for ..." type="text" v-on:keyup="search()"></v-text-field>
               <v-checkbox v-model="checkbox" :label="'All Forums'" @change="searchAllForums">></v-checkbox>
           </v-form>
@@ -66,8 +66,8 @@ export default {
     ...mapState(["user", "isUserLoggedIn", "isUserProfessor"])
   },
   mounted() {
-    this.checkLoggedIn();
-    this.getUserCoursesAndThreads();
+    this.checkLoggedIn()
+    this.getUserCoursesAndThreads()
     this.searchedForums = this.courses
   },
   methods: {
