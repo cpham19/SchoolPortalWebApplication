@@ -142,7 +142,7 @@ export default {
         const forumResponse = await ForumService.getThreads();
 
         if (this.isUserProfessor) {
-          this.courses = courseResponse.data.courses;
+          this.courses = courseResponse.data.courses.filter(course => course.professor === this.user.firstName + " " + this.user.lastName);
           this.courses.forEach(course => {
             course.threads = [];
           });

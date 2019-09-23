@@ -44,6 +44,16 @@
           <v-card-text>{{course.unit}}</v-card-text>
 
           <v-toolbar dark color="primary" dense>
+            <v-toolbar-title>Time</v-toolbar-title>
+          </v-toolbar>
+          <v-card-text>{{course.startingTime}} - {{course.endingTime}}</v-card-text>
+
+          <v-toolbar dark color="primary" dense>
+            <v-toolbar-title>Days</v-toolbar-title>
+          </v-toolbar>
+          <v-card-text>{{course.selectedDays}}</v-card-text>
+
+          <v-toolbar dark color="primary" dense>
             <v-toolbar-title>Description</v-toolbar-title>
           </v-toolbar>
           <v-card-text>{{course.description}}</v-card-text>

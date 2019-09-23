@@ -52,15 +52,9 @@ export default {
       const response = await CourseService.fetchCourses();
 
       if (this.isUserProfessor) {
-        response.data.courses.forEach(course => {
-          if (
-            course.professor ===
-            this.user.firstName + " " + this.user.lastName
-          ) {
-            this.courses.push(course);
-          }
-        });
-      } else {
+        this.courses = response.data.courses.filter(course => course.professor === this.user.firstName + " " + this.user.lastName);
+      }
+      else {
         this.user.courses.forEach(courseId => {
           response.data.courses.forEach(course => {
             if (course._id === courseId) {
@@ -74,94 +68,42 @@ export default {
         course.selectedDays.forEach(selectedDay => {
           var eventObj = {};
           eventObj.title = course.dept + course.number + "-" + course.section + " " + course.name;
+
+          var date = new Date()
+          var today = date.getDay()
+          var diff = null
           switch (selectedDay) {
             case "Sunday":
-              var d = new Date();
-              var sunday = d.getDay()
-              var diff = d.getDate() - sunday;
-              var timestamp = new Date(d.setDate(diff)) 
-              var month = ('0' + (timestamp.getMonth() + 1)).slice(-2)
-              var day = ('0' + timestamp.getDate()).slice(-2)
-              var year = timestamp.getFullYear()
-              var formattedDate = year + "-" + month + "-" + day
-              eventObj.start = formattedDate + " " + course.startingTime
-              eventObj.end = formattedDate + " " + course.endingTime
+              diff = date.getDate() - today
               break;
             case "Monday":
-              var d = new Date();
-              var monday = d.getDay()
-              var diff = d.getDate() - monday + (monday == 0 ? -6 : 1);
-              var timestamp = new Date(d.setDate(diff)) 
-              var month = ('0' + (timestamp.getMonth() + 1)).slice(-2)
-              var day = ('0' + timestamp.getDate()).slice(-2)
-              var year = timestamp.getFullYear()
-              var formattedDate = year + "-" + month + "-" + day
-              eventObj.start = formattedDate + " " + course.startingTime
-              eventObj.end = formattedDate + " " + course.endingTime
+              diff = date.getDate() - today + (today == 0 ? -6 : 1)
               break;
             case "Tuesday":
-              var d = new Date();
-              var tuesday = d.getDay()
-              var diff = d.getDate() - tuesday + (tuesday == 0 ? -5 : 2);
-              var timestamp = new Date(d.setDate(diff)) 
-              var month = ('0' + (timestamp.getMonth() + 1)).slice(-2)
-              var day = ('0' + timestamp.getDate()).slice(-2)
-              var year = timestamp.getFullYear()
-              var formattedDate = year + "-" + month + "-" + day
-              eventObj.start = formattedDate + " " + course.startingTime
-              eventObj.end = formattedDate + " " + course.endingTime
+              diff = date.getDate() - today + (today == 0 ? -5 : 2)
               break;
             case "Wednesday":
-              var d = new Date();
-              var wednesday = d.getDay()
-              var diff = d.getDate() - wednesday + (wednesday == 0 ? -4 : 3);
-              var timestamp = new Date(d.setDate(diff)) 
-              var month = ('0' + (timestamp.getMonth() + 1)).slice(-2)
-              var day = ('0' + timestamp.getDate()).slice(-2)
-              var year = timestamp.getFullYear()
-              var formattedDate = year + "-" + month + "-" + day
-              eventObj.start = formattedDate + " " + course.startingTime
-              eventObj.end = formattedDate + " " + course.endingTime
+              diff = date.getDate() - today + (today == 0 ? -4 : 3)
               break;
             case "Thursday":
-              var d = new Date();
-              var thursday = d.getDay()
-              var diff = d.getDate() - thursday + (thursday == 0 ? -3 : 4);
-              var timestamp = new Date(d.setDate(diff)) 
-              var month = ('0' + (timestamp.getMonth() + 1)).slice(-2)
-              var day = ('0' + timestamp.getDate()).slice(-2)
-              var year = timestamp.getFullYear()
-              var formattedDate = year + "-" + month + "-" + day
-              eventObj.start = formattedDate + " " + course.startingTime
-              eventObj.end = formattedDate + " " + course.endingTime
+              diff = date.getDate() - today + (today== 0 ? -3 : 4)
               break;
             case "Friday":
-              var d = new Date();
-              var friday = d.getDay()
-              var diff = d.getDate() - friday + (friday == 0 ? -2 : 5);
-              var timestamp = new Date(d.setDate(diff)) 
-              var month = ('0' + (timestamp.getMonth() + 1)).slice(-2)
-              var day = ('0' + timestamp.getDate()).slice(-2)
-              var year = timestamp.getFullYear()
-              var formattedDate = year + "-" + month + "-" + day
-              eventObj.start = formattedDate + " " + course.startingTime
-              eventObj.end = formattedDate + " " + course.endingTime
+              diff = date.getDate() - today + (today == 0 ? -2 : 5)
               break;
             case "Saturday":
-              var d = new Date();
-              var saturday = d.getDay()
-              var diff = d.getDate() - saturday + (saturday == 0 ? -1 : 6);
-              var timestamp = new Date(d.setDate(diff)) 
-              var month = ('0' + (timestamp.getMonth() + 1)).slice(-2)
-              var day = ('0' + timestamp.getDate()).slice(-2)
-              var year = timestamp.getFullYear()
-              var formattedDate = year + "-" + month + "-" + day
-              eventObj.start = formattedDate + " " + course.startingTime
-              eventObj.end = formattedDate + " " + course.endingTime
+              diff = date.getDate() - today +  (today == 0 ? -1 : 6)
               break;
             default:
               break;
           }
+          var timestamp = new Date(date.setDate(diff)) 
+          var month = ('0' + (timestamp.getMonth() + 1)).slice(-2)
+          var day = ('0' + timestamp.getDate()).slice(-2)
+          var year = timestamp.getFullYear()
+          var formattedDate = year + "-" + month + "-" + day
+          eventObj.start = formattedDate + " " + course.startingTime
+          eventObj.end = formattedDate + " " + course.endingTime
 
           this.events.push(eventObj);
         });

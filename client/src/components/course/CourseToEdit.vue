@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <v-container fluid fill-height>
     <v-layout align-center justify-center>
       <v-flex xs12 sm8 md8>
         <v-card class="elevation-12">
@@ -8,25 +8,36 @@
           </v-toolbar>
           <v-card-text>
             <v-form>
-              <v-select :items="depts" v-model="course.dept" label="department" required :rules="[required]" outline></v-select>
-              <v-text-field v-model="course.name" label="course name" type="text" required :rules="[required]" outline></v-text-field>
-              <v-text-field v-model="course.number" label="course number" type="text" required :rules="[required]" outline></v-text-field>
-              <v-text-field v-model="course.section" label="course section" type="text" required :rules="[required]" outline></v-text-field>
-              <v-text-field v-model="course.description" label="course description" type="text" required :rules="[required]" outline></v-text-field>
-              <v-text-field v-model="course.unit" label="course unit" type="text" required :rules="[required]" outline></v-text-field>
-              <v-text-field v-model="course.professor" label="course professor" type="text" required :rules="[required]" outline></v-text-field>
-              <v-text-field v-model="course.room" label="course room" type="text" required :rules="[required]" outline></v-text-field>
+              <v-select :items="depts" v-model="course.dept" label="department" required :rules="[required]" filled></v-select>
+              <v-text-field v-model="course.name" label="course name" type="text" required :rules="[required]" filled></v-text-field>
+              <v-text-field v-model="course.number" label="course number" type="text" required :rules="[required]" filled></v-text-field>
+              <v-text-field v-model="course.section" label="course section" type="text" required :rules="[required]" filled></v-text-field>
+              <v-text-field v-model="course.description" label="course description" type="text" required :rules="[required]" filled></v-text-field>
+              <v-select v-model="course.selectedDays" :items="days" label="Select the days of the class" multiple chips hint="Select the days of the class"></v-select>
+              <v-row justify="space-around" align="center">
+                <v-col style="width: 290px; flex: 0 1 auto;">
+                  <h2>Start:</h2>
+                  <v-time-picker v-model="course.startingTime" :max="course.endingTime" ampm-in-title></v-time-picker>
+                </v-col>
+                <v-col style="width: 290px; flex: 0 1 auto;">
+                  <h2>End:</h2>
+                  <v-time-picker v-model="course.endingTime" :min="course.startingTime" ampm-in-title></v-time-picker>
+                </v-col>
+              </v-row>
+              <v-text-field v-model="course.unit" label="course unit" type="text" required :rules="[required]" filled></v-text-field>
+              <v-text-field v-model="course.professor" label="course professor" type="text" required :rules="[required]" filled></v-text-field>
+              <v-text-field v-model="course.room" label="course room" type="text" required :rules="[required]" filled></v-text-field>
             </v-form>
             <div class="failed" v-show="failedEdit">{{error}}</div>
           </v-card-text>
           <v-card-actions>
-            <v-btn v-on:click="editCourse()" :disabled="!course.dept || !course.name || !course.number || !course.section || !course.description || !course.unit || !course.professor || !course.room" class="green" type="submit">Submit Changes</v-btn>
+            <v-btn v-on:click="editCourse()" :disabled="!course.dept || !course.name || !course.number || !course.section || !course.description || course.selectedDays.length == 0 || !course.startingTime || !course.endingTime || !course.unit || !course.professor || !course.room" class="green" type="submit">Submit Changes</v-btn>
             <v-btn v-on:click="back()" class="back" type="submit">Back and Discard Changes</v-btn>
           </v-card-actions>
         </v-card>
       </v-flex>
     </v-layout>
-  </div>
+  </v-container>
 </template>
 
 <script>
@@ -49,6 +60,7 @@ export default {
         { text: "Action", value: "_id"}
       ],
       depts: [],
+      days: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
       course: {},
       failedEdit: false,
       successfulEdit: false,
@@ -79,7 +91,7 @@ export default {
       }
     },
     async editCourse() {
-      if (!this.course.dept || !this.course.name || !this.course.number || !this.course.section || !this.course.description || !this.course.unit || !this.course.professor || !this.course.room) {
+      if (!this.course.dept || !this.course.name || !this.course.number || !this.course.section || !this.course.description || this.course.selectedDays.length == 0 || !this.course.startingTime || !this.course.endingTime || !this.course.unit || !this.course.professor || !this.course.room) {
         this.failedEdit = true
         this.successfulEdit = false
         this.error = "One or more of the fields are empty."
