@@ -17,7 +17,7 @@ module.exports = {
         })
     },
     addCourse(req, res) {
-        Course.addCourse({ dept: req.body.dept, name: req.body.name, number: req.body.number, section: req.body.section, description: req.body.description, unit: req.body.unit, professor: req.body.professor, room: req.body.room }).then(course => {
+        Course.addCourse({ dept: req.body.dept, name: req.body.name, number: req.body.number, section: req.body.section, description: req.body.description, unit: req.body.unit, selectedDays: req.body.selectedDays, startingTime: req.body.startingTime, endingTime: req.body.endingTime, professor: req.body.professor, room: req.body.room }).then(course => {
             res.send({ course: course })
         })
             // error
@@ -53,7 +53,7 @@ module.exports = {
         }
     },
     editCourse(req, res) {
-        Course.editCourse({_id: req.body._id, dept: req.body.dept, name: req.body.name, number: req.body.number, section: req.body.section, description: req.body.description, unit: req.body.unit, professor: req.body.professor, room: req.body.room}).then(course => {
+        Course.editCourse({_id: req.body._id, dept: req.body.dept, name: req.body.name, number: req.body.number, section: req.body.section, description: req.body.description, unit: req.body.unit, selectedDays: req.body.selectedDays, startingTime: req.body.startingTime, endingTime: req.body.endingTime, professor: req.body.professor, room: req.body.room}).then(course => {
             res.send(course)
         })
         // error

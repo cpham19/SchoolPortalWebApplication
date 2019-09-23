@@ -13,18 +13,20 @@
             </v-toolbar>
             <v-data-table :headers="headers" :items="course.assignments" class="elevation-1">
               <template v-slot:item="{ item}">
-                <td><a :style="'color:blue;'" v-on:click="navigateTo({name: 'AssignmentView', params: {assignmentId: item._id}})">{{item.title}}</a></td>
-                <td>{{item.dueDate}}</td>
-                <td v-show="isUserProfessor">
-                  <div class="btn-group">
-                    <v-btn :to="{name: 'AssignmentEdit', params: {assignmentId: item._id}}" class="success" type="submit">
-                        <v-icon>edit</v-icon>
-                    </v-btn>
-                    <v-btn v-on:click="removeAssignment(item._id)" class="error" type="submit">
-                      <v-icon>remove</v-icon>
-                    </v-btn>
-                  </div>
-                </td>
+                <tr>
+                  <td><a :style="'color:blue;'" v-on:click="navigateTo({name: 'AssignmentView', params: {assignmentId: item._id}})">{{item.title}}</a></td>
+                  <td>{{item.dueDate}}</td>
+                  <td v-show="isUserProfessor">
+                    <div class="btn-group">
+                      <v-btn :to="{name: 'AssignmentEdit', params: {assignmentId: item._id}}" class="success" type="submit">
+                          <v-icon>edit</v-icon>
+                      </v-btn>
+                      <v-btn v-on:click="removeAssignment(item._id)" class="error" type="submit">
+                        <v-icon>remove</v-icon>
+                      </v-btn>
+                    </div>
+                  </td>
+                </tr>
               </template>
             </v-data-table>
           </v-card>

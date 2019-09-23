@@ -75,7 +75,7 @@ export default {
       this.courses = response.data.courses
     },
     back: function() {
-      this.$router.push('/course/configure')
+      this.$router.push('/courses/configure')
     },
     checkLoggedIn: function() {
       if (!this.isUserLoggedIn) {
@@ -87,7 +87,7 @@ export default {
         const response = await CourseService.removeCourse(courseId)
         this.$store.dispatch("removeCourse", response.data.courseId)
         this.fetchCourses()
-        this.$router.push("/course/configure")
+        this.$router.push("/courses/configure")
       }
       catch (err) {
         console.log(err.response)

@@ -1,41 +1,14 @@
 <template>
   <v-container fluid fill-height grid-list-md>
-    <v-layout>
-      <v-flex xsm6 :style="'background:rgba(71, 71, 71, 0.5);color:white;'">
-        <div class="text-center">
-          <div v-show="!isUserProfessor" class="headline">Student</div>
-          <div v-show="isUserProfessor" class="headline">Professor</div>
-          <v-avatar size="250px">
-            <v-img class="img-circle elevation-7 mb-1" :src="user.avatar"></v-img>
-          </v-avatar>
-          <div class="headline">
-            <img :src="images.professor" height="30px" v-show="isUserProfessor"/>
-            <br/>
-            <span style="font-weight:bold">{{user.firstName}} {{user.lastName}}</span>
-          </div>
-          <div class="subheading text-xs-center grey--text pt-1 pb-3">{{user.email}}</div>
-          <h2>Address</h2>
-          <p class="lead">{{user.streetAddress}}, {{user.city}} {{user.state}} {{user.zipCode}}</p>
-          <h2>Phone Number</h2>
-          <p class="lead">{{user.phoneNumber}}</p>
-        </div>
-      </v-flex>
-      <v-flex xsm8 :style="'background:rgba(71, 71, 71, 0.9); color:white;'">
-          <v-toolbar dark>
-            <v-toolbar-title v-show="!isUserProfessor">Currently Enrolled in {{courses.length}} Course(s)</v-toolbar-title>
-            <v-toolbar-title v-show="isUserProfessor">Currently Teaching {{courses.length}} Course(s)</v-toolbar-title>
-          </v-toolbar>
-          <v-carousel :show-arrows-on-hover="true" height="150px;">
-            <v-carousel-item v-for="course in courses" :key="course._id">
-              <v-sheet :style="'background:rgba(192, 192, 192, 0.7);'" height="100%" tile>
-                <v-row class="fill-height" align="center" justify="center">
-                  <p class="display">
-                    <course-dialog :course="course"/>
-                  </p>
-                </v-row>
-              </v-sheet>
-            </v-carousel-item>
-          </v-carousel>
+    <v-layout align-center justify-center>
+      <v-flex sm10>
+        <about-me />
+        <br />
+        <my-courses v-bind:courses="courses" />
+        <br />
+        <my-assignments v-bind:assignments="assignments" />
+        <br />
+        <my-calender v-bind:events="events"/>
       </v-flex>
     </v-layout>
   </v-container>
@@ -44,23 +17,27 @@
 <script>
 import HomeService from "@/services/HomeService";
 import CourseService from "@/services/CourseService";
+import AssignmentService from "@/services/AssignmentService";
 import Router from "vue-router";
 import { mapState } from "vuex";
-import CourseDialog from "../course/CourseDialog"
+import AboutMe from "./AboutMe";
+import MyCourses from "./MyCourses";
+import MyAssignments from "./MyAssignments";
+import MyCalender from "./MyCalender";
 
 export default {
   name: "Home",
   data() {
     return {
       courses: [],
-      images: {
-        professor: require('../../assets/static/professor.png')
-      },
+      assignments: [],
+      events: [],
     };
   },
   mounted() {
     this.checkLoggedIn();
     this.getUserCourses();
+    this.getUserAssignments();
   },
   computed: {
     ...mapState(["user", "isUserLoggedIn", "isUserProfessor"])
@@ -72,8 +49,6 @@ export default {
       }
     },
     async getUserCourses() {
-      this.courses = [];
-
       const response = await CourseService.fetchCourses();
 
       if (this.isUserProfessor) {
@@ -94,27 +69,154 @@ export default {
           });
         });
       }
-    }
+
+      await this.courses.forEach(course => {
+        course.selectedDays.forEach(selectedDay => {
+          var eventObj = {};
+          eventObj.title = course.dept + course.number + "-" + course.section + " " + course.name;
+          switch (selectedDay) {
+            case "Sunday":
+              var d = new Date();
+              var sunday = d.getDay()
+              var diff = d.getDate() - sunday;
+              var timestamp = new Date(d.setDate(diff)) 
+              var month = ('0' + (timestamp.getMonth() + 1)).slice(-2)
+              var day = ('0' + timestamp.getDate()).slice(-2)
+              var year = timestamp.getFullYear()
+              var formattedDate = year + "-" + month + "-" + day
+              eventObj.start = formattedDate + " " + course.startingTime
+              eventObj.end = formattedDate + " " + course.endingTime
+              break;
+            case "Monday":
+              var d = new Date();
+              var monday = d.getDay()
+              var diff = d.getDate() - monday + (monday == 0 ? -6 : 1);
+              var timestamp = new Date(d.setDate(diff)) 
+              var month = ('0' + (timestamp.getMonth() + 1)).slice(-2)
+              var day = ('0' + timestamp.getDate()).slice(-2)
+              var year = timestamp.getFullYear()
+              var formattedDate = year + "-" + month + "-" + day
+              eventObj.start = formattedDate + " " + course.startingTime
+              eventObj.end = formattedDate + " " + course.endingTime
+              break;
+            case "Tuesday":
+              var d = new Date();
+              var tuesday = d.getDay()
+              var diff = d.getDate() - tuesday + (tuesday == 0 ? -5 : 2);
+              var timestamp = new Date(d.setDate(diff)) 
+              var month = ('0' + (timestamp.getMonth() + 1)).slice(-2)
+              var day = ('0' + timestamp.getDate()).slice(-2)
+              var year = timestamp.getFullYear()
+              var formattedDate = year + "-" + month + "-" + day
+              eventObj.start = formattedDate + " " + course.startingTime
+              eventObj.end = formattedDate + " " + course.endingTime
+              break;
+            case "Wednesday":
+              var d = new Date();
+              var wednesday = d.getDay()
+              var diff = d.getDate() - wednesday + (wednesday == 0 ? -4 : 3);
+              var timestamp = new Date(d.setDate(diff)) 
+              var month = ('0' + (timestamp.getMonth() + 1)).slice(-2)
+              var day = ('0' + timestamp.getDate()).slice(-2)
+              var year = timestamp.getFullYear()
+              var formattedDate = year + "-" + month + "-" + day
+              eventObj.start = formattedDate + " " + course.startingTime
+              eventObj.end = formattedDate + " " + course.endingTime
+              break;
+            case "Thursday":
+              var d = new Date();
+              var thursday = d.getDay()
+              var diff = d.getDate() - thursday + (thursday == 0 ? -3 : 4);
+              var timestamp = new Date(d.setDate(diff)) 
+              var month = ('0' + (timestamp.getMonth() + 1)).slice(-2)
+              var day = ('0' + timestamp.getDate()).slice(-2)
+              var year = timestamp.getFullYear()
+              var formattedDate = year + "-" + month + "-" + day
+              eventObj.start = formattedDate + " " + course.startingTime
+              eventObj.end = formattedDate + " " + course.endingTime
+              break;
+            case "Friday":
+              var d = new Date();
+              var friday = d.getDay()
+              var diff = d.getDate() - friday + (friday == 0 ? -2 : 5);
+              var timestamp = new Date(d.setDate(diff)) 
+              var month = ('0' + (timestamp.getMonth() + 1)).slice(-2)
+              var day = ('0' + timestamp.getDate()).slice(-2)
+              var year = timestamp.getFullYear()
+              var formattedDate = year + "-" + month + "-" + day
+              eventObj.start = formattedDate + " " + course.startingTime
+              eventObj.end = formattedDate + " " + course.endingTime
+              break;
+            case "Saturday":
+              var d = new Date();
+              var saturday = d.getDay()
+              var diff = d.getDate() - saturday + (saturday == 0 ? -1 : 6);
+              var timestamp = new Date(d.setDate(diff)) 
+              var month = ('0' + (timestamp.getMonth() + 1)).slice(-2)
+              var day = ('0' + timestamp.getDate()).slice(-2)
+              var year = timestamp.getFullYear()
+              var formattedDate = year + "-" + month + "-" + day
+              eventObj.start = formattedDate + " " + course.startingTime
+              eventObj.end = formattedDate + " " + course.endingTime
+              break;
+            default:
+              break;
+          }
+
+          this.events.push(eventObj);
+        });
+      })
+    },
+    async getUserAssignments() {
+      const response = await AssignmentService.getAssignments();
+
+      await this.courses.forEach(course => {
+        response.data.assignments.forEach(assignment => {
+          if (course._id === assignment.courseId) {
+            assignment.courseName = course.name;
+            this.assignments.push(assignment);
+          }
+        });
+      });
+
+      this.assignments = this.assignments.sort(this.compare)
+    },
+    async compare(a, b) {
+      // Use toUpperCase() to ignore character casing
+      const titleA = a.title.toUpperCase();
+      const titleB = b.title.toUpperCase();
+
+      let comparison = 0;
+      if (titleA > titleB) {
+        comparison = 1;
+      } else if (titleA < titleB) {
+        comparison = -1;
+      }
+      return comparison;
+    },
   },
   components: {
-    "course-dialog" : CourseDialog
-  },
+    "about-me": AboutMe,
+    "my-courses": MyCourses,
+    "my-assignments": MyAssignments,
+    "my-calender": MyCalender
+  }
 };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
 .display {
   font-size: 36px;
 }
+
 @media (max-width: 768px) {
   .lead {
-    font-size:12px;
+    font-size: 12px;
   }
 
   .display {
-    font-size:12px;
+    font-size: 18px;
     padding: 20px;
   }
 }

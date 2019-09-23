@@ -1,29 +1,25 @@
 <template>
-  <v-container fluid>
-  <v-layout>
-    <v-btn v-on:click="back()" class="info" type="submit">Back</v-btn>
-    <v-flex xs12 md12>
-      <div class="text-xs-center">
-        <div class="headline" v-show="this.isUserProfessor">isUserProfessor</div>
-        <div class="headline" v-show="!this.isUserProfessor">Student</div>
-        <v-avatar size="250px">
-          <v-img class="img-circle elevation-7 mb-1" :src="user.avatar"></v-img>
-        </v-avatar>
-        <div class="headline">
-          <!-- <v-img v-show="isUserProfessor" src="static/isUserProfessor.png" height="30px" alt="isUserProfessor" contain></v-img> -->
-          <span style="font-weight:bold">{{user.firstName}} {{user.lastName}}</span>
+  <v-container fluid fill-height grid-list-md>
+    <v-layout>
+      <v-flex xsm8>
+        <div class="text-center text-white" :style="'background: rgba(71, 71, 71, 0.9)'">
+          <div v-show="!user.isProfessor" class="headline">Student</div>
+          <div v-show="user.isProfessor" class="headline">Professor</div>
+          <v-avatar size="250px" color="white">
+            <v-img class="img-circle elevation-7 mb-1" :src="user.avatar"></v-img>
+          </v-avatar>
+          <div class="headline">
+            <v-avatar size="30px" color="white">
+              <v-img :src="images.professor" height="30px" v-show="user.isProfessor"></v-img>
+            </v-avatar>
+            <br/>
+            <span style="font-weight:bold">{{user.firstName}} {{user.lastName}}</span>
+          </div>
+          <div class="subheading text-xs-center grey--text pt-1 pb-3">{{user.email}}</div>
+          <p class="lead">From {{user.city}}, {{user.state}}</p>
         </div>
-
-        <div class="subheading text-xs-center grey--text pt-1 pb-3">{{user.email}}</div>
-
-        <h2>Address</h2>
-        <p class="lead">{{user.streetAddress}}, {{user.city}} {{user.state}} {{user.zipCode}}</p>
-
-        <h2>Phone Number</h2>
-        <p class="lead">{{user.phoneNumber}}</p>
-      </div>
-    </v-flex>
-  </v-layout>
+      </v-flex>
+    </v-layout>
   </v-container>
 </template>
 
@@ -37,7 +33,9 @@ export default {
   data() {
     return {
       user: {},
-      threadId: ""
+      images: {
+        professor: require('../../assets/static/professor.png')
+      },
     };
   },
   computed: {
@@ -51,9 +49,6 @@ export default {
     this.getUser()
   },
   methods: {
-    back: function() {
-      this.$router.push(`/forum/${this.$store.state.route.params.threadId}`)
-    },
     checkLoggedIn: function() {
       if (!this.isUserLoggedIn) {
         this.$router.push("/")

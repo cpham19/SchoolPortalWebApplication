@@ -3,7 +3,7 @@
     <v-layout align-center justify-center>
         <v-flex sm8>
           <v-card class="elevation-12">
-            <v-toolbar dark color="primary">
+            <v-toolbar dark>
               <v-toolbar-title>
                 <h1 class="display-1">Editting Thread</h1>
               </v-toolbar-title>

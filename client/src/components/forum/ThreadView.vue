@@ -7,7 +7,7 @@
                         <h1 class="display-4">{{thread.title}}</h1>
                         <p class="lead">{{thread.description}}</p>
                         <hr class="my-4">
-                        <p>Posted by <a :style="'color:blue;'" v-on:click="navigateTo({name: 'User', params: {userId: thread.author._id, threadId: thread._id}})">{{thread.author.userName}}</a> on {{thread.postedDate}}</p>
+                        <p>Posted by <a :style="'color:blue;'" v-on:click="navigateTo({name: 'User', params: {userId: thread.author._id}})">{{thread.author.userName}}</a> on {{thread.postedDate}}</p>
                         <div v-show="isUserProfessor || thread.author._id === user._id" class="btn-group">
                             <v-btn :to="{name: 'ThreadEdit', params: {courseId: cid, courseName: cname, threadId: thread._id}}" class="info blocks" type="submit"><i class="fas fa-edit"> Edit</i></v-btn>
                         </div>
@@ -38,7 +38,7 @@
                                 <div class="text-center">
                                     <v-img :src="reply.author.avatar" height="125px" contain></v-img>
                                     <br /><br />
-                                    <a :style="'color:blue;'" v-on:click="navigateTo({name: 'User', params: {userId: reply.author._id, threadId: thread._id}})">{{reply.author.userName}}</a>
+                                    <a :style="'color:blue;'" v-on:click="navigateTo({name: 'User', params: {userId: reply.author._id}})">{{reply.author.userName}}</a>
                                 </div>
                             </td>
                         </tr>

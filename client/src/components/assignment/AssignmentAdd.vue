@@ -58,7 +58,7 @@ export default {
   },
   methods: {
     back: function() {
-      this.$router.push("/assignment")
+      this.$router.push("/assignments")
     },
     async addAssignment() {
       const assignment = {courseId: this.course._id, date: this.date, title: this.title, description: this.description}

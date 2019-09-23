@@ -71,7 +71,7 @@ export default {
   },
   methods: {
     back: function() {
-      this.$router.push('/course/configure')
+      this.$router.push('/courses/configure')
     },
     checkLoggedIn: function() {
       if (!this.isUserLoggedIn) {
@@ -93,7 +93,7 @@ export default {
         this.failedEdit = false
         this.edit = false
         this.successfulEdit = true
-        this.$router.push('/course/configure')
+        this.$router.push('/courses/configure')
       }
       catch (err) {
         this.failedEdit = true

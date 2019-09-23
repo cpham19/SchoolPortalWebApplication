@@ -8,6 +8,7 @@
           </v-toolbar>
           <v-form>
               <v-text-field v-model="query" label="Search for ..." type="text" v-on:keyup="search()"></v-text-field>
+              <v-checkbox v-model="checkbox" :label="'All Forums'" @change="searchAllForums">></v-checkbox>
           </v-form>
         </v-card>
         <br/><br/>
@@ -57,7 +58,8 @@ export default {
     return {
       courses: [],
       query: null,
-      searchedForums: []
+      searchedForums: [],
+      checkbox: false,
     };
   },
   computed: {
@@ -97,6 +99,38 @@ export default {
 
       this.searchedForums = Array.from(new Set(array))
     },
+    async searchAllForums () {
+      this.query = null
+
+      if (this.checkbox == true) {
+        this.courses = [];
+
+        try {
+          const courseResponse = await CourseService.fetchCourses();
+          const forumResponse = await ForumService.getThreads();
+
+          this.courses = courseResponse.data.courses;
+          this.courses.forEach(course => {
+            course.threads = [];
+          });
+        
+
+          this.courses.forEach(course => {
+            forumResponse.data.threads.forEach(thread => {
+              if (course._id === thread.courseId) {
+                course.threads.push(thread);
+              }
+            });
+          });
+        } 
+        catch (err) {
+          this.error = err.response.data;
+        }
+      }
+      else {
+        this.getUserCoursesAndThreads();
+      }
+    },
     navigateTo: function(route) {
       this.$router.push(route);
     },
@@ -112,7 +146,8 @@ export default {
           this.courses.forEach(course => {
             course.threads = [];
           });
-        } else {
+        } 
+        else {
           this.user.courses.forEach(courseId => {
             courseResponse.data.courses.forEach(course => {
               if (course._id === courseId) {
@@ -130,7 +165,8 @@ export default {
             }
           });
         });
-      } catch (err) {
+      } 
+      catch (err) {
         this.error = err.response.data;
       }
     },

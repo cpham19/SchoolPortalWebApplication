@@ -8,6 +8,9 @@ module.exports = {
             number: Joi.string().regex(/^\d{4}/).required(),
             section: Joi.string().required(),
             description: Joi.string().required(),
+            selectedDays: Joi.array().required(),
+            startingTime: Joi.string().required(),
+            endingTime: Joi.string().required(),
             unit: Joi.string().required(),
             professor: Joi.string().required(),
             room: Joi.string().required(),
@@ -40,6 +43,21 @@ module.exports = {
                 case 'description':
                     res.status(400).send({
                         error: 'You must provide a valid course description'
+                    })
+                    break
+                case 'selectedDays':
+                    res.status(400).send({
+                        error: 'You must provide weekdays for the course'
+                    })
+                    break
+                case 'startingTime':
+                    res.status(400).send({
+                        error: 'You must provide a valid starting time'
+                    })
+                    break
+                case 'endingTime':
+                    res.status(400).send({
+                        error: 'You must provide a valid ending time'
                     })
                     break
                 case 'unit':
@@ -75,7 +93,10 @@ module.exports = {
             number: Joi.string().regex(/^\d{4}/).required(),
             section: Joi.string().required(),
             description: Joi.string().required(),
+            selectedDays: Joi.array().required(),
             unit: Joi.string().required(),
+            startingTime: Joi.string().required(),
+            endingTime: Joi.string().required(),
             professor: Joi.string().required(),
             room: Joi.string().required(),
         }
@@ -107,6 +128,21 @@ module.exports = {
                 case 'description':
                     res.status(400).send({
                         error: 'You must provide a valid course description'
+                    })
+                    break
+                case 'selectedDays':
+                    res.status(400).send({
+                        error: 'You must provide weekdays for the course'
+                    })
+                    break
+                case 'startingTime':
+                    res.status(400).send({
+                        error: 'You must provide a valid starting time'
+                    })
+                    break
+                case 'endingTime':
+                    res.status(400).send({
+                        error: 'You must provide a valid ending time'
                     })
                     break
                 case 'unit':

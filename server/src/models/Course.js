@@ -7,6 +7,9 @@ const CourseSchema = new Mongoose.Schema({
     number: String,
     section: String,
     description: String,
+    selectedDays: Array,
+    startingTime: String,
+    endingTime: String,
     unit: String,
     professor: String,
     room: String,
@@ -40,6 +43,9 @@ const addCourse = (course) => {
                 section: course.section,
                 description: course.description,
                 unit: course.unit,
+                selectedDays: course.selectedDays,
+                startingTime: course.startingTime,
+                endingTime: course.endingTime,
                 professor: course.professor,
                 room: course.room,
             }
@@ -58,7 +64,7 @@ const removeCourse = (courseId) => {
 
 // Edit course
 const editCourse = (course) => {
-    return Course.findOneAndUpdate({ _id: course._id }, { "$set": { dept: course.dept, name: course.name, number: course.number, section: course.section, description: course.description, unit: course.unit, professor: course.professor, room: course.room }})
+    return Course.findOneAndUpdate({ _id: course._id }, { "$set": { dept: course.dept, name: course.name, number: course.number, section: course.section, description: course.description, unit: course.unit, selectedDays: course.selectedDays, startingTime: course.startingTime, endingTime: course.endingTime, professor: course.professor, room: course.room }})
     .then(oldCourse => {
         return course
     })
