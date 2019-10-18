@@ -2,24 +2,24 @@ import Api from '@/services/Api'
 
 export default {
     fetchCourses() {
-        return Api().get('course')
+        return Api().get('courses')
     },
     getCourse(courseId) {
-        return Api().get(`course/${courseId}`)
+        return Api().get(`courses/${courseId}`)
     },
     addCourse(course) {
-        return Api().post('course/add', course)
+        return Api().post('courses/add', course)
     },
     enrollCourse(course) {
-        return Api().post('course/enroll', course)
+        return Api().post('courses/enroll', course)
     },
     removeCourse(courseId) {
-        return Api().delete(`course/remove/${courseId}`)
+        return Api().delete(`courses/remove/${courseId}`)
     },
     editCourse(course) {
-        return Api().put(`course/edit/${course._id}`, course)
+        return Api().put(`courses/edit/${course._id}`, course)
     },
     dropCourse(course) {
-        return Api().post(`course/drop/${course.userId}&${course.courseId}`)
+        return Api().post(`courses/drop/${course.userId}&${course.courseId}`)
     }
 }

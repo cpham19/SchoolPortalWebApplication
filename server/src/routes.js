@@ -21,32 +21,32 @@ module.exports = (app) => {
      app.get('/user/:userId', HomeController.getUser)
 
     // Course handler 
-    app.get('/course', CourseController.getCourses)
-    app.get('/course/:courseId', CourseController.getCourse)
+    app.get('/courses', CourseController.getCourses)
+    app.get('/courses/:courseId', CourseController.getCourse)
 
-    app.post('/course/add', CourseControllerPolicy.addCourse, CourseController.addCourse)
-    app.post('/course/enroll', CourseController.enrollCourse)
-    app.delete('/course/remove/:courseId', CourseController.removeCourse)
-    app.put(`/course/edit/:courseId`, CourseControllerPolicy.editCourse, CourseController.editCourse)
-    app.post('/course/drop/:userId&:courseId', CourseController.dropCourse)
+    app.post('/courses/add', CourseControllerPolicy.addCourse, CourseController.addCourse)
+    app.post('/courses/enroll', CourseController.enrollCourse)
+    app.delete('/courses/remove/:courseId', CourseController.removeCourse)
+    app.put(`/courses/edit/:courseId`, CourseControllerPolicy.editCourse, CourseController.editCourse)
+    app.post('/courses/drop/:userId&:courseId', CourseController.dropCourse)
 
     // Assignment handler 
-    app.get('/assignment/:assignmentId', AssignmentController.getAssignment)
-    app.get('/assignment', AssignmentController.getAssignments)
-    app.post('/assignment/post', AssignmentControllerPolicy.postAssignment, AssignmentController.postAssignment)
-    app.put('/assignment/edit/:assignmentId', AssignmentControllerPolicy.editAssignment, AssignmentController.editAssignment)
-    app.delete('/assignment/remove/:assignmentId', AssignmentController.removeAssignment)
+    app.get('/assignments/:assignmentId', AssignmentController.getAssignment)
+    app.get('/assignments', AssignmentController.getAssignments)
+    app.post('/assignments/post', AssignmentControllerPolicy.postAssignment, AssignmentController.postAssignment)
+    app.put('/assignments/edit/:assignmentId', AssignmentControllerPolicy.editAssignment, AssignmentController.editAssignment)
+    app.delete('/assignments/remove/:assignmentId', AssignmentController.removeAssignment)
 
     // Forum handler
-    app.get('/forum', ForumController.getThreads)
-    app.get('/forum/:threadId', ForumController.getThread)
-    app.post('/forum/post', ForumControllerPolicy.postThread, ForumController.postThread)
-    app.put('/forum/edit/:threadId', ForumControllerPolicy.editThread, ForumController.editThread)
-    app.delete('/forum/remove/:threadId', ForumController.removeThread)
+    app.get('/forums', ForumController.getThreads)
+    app.get('/forums/:threadId', ForumController.getThread)
+    app.post('/forums/post', ForumControllerPolicy.postThread, ForumController.postThread)
+    app.put('/forums/edit/:threadId', ForumControllerPolicy.editThread, ForumController.editThread)
+    app.delete('/forums/remove/:threadId', ForumController.removeThread)
 
     app.get('/replies', ForumController.getReplies)
-    app.get('/reply/:replyId', ForumController.getReply)
-    app.post('/forum/addreply', ForumControllerPolicy.addReply, ForumController.addReply)
-    app.put('/reply/edit/:replyId', ForumControllerPolicy.editReply, ForumController.editReply)
-    app.delete('/forum/removereply/:replyId', ForumController.removeReply)
+    app.get('/replies/:replyId', ForumController.getReply)
+    app.post('/replies/addreply', ForumControllerPolicy.addReply, ForumController.addReply)
+    app.put('/replies/edit/:replyId', ForumControllerPolicy.editReply, ForumController.editReply)
+    app.delete('/replies/removereply/:replyId', ForumController.removeReply)
 }

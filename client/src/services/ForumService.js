@@ -2,33 +2,33 @@ import Api from '@/services/Api'
 
 export default {
     getThreads() {
-        return Api().get('forum')
+        return Api().get('forums')
     },
     getThread(threadId) {
-        return Api().get(`forum/${threadId}`)
+        return Api().get(`forums/${threadId}`)
     },
     postThread(thread) {
-        return Api().post('forum/post', thread)
+        return Api().post('forums/post', thread)
     },
     editThread(thread) {
-        return Api().put(`forum/edit/${thread._id}`, thread)
+        return Api().put(`forums/edit/${thread._id}`, thread)
     },
     removeThread(threadId) {
-        return Api().delete(`forum/remove/${threadId}`)
+        return Api().delete(`forums/remove/${threadId}`)
     },
     addReply(reply) {
-        return Api().post('forum/addreply', reply)
+        return Api().post('replies/addreply', reply)
     },
     getReplies() {
         return Api().get('replies')
     },
     getReply(replyId) {
-        return Api().get(`reply/${replyId}`)
+        return Api().get(`replies/${replyId}`)
     },
     editReply(reply) {
-        return Api().put(`reply/edit/${reply._id}`, reply)
+        return Api().put(`replies/edit/${reply._id}`, reply)
     },
     removeReply(replyId) {
-        return Api().delete(`forum/removereply/${replyId}`)
+        return Api().delete(`replies/removereply/${replyId}`)
     },
 }
